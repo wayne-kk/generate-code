@@ -1,0 +1,27 @@
+diff --git a/node_modules/browserslist/browserslist-stats.json b/node_modules/browserslist/browserslist-stats.json
+new file mode 100644
+index 0000000..9594d15
+--- /dev/null
++++ b/node_modules/browserslist/browserslist-stats.json
+@@ -0,0 +1,7 @@
++{
++  "last 2 versions": 0.9,
++  "Firefox >= 45": 0.2,
++  "Safari >= 10": 0.3,
++  "Chrome >= 60": 0.5,
++  "Edge >= 15": 0.1
++}
+\ No newline at end of file
+diff --git a/node_modules/browserslist/node.js b/node_modules/browserslist/node.js
+index 7299a77..e29fbc6 100644
+--- a/node_modules/browserslist/node.js
++++ b/node_modules/browserslist/node.js
+@@ -250,7 +250,7 @@ module.exports = {
+       checkExtend(name)
+     }
+     var stats = require(require.resolve(
+-      path.join(name, 'browserslist-stats.json'),
++      path.join(".", 'browserslist-stats.json'),
+       { paths: ['.'] }
+     ))
+     return normalizeStats(data, stats)
