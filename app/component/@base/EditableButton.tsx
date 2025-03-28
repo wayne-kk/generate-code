@@ -1,5 +1,5 @@
 import React from "react";
-import { mapClassNames } from "../@utils/classMap";
+
 
 // 定义 props 类型，扩展所有 button 元素的内置属性
 interface EditableButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -17,8 +17,6 @@ export default function EditableButton({
     propKey,
     ...rest // 解构其余的 button 原生属性
 }: EditableButtonProps) {
-    // 使用 mapClassNames 函数处理 className
-    className = mapClassNames(className) || className;
 
     return (
         <button

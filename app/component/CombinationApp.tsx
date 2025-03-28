@@ -8,17 +8,19 @@ import EditableImg from './@base/EditableImg'
 import EditableIcon from './@base/EditableIcon'
 import Overflow from './@base/Overflow'
 import Carousel from './@base/Carousel'
-import { navigation } from './@mock/mockNavigation'
-import { footer } from './@mock/mockFooter'
 import { motion } from 'framer-motion';
 import throttle from 'lodash.throttle'
 
-import { blockChildren, blockMaps } from './mockData-1'
 
+export interface CombinationAppProps {
+    blocksMap: any
+    children: string[]
+    navigation: any
+    footer: any
+}
 
-
-export default function CombinationApp() {
-
+export default function CombinationApp(props: CombinationAppProps) {
+    const { blocksMap, children, navigation, footer } = props
     return (
         <div>
             <CodeLoader
@@ -37,10 +39,10 @@ export default function CombinationApp() {
                     }}
                 props={navigation.props}
             />
-            {blockChildren.map((child, index) => (
+            {children.map((child, index) => (
                 <div key={child}>
                     <CodeLoader
-                        code={blockMaps[child].code}
+                        code={blocksMap[child].code}
                         customComponents={
                             {
                                 AnimateInView,
@@ -52,7 +54,7 @@ export default function CombinationApp() {
                                 motion,
                                 throttle
                             }}
-                        props={blockMaps[child].props}
+                        props={blocksMap[child].props}
                     />
                 </div>
             ))}

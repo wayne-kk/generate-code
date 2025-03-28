@@ -1,0 +1,300 @@
+{
+  "blocksMap": {
+    "UDf-5wo4E0iud5TpvlYRZ": {
+      "code": "function Hero_10({\n  title = 'John Smith',\n  subTitle = 'Visual Designer',\n  description = 'Creative designer based in New York, dedicated to crafting captivating designs.',\n  primaryButtonAttr = 'text=Say Hello&link=/',\n  secondaryButtonAttr = 'text=My Works&link=/',\n  socialLinks = [\n    { icon: 'fa-brands fa-facebook-f', link: '#' },\n    { icon: 'fa-brands fa-twitter', link: '#' },\n    { icon: 'fa-brands fa-instagram', link: '#' },\n  ],\n  imageUrl = 'https://source.unsplash.com/1200x1000/?avatar,profile',\n}) {\n  return (\n    <div className=\"w-full bg-white dark:bg-slate-800\">\n      <div className=\"w-full max-w-7xl mx-auto py-20 px-4 sm:px-6 lg:px-8\">\n        <div className=\"w-full flex flex-col items-center gap-14 md:flex-row md:gap-24\">\n          <div className=\"w-full flex flex-col gap-5\">\n            <div className=\"w-full flex flex-col gap-3\">\n              <h1 className=\"TITLE-PRIMARY text-4xl font-semibold text-slate-900 dark:text-white md:text-5xl\"><EditableText propKey=\"title\">{title} 👋</EditableText></h1>\n              <p className=\"TITLE-SECONDARY inline-block relative text-lg font-semibold text-slate-900 dark:text-white/90\"><EditableText propKey=\"subTitle\">{subTitle}</EditableText></p>\n            </div>\n\n            <p className=\"DESC text-sm  font-normal text-slate-700 dark:text-white/70\"><EditableText propKey=\"description\">{description}</EditableText></p>\n\n            <div className=\"mt-5 flex flex-wrap items-center gap-4 \">\n              <EditableButton className=\"BTN-PRIMARY inline-flex items-center justify-center text-white bg-sky-500 font-medium border-0 h-10 md:h-12 px-6 focus:outline-none hover:bg-sky-400 rounded-lg text-base transition-colors duration-500\">\n                <EditableText propKey=\"primaryButtonAttr\">{primaryButtonAttr}</EditableText>\n              </EditableButton>\n              <EditableButton className=\"BTN-SECONDARY inline-flex items-center justify-center text-slate-900 bg-white font-medium dark:text-white border border-black/10 dark:border-white/10 h-10 md:h-12  px-6 focus:outline-none hover:bg-slate-100 rounded-lg text-sm sm:text-base 2xl:text-lg transition-colors duration-500 dark:hover:bg-slate-600 dark:bg-slate-800\">\n                <EditableText propKey=\"secondaryButtonAttr\">{secondaryButtonAttr}</EditableText>\n              </EditableButton>\n            </div>\n\n            <ul className=\"w-1/2 flex items-center mt-5 gap-5\">\n              {socialLinks.map((social, index) => (\n                <li key={`social_${index}`}>\n                  <EditableButton className=\"group w-10 h-10 flex justify-center items-center bg-slate-50 rounded-full transition-all duration-300 dark:bg-slate-700 hover:bg-sky-400 dark:hover:bg-sky-600\">\n                    <EditableIcon propKey={`socialLinks_${index}_icon`} icon={social.icon} iconLibrary=\"FontAwesome\" className=\"text-lg text-gray-800 dark:text-white group-hover:text-white\" />\n                  </EditableButton>\n                </li>\n              ))}\n            </ul>\n\n          </div>\n          <div className=\"w-full lg:mr-28\">\n            <AnimateInView type=\"rise\">\n              <EditableImg propKey=\"imageUrl\" className=\"IMAGE w-full h-auto rounded-lg bg-slate-100 object-cover aspect-[4/3]\" src={imageUrl} alt={imageUrl} />\n            </AnimateInView>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "name": "Hero_10",
+      "props": {
+        "title": "Welcome to StudyUPDay",
+        "subTitle": "Master New Languages",
+        "description": "Join our global community to enhance your skills in English, Chinese, and Japanese. Learn from the best resources and experts around the world.",
+        "primaryButtonAttr": "text=Get Started&link=home",
+        "secondaryButtonAttr": "text=Explore Courses&link=courses",
+        "socialLinks": [
+          {
+            "icon": "fa-brands fa-facebook-f",
+            "link": "#"
+          },
+          {
+            "icon": "fa-brands fa-twitter",
+            "link": "#"
+          },
+          {
+            "icon": "fa-brands fa-instagram",
+            "link": "#"
+          }
+        ],
+        "imageUrl": "https://images.unsplash.com/photo-1584697964328-b1e7f63dca95?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1000&ixid=MnwxfDB8MXxyYW5kb218MHx8c3R1ZHksbGVhcm5pbmd8fHx8fHwxNzE1NzQyNjY0&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200"
+      },
+      "id": "UDf-5wo4E0iud5TpvlYRZ"
+    },
+    "fuxuft99GaQw10HgHKRCe": {
+      "code": "function Feature_08({\n  title = 'Elevating Design Studio Experiences',\n  description = 'We craft user-centric designs that empower your brand and engage your audience.',\n  features = [\n    {\n      icon: 'fa-solid fa-headset',\n      title: 'Dedicated Support',\n      description: 'Our team provides continuous support to ensure your success at every step.',\n    },\n    {\n      icon: 'fa-solid fa-chart-line',\n      title: 'Sales Boost',\n      description: 'Enhance your sales strategies with our innovative design solutions.',\n    },\n    {\n      icon: 'fa-solid fa-user-check',\n      title: 'Smooth Onboarding',\n      description: 'We ensure a seamless onboarding process for a great first impression.',\n    },\n    {\n      icon: 'fa-solid fa-box-open',\n      title: 'Product Excellence',\n      description: 'Our designs focus on delivering quality and excellence in your product.',\n    },\n    {\n      icon: 'fa-solid fa-heart-circle-check',\n      title: 'Quality Assurance',\n      description: 'Maintain high standards with our thorough quality assurance practices.',\n    },\n    {\n      icon: 'fa-solid fa-id-badge',\n      title: 'Proven Results',\n      description: 'Our track record of delivering results speaks for itself.',\n    },\n  ],\n}) {\n  return (\n    <section className=\"py-12 bg-white sm:py-16 lg:py-20 dark:bg-slate-800\">\n      <div className=\"px-4 mx-auto max-w-7xl sm:px-6 lg:px-8\">\n        <div className=\"text-center\">\n          <h2 className=\"TITLE-PRIMARY text-4xl font-semibold text-slate-900 sm:text-4xl xl:text-5xl font-pj dark:text-white/90\">\n            <EditableText propKey=\"title\">{title}</EditableText>\n          </h2>\n          <p className=\"DESC mt-4 text-base leading-7 text-slate-600 sm:mt-8 font-pj dark:text-white/90\">\n            <EditableText propKey=\"description\">{description}</EditableText>\n          </p>\n        </div>\n\n        <div className=\"grid grid-cols-1 mt-10 text-center sm:mt-16 sm:grid-cols-2 sm:gap-x-12 gap-y-12 md:grid-cols-3 md:gap-0 xl:mt-24\">\n          {features.map((feature, index) => (\n            <AnimateInView key={index} type=\"rise\">\n              <div className={`md:p-8 lg:p-14 h-full ${index % 3 !== 0 ? 'md:border-l border-black/10 dark:border-white/10' : ''} ${index >= 3 ? 'md:border-t border-black/10 dark:border-white/10' : ''}`}>\n                <EditableIcon propKey={`features_${index}_icon`} icon={feature.icon} iconLibrary=\"FontAwesome\" className=\"mx-auto text-sky-500 text-3xl\"/>\n                <h3 className=\"TITLE-SECONDARY mt-12 text-xl font-bold text-slate-900 dark:text-white/90\">\n                  <EditableText propKey={`features_${index}_title`}>{feature.title}</EditableText>\n                </h3>\n                <p className=\"TEXT-CONTENT mt-5 text-base text-slate-600 dark:text-white/90\">\n                  <EditableText propKey={`features_${index}_description`}>{feature.description}</EditableText>\n                </p>\n              </div>\n            </AnimateInView>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}",
+      "name": "Feature_08",
+      "props": {
+        "title": "Why Choose StudyUPDay",
+        "description": "Unlock your potential with our comprehensive language courses and expert guidance.",
+        "features": [
+          {
+            "icon": "fa-solid fa-globe",
+            "title": "Global Resources",
+            "description": "Access the best learning materials from around the world."
+          },
+          {
+            "icon": "fa-solid fa-chalkboard-teacher",
+            "title": "Expert Instructors",
+            "description": "Learn from experienced teachers and language experts."
+          },
+          {
+            "icon": "fa-solid fa-users",
+            "title": "Community Support",
+            "description": "Join a supportive community of fellow learners."
+          },
+          {
+            "icon": "fa-solid fa-certificate",
+            "title": "Certified Courses",
+            "description": "Earn certificates to showcase your language proficiency."
+          },
+          {
+            "icon": "fa-solid fa-laptop",
+            "title": "Flexible Learning",
+            "description": "Study at your own pace with our flexible online courses."
+          },
+          {
+            "icon": "fa-solid fa-comments",
+            "title": "Interactive Sessions",
+            "description": "Engage in live sessions and interactive activities."
+          }
+        ]
+      },
+      "id": "fuxuft99GaQw10HgHKRCe"
+    },
+    "kWsTBhOqs3TjHBszgBmwa": {
+      "code": "function Reviews_04({\n  title = 'Customer\\'s Review',\n  description = 'This is just a simple text made for this unique and awesome template, you can replace it with any text.',\n  reviews = [\n    {\n      name: 'Olivia Stanton',\n      role: 'Creative Director',\n      image: 'collaboration',\n      feedback: 'Before exploring The Art of Iconology, my perspective on iconography was fairly basic. This book has not only enhanced my skills but has inspired a whole new wave of creativity in our projects. A must-read for any designer!',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Ethan Parker',\n      role: 'Design Lead',\n      image: 'vision',\n      feedback: 'Our design process was transformed with the adoption of the VectorStream software suite. What once felt like a chore is now an exciting journey of visual storytelling. Every design team needs this tool in their arsenal.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Sophia Larson',\n      role: 'Head of UX',\n      image: 'user-experience',\n      feedback: 'I\\'m impressed with the intuitiveness of the CanvasFlow app. As a UX professional, watching our user satisfaction metrics soar has been a delightful experience. It\\'s nice to see our financials are also benefiting from this investment.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Derek Schmidt',\n      role: 'Product Manager',\n      image: 'innovation',\n      feedback: 'Reaching out for support with RenderPro was effortless. The quick turnaround and expert advice saved our product launch and put my mind at ease. I appreciate a company that stands confidently behind its service.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Amelia Davis',\n      role: 'Brand Strategist',\n      image: 'branding',\n      feedback: 'I never expected an out-of-office reply to solve my query, but here we are. ImageMint\\'s guide on sustainable branding practices arrived just in time to revamp our strategy. Kudos to the team for such responsive communication despite your staff\\'s retreat.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n  ],\n}) {\n  return (\n    <div className=\" dark:bg-slate-800\">\n      <div className=\" max-w-7xl mx-auto py-20 px-4\">\n        <div className=\"grid grid-cols-1 pb-6 text-center\">\n          <h3 className=\"TITLE-PRIMARY text-4xl font-semibold text-slate-900 dark:text-white md:text-5xl\">\n            <EditableText propKey=\"title\">{title}</EditableText>\n          </h3>\n          <p className=\"DESC mt-4 text-center  text-slate-700 dark:text-white/70 lg:text-lg \">\n            <EditableText propKey=\"description\">\n              {description}\n            </EditableText>\n          </p>\n        </div>\n\n        <div className=\"grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-6 gap-6\">\n          {reviews.map((review, index) => (\n            <AnimateInView type=\"rise\" key={`review_${index}`}>\n              <div className=\"w-full h-full\">\n                <div className=\"rounded-xl h-full flex flex-col gap-8 shadow dark:shadow-gray-800 p-8 bg-white dark:bg-slate-900\">\n                  <div className=\"flex items-center pb-8 border-b border-black/10 dark:border-white/10\">\n                    <EditableImg\n                      propKey={`reviews_${index}_image`}\n                      className=\"IMAGE h-14 w-14 rounded-full shadow dark:shadow-gray-800 object-cover aspect-[1/1]\"\n                      src={`https://source.unsplash.com/random/1000x1000/?${review.image}`}\n                    />\n                    <div className=\"pl-3\">\n                      <EditableButton className=\"TEXT-LINK text-lg font-semibold text-sky-600 hover:text-sky-700 dark:hover:text-white duration-500\">\n                        <EditableText propKey={`reviews_${index}_name`}>{review.name}</EditableText>\n                      </EditableButton>\n                      <p className=\"text-slate-500 dark:text-white/90\">\n                        <EditableText propKey={`reviews_${index}_role`}>{review.role}</EditableText>\n                      </p>\n                    </div>\n                  </div>\n                  <div className=\" flex flex-col gap-6\">\n                    <p className=\"TEXT-CONTENT text-slate-500 dark:text-white/90\">\n                      <EditableText propKey={`reviews_${index}_feedback`}>{review.feedback}</EditableText>\n                    </p>\n                    <ul className=\"flex items-center gap-2\">\n                      {review.rating.map((icon, iconIndex) => (\n                        <EditableIcon propKey={`reviews_${index}_rating_${iconIndex}`} icon={icon} iconLibrary=\"FontAwesome\" className=\"text-amber-400 text-xl\" />\n                      ))}\n                    </ul>\n                  </div>\n                </div>\n              </div>\n            </AnimateInView>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "name": "Reviews_04",
+      "props": {
+        "title": "What Our Users Say",
+        "description": "Hear from our students about their learning experiences with StudyUPDay.",
+        "reviews": [
+          {
+            "name": "Emily Johnson",
+            "role": "Language Enthusiast",
+            "image": "https://images.unsplash.com/photo-1695820632971-28cd17651b41?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1000&ixid=MnwxfDB8MXxyYW5kb218MHx8aHR0cHM6Ly9pbWFnZXMudW5zcGx8fHx8fHwxNzE1NzQyNzQy&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1000",
+            "feedback": "StudyUPDay has transformed my language learning journey. The resources are top-notch and the community is incredibly supportive.",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "Michael Lee",
+            "role": "Business Professional",
+            "image": "https://images.unsplash.com/photo-1695820632965-cd6bf3684684?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1000&ixid=MnwxfDB8MXxyYW5kb218MHx8aHR0cHM6Ly9pbWFnZXMudW5zcGx8fHx8fHwxNzE1NzQyNzQy&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1000",
+            "feedback": "The expert instructors at StudyUPDay have helped me improve my business communication skills in multiple languages.",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "Sophia Martinez",
+            "role": "Student",
+            "image": "https://images.unsplash.com/photo-1664570000007-db164768644d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1000&ixid=MnwxfDB8MXxyYW5kb218MHx8aHR0cHM6Ly9pbWFnZXMudW5zcGx8fHx8fHwxNzE1NzQyNzQz&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1000",
+            "feedback": "I love the flexibility of the courses. I can learn at my own pace and revisit lessons whenever I need.",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "David Kim",
+            "role": "Traveler",
+            "image": "https://images.unsplash.com/photo-1560834362-837e4f29dea8?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1000&ixid=MnwxfDB8MXxyYW5kb218MHx8aHR0cHM6Ly9pbWFnZXMudW5zcGx8fHx8fHwxNzE1NzQyNzQz&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1000",
+            "feedback": "StudyUPDay has made learning new languages fun and engaging. I feel more confident traveling to new countries.",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "Olivia Brown",
+            "role": "Teacher",
+            "image": "https://images.unsplash.com/photo-1432761986184-2220081f3921?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1000&ixid=MnwxfDB8MXxyYW5kb218MHx8aHR0cHM6Ly9pbWFnZXMudW5zcGx8fHx8fHwxNzE1NzQyNzQ0&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1000",
+            "feedback": "As a language teacher, I appreciate the quality and depth of the resources available on StudyUPDay.",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          }
+        ]
+      },
+      "id": "kWsTBhOqs3TjHBszgBmwa"
+    },
+    "rFp-eAjQBp1Xpv1gO-T53": {
+      "code": "function CallToAction_02({\n  images = [\n    `https://source.unsplash.com/480x480/?portrait,woman`,\n    `https://source.unsplash.com/512x512/?portrait,man`,\n    `https://source.unsplash.com/480x480/?portrait,woman2`,\n  ],\n  title = `Join 5,482 other creators`,\n  description = `Explore our community and connect with like-minded creators from around the globe. Enhance your skills and share your projects.`,\n  buttonTextAttr = `text=Get instant access&link=/`,\n  buttonIcon = `fa-solid fa-user-plus`,\n}) {\n  return (\n    <section className=\"py-10 bg-slate-50 dark:bg-slate-800\">\n      <div className=\"px-4 mx-auto py-10 max-w-7xl\">\n        <div className=\"flex flex-col items-center gap-12 text-center\">\n          <div className=\"flex items-center justify-center\">\n            {images.map((image, index) => (\n              <AnimateInView key={index} type=\"rise\">\n                <div className={`overflow-hidden rounded-full ${index === 1 ? 'relative w-28 h-28 border-8 border-black/10 dark:border-white/10' : 'w-20 h-20'} ${index === 1 ? '' : `${index === 0 ? '-mr-6' : '-ml-6'} bg-slate-100`}`}>\n                  <EditableImg propKey={`images_${index}`} className=\"w-[6rem] h-[6rem] aspect-[1/1] object-cover rounded-full bg-slate-200\" src={image} alt={`image_${index}`} />\n                </div>\n              </AnimateInView>\n            ))}\n          </div>\n\n          <AnimateInView type=\"rise\">\n            <h2 className=\"text-4xl font-semibold text-slate-900 dark:text-white\">\n              <EditableText propKey=\"title\">{title}</EditableText>\n            </h2>\n            <p className=\"mt-10 max-w-2xl mx-auto text-lg text-slate-600 dark:text-white/70\">\n              <EditableText propKey=\"description\">{description}</EditableText>\n            </p>\n          </AnimateInView>\n\n          <AnimateInView type=\"rise\">\n            <EditableButton className=\"inline-flex items-center justify-center text-white bg-sky-500 font-medium border-0 py-2 xl:py-3 px-6 focus:outline-none hover:bg-sky-400 rounded-lg text-sm sm:text-base 2xl:text-lg transition-colors duration-500\">\n              <EditableIcon propKey=\"buttonIcon\" icon={buttonIcon} iconLibrary=\"FontAwesome\" className=\"mr-2 text-sm text-white\" />\n              <EditableText propKey=\"buttonTextAttr\">{buttonTextAttr}</EditableText>\n            </EditableButton>\n          </AnimateInView>\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "name": "CallToAction_02",
+      "props": {
+        "images": [
+          "https://images.unsplash.com/photo-1519058082700-08a0b56da9b4?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=480&ixid=MnwxfDB8MXxyYW5kb218MHx8cG9ydHJhaXQsd29tYW58fHx8fHwxNzE1NzQyNjY0&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=480",
+          "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=512&ixid=MnwxfDB8MXxyYW5kb218MHx8cG9ydHJhaXQsbWFufHx8fHx8MTcxNTc0MjY2NA&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=512",
+          "https://images.unsplash.com/photo-1501441858156-e505fb04bfbc?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=480&ixid=MnwxfDB8MXxyYW5kb218MHx8cG9ydHJhaXQsd29tYW4yfHx8fHx8MTcxNTc0MjY2NA&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=480"
+        ],
+        "title": "Join Thousands of Learners",
+        "description": "Become a part of our growing community and start mastering new languages today.",
+        "buttonTextAttr": "text=Sign Up Now&link=home",
+        "buttonIcon": "fa-solid fa-user-plus"
+      },
+      "id": "rFp-eAjQBp1Xpv1gO-T53"
+    },
+    "RCNGIjBXpi1vQh8fzFZPn": {
+      "code": "function Contact_06({\n  title = \"Stay Connected\",\n  description = \"Our design studio thrives on collaboration and creativity. Let's start a conversation about your next big idea.\",\n  contactOptions = [\n    { type: \"Collaborate\", email: \"collaborate@designstudio.com\", phone: \"+1 (555) 905-2345\" },\n    { type: \"Press\", email: \"press@designstudio.com\", phone: \"+1 (555) 905-3456\" },\n    { type: \"Careers\", email: \"careers@designstudio.com\", phone: \"+1 (555) 905-4567\" },\n    { type: \"General Inquiry\", email: \"hello@designstudio.com\", phone: \"+1 (555) 905-5678\" }\n  ],\n  locations = [\n    { city: \"Los Angeles\", address: \"4556 Brendan Ferry, Los Angeles, CA 90210\" },\n    { city: \"New York\", address: \"886 Walter Street, New York, NY 12345\" },\n    { city: \"Toronto\", address: \"7363 Cynthia Pass, Toronto, ON N3Y 4H8\" },\n    { city: \"Chicago\", address: \"726 Mavis Island, Chicago, IL 60601\" }\n  ],\n  locationsTitle = \"Our Locations\",\n  locationsDescription = \"Discover our offices around the world.\"\n}) {\n  return (\n    <div className=\"bg-white py-16 sm:py-20 relative dark:bg-slate-800\">\n      <div className=\"mx-auto max-w-7xl px-6 lg:px-8\">\n        <div className=\"mx-auto max-w-2xl space-y-16 divide-y divide-black/10 dark:divide-white/10 lg:mx-0 lg:max-w-none\">\n          <AnimateInView type=\"rise\">\n            <div className=\"grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3\">\n              <div>\n                <h2 className=\"TITLE-PRIMARY text-3xl font-bold tracking-tight text-gray-900 dark:text-slate-50\"><EditableText propKey={`title`}>{title}</EditableText></h2>\n                <p className=\"DESC mt-4 leading-7 text-slate-600 dark:text-slate-300\"><EditableText propKey={`description`}>{description}</EditableText></p>\n              </div>\n              <div className=\"grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2 lg:gap-8\">\n                {contactOptions.map((option, index) => (\n                  <div key={index} className=\"rounded-2xl bg-slate-50 p-10 dark:bg-slate-600\">\n                    <h3 className=\"TITLE-SECONDARY text-base font-semibold leading-7 text-slate-900 dark:text-slate-200\"><EditableText propKey={`contactOptions_${index}_type`}>{option.type}</EditableText></h3>\n                    <div className=\"mt-3 space-y-1 text-sm leading-6 text-slate-600 dark:text-slate-400\">\n                      <EditableButton className=\"TEXT-LINK font-semibold text-sky-400 hover:text-sky-300\"><EditableText propKey={`contactOptions_${index}_email`}>{option.email}</EditableText></EditableButton>\n                      <p className=\"mt-1\"><EditableText propKey={`contactOptions_${index}_phone`}>{option.phone}</EditableText></p>  \n                    </div>\n                  </div>\n                ))}\n              </div>\n            </div>\n          </AnimateInView>\n          <AnimateInView type=\"rise\">\n            <div className=\"grid grid-cols-1 gap-x-8 gap-y-10 pt-16 lg:grid-cols-3\">\n              <div>\n                <h2 className=\"TITLE-PRIMARY text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50\"><EditableText propKey={`locationsTitle`}>{locationsTitle}</EditableText></h2>\n                <p className=\"DESC mt-4 leading-7 text-slate-600 dark:text-slate-300\"><EditableText propKey={`locationsTitle`}>{locationsDescription}</EditableText></p>\n              </div>\n              <div className=\"grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2 lg:gap-8\">\n                {locations.map((location, index) => (\n                  <div key={index} className=\"rounded-2xl bg-slate-50 p-10 dark:bg-slate-600\">\n                    <h3 className=\"TITLE-SECONDARY text-base font-semibold leading-7 text-slate-900 dark:text-slate-200\"><EditableText propKey={`locations_${index}_city`}>{location.city}</EditableText></h3>\n                   \n                      <p className=\"mt-3 space-y-1 text-sm not-italic leading-6 text-slate-600 dark:text-slate-400\"><EditableText propKey={`locations_${index}_address`}>{location.address}</EditableText></p>\n                  </div>\n                ))}\n              </div>\n            </div>\n          </AnimateInView>\n        </div>\n      </div>\n    </div>\n  );\n}",
+      "name": "Contact_06",
+      "props": {
+        "title": "Get in Touch",
+        "description": "We'd love to hear from you. Reach out to us with any questions or feedback.",
+        "contactOptions": [
+          {
+            "type": "Support",
+            "email": "support@studyupday.com",
+            "phone": "+1 (555) 123-4567"
+          },
+          {
+            "type": "Press",
+            "email": "press@studyupday.com",
+            "phone": "+1 (555) 234-5678"
+          },
+          {
+            "type": "Careers",
+            "email": "careers@studyupday.com",
+            "phone": "+1 (555) 345-6789"
+          },
+          {
+            "type": "General Inquiry",
+            "email": "info@studyupday.com",
+            "phone": "+1 (555) 456-7890"
+          }
+        ],
+        "locations": [
+          {
+            "city": "San Francisco",
+            "address": "123 Market Street, San Francisco, CA 94103"
+          },
+          {
+            "city": "New York",
+            "address": "456 Madison Avenue, New York, NY 10022"
+          },
+          {
+            "city": "London",
+            "address": "789 Oxford Street, London, UK W1D 2ES"
+          },
+          {
+            "city": "Tokyo",
+            "address": "101 Shibuya, Tokyo, Japan 150-0002"
+          }
+        ],
+        "locationsTitle": "Our Offices",
+        "locationsDescription": "Find us in major cities around the world."
+      },
+      "id": "RCNGIjBXpi1vQh8fzFZPn"
+    }
+  },
+  "children": [
+    "UDf-5wo4E0iud5TpvlYRZ",
+    "fuxuft99GaQw10HgHKRCe",
+    "kWsTBhOqs3TjHBszgBmwa",
+    "rFp-eAjQBp1Xpv1gO-T53",
+    "RCNGIjBXpi1vQh8fzFZPn"
+  ],
+  "extra": {
+    "color": {
+      "name": "Custom Colors",
+      "colorHex": "#008080",
+      "isCustom": true
+    },
+    "webTheme": "Intuitive,Efficient,creativity",
+    "font": {
+      "heading": "Oooh Baby",
+      "body": "Audiowide",
+      "isCustom": true
+    }
+  },
+  "id": "R2d8gDgkFU9gDIWoluM0q",
+  "version": "1.0.0",
+  "navigation": {
+    "code": "function Navigation_02({\n  logo = 'https://cdn.wegic.ai/assets/onepage/thread/icon/default.png',\n  navItems = [\n    'text=Home&link=/home',\n    'text=About&link=/about',\n    'text=Service&link=/service',\n    'text=Case&link=/case',\n    'text=Blog&link=/blog',\n    'text=Contact&link=/contact',\n    'text=Location&link=/location',\n    'text=Map&link=/map',\n  ],\n  primaryButton = {\n    icon: 'fa-solid fa-arrow-right',\n    textAttr: 'Contact us',\n    textColor: 'black',\n  },\n  secondaryButton,\n  fixedTop = true,\n  logoSize = 40,\n  showButton = true,\n  maxCount = 7,\n}) {\n  const NAV_GAP = React.useMemo(() => 64, []);\n  const LOGO_MAX_WIDTH = React.useMemo(() => 300, []);\n  const MOBILE_WIDTH = React.useMemo(() => 768, []);\n  const MIN_PAGE_WIDTH = React.useMemo(() => 300, []);\n  const viewportId = React.useMemo(() => window?.siteEngine?.scrollContainerId || 'preview-viewport', []);\n  const [viewportHeight, setViewportHeight] = React.useState(0);\n  const [mobileMode, setMobileMode] = React.useState(false);\n  const moreButtonRef = React.useRef(null);\n  const [moreListVisible, setMoreListVisible] = React.useState(false);\n  const mobileListRef = React.useRef(null);\n  const [mobileListVisible, setMobileListVisible] = React.useState(false);\n  const [mobileEntryVisible, setMobileEntryVisible] = React.useState(false);\n  const buttonVisible = showButton && (secondaryButton || primaryButton);\n  const layoutObject = React.useMemo(() => {\n    const layout = {\n      logoSize: 0,\n      navHeight: 0,\n      buttonHeight: 0,\n      buttonPX: 0,\n      fontSize: 0,\n      dropDownHeight: 0,\n      dropDownPaddingLeft: 0,\n      dropDownPaddingRight: 0,\n      mobileNavHeight: 56,\n      mobileNavItemHeight: 56,\n      mobileFontSize: 14,\n      mobileIconSize: 20,\n    };\n\n    if (logoSize < 48) {\n      layout.fontSize = 14;\n      layout.dropDownHeight = 48;\n      layout.dropDownPaddingLeft = 12;\n      layout.dropDownPaddingRight = 48;\n    } else if (logoSize >= 48 && logoSize < 64) {\n      layout.fontSize = 15;\n      layout.dropDownHeight = 64;\n      layout.dropDownPaddingLeft = 20;\n      layout.dropDownPaddingRight = 80;\n    } else if (logoSize >= 64) {\n      layout.fontSize = 16;\n      layout.dropDownHeight = 64;\n      layout.dropDownPaddingLeft = 20;\n      layout.dropDownPaddingRight = 80;\n    }\n\n    if (mobileMode) {\n      if (logoSize < 56) {\n        layout.logoSize = 32;\n        layout.mobileNavHeight = 56;\n        layout.mobileFontSize = 14;\n        layout.mobileIconSize = 20;\n      } else {\n        layout.logoSize = 48;\n        layout.mobileNavHeight = 72;\n        layout.mobileFontSize = 16;\n        layout.mobileIconSize = 24;\n      }\n    } else {\n      layout.logoSize = logoSize;\n      if (logoSize < 56) {\n        layout.navHeight = logoSize + 24;\n      } else if (logoSize >= 56 && logoSize < 64) {\n        layout.navHeight = logoSize + 40;\n      } else {\n        layout.navHeight = 120;\n      }\n    }\n\n    /** button */\n    if (logoSize < 48) {\n      layout.buttonHeight = 40;\n      layout.buttonPX = 20;\n    } else if (logoSize >= 48 && logoSize < 56) {\n      layout.buttonHeight = 48;\n      layout.buttonPX = 20;\n    } else {\n      layout.buttonHeight = 56;\n      layout.buttonPX = 28;\n    }\n\n    return layout;\n  }, [logoSize, mobileMode]);\n  const [isOverWidthLogo, setIsOverWidthLogo] = React.useState(false);\n  const logoRectRef = React.useRef(null);\n  const contentRef = React.useRef(null);\n  const logoRef = React.useRef(null);\n  const buttonContainerRef = React.useRef(null);\n  const [pageWidth, setPageWidth] = React.useState(0);\n  const [minPageWidth, setMinPageWidth] = React.useState(MIN_PAGE_WIDTH);\n  const [skeletonMinWidth, setSkeletonMinWidth] = React.useState(MIN_PAGE_WIDTH);\n  const [logoWidth, setLogoWidth] = React.useState(0);\n  const [buttonContainerWidth, setButtonContainerWidth] = React.useState(0);\n  const [minLimit, setMinLimit] = React.useState(false);\n  const [leftLimit, setLeftLimit] = React.useState(false);\n  const [rightLimit, setRightLimit] = React.useState(false);\n  const center = React.useMemo(() => !leftLimit && !rightLimit, [leftLimit, rightLimit]);\n\n  const handlePageWidthUpdate = React.useCallback(() => {\n    if (mobileMode || !logoWidth) {\n      return;\n    }\n    const contentWidth = contentRef.current?.clientWidth || 0;\n    const leftRestWidth = contentWidth / 2 - logoWidth - NAV_GAP;\n    const rightRestWidth = contentWidth / 2 - buttonContainerWidth - NAV_GAP;\n    const pageItemWidth = Math.max(Math.min(leftRestWidth, rightRestWidth) * 2, minPageWidth);\n    const newMinLimit = logoWidth + NAV_GAP + minPageWidth + NAV_GAP + buttonContainerWidth > contentWidth;\n\n    const newSkeletonMinWidth = newMinLimit ? minPageWidth : Math.max(contentWidth - logoWidth - buttonContainerWidth - NAV_GAP * 2, minPageWidth);\n\n    const leftLimit = contentWidth / 2 - logoWidth - NAV_GAP < minPageWidth / 2;\n    const rightLimit = contentWidth / 2 - buttonContainerWidth - NAV_GAP < minPageWidth / 2;\n    setLeftLimit(leftLimit);\n    setRightLimit(rightLimit);\n    setMinLimit(newMinLimit);\n    setPageWidth(pageItemWidth);\n    setSkeletonMinWidth(newSkeletonMinWidth);\n  }, [minPageWidth, mobileMode, logoWidth, buttonContainerWidth]);\n\n  React.useEffect(() => {\n    handlePageWidthUpdate();\n  }, [logoSize, isOverWidthLogo, navItems, showButton, primaryButton, secondaryButton, handlePageWidthUpdate]);\n\n  React.useEffect(() => {\n    setMinPageWidth(MIN_PAGE_WIDTH);\n  }, [navItems]);\n\n  /** navigation ResizeObserver start */\n  const handleViewportWidthChange = React.useCallback(\n    throttle((entries) => {\n      const entry = entries[0];\n      const rect = entry.contentRect;\n      setViewportHeight(rect.height);\n      if (rect.width > MOBILE_WIDTH) {\n        mobileMode && setMobileMode(false);\n        handlePageWidthUpdate();\n      } else {\n        !mobileMode && setMobileMode(true);\n      }\n    }, 32),\n    [mobileMode, handlePageWidthUpdate]\n  );\n\n  React.useEffect(() => {\n    const scrollDom = document.getElementById(viewportId);\n    const observer = new ResizeObserver(handleViewportWidthChange);\n    observer.observe(scrollDom);\n\n    return () => {\n      observer.disconnect();\n    };\n  }, [viewportId, handleViewportWidthChange]);\n  /** navigation ResizeObserver end */\n\n  /** logo ResizeObserver start */\n  const handleLogoWidthChange = React.useCallback(\n    throttle((entries) => {\n      const entry = entries[0];\n      const rect = entry.contentRect;\n      rect.width && setLogoWidth(rect.width);\n    }, 32),\n    []\n  );\n\n  React.useEffect(() => {\n    if (!logoRef.current || mobileMode) {\n      return;\n    }\n    const observer = new ResizeObserver(handleLogoWidthChange);\n    observer.observe(logoRef.current);\n\n    return () => {\n      observer.disconnect();\n    };\n  }, [mobileMode, handleLogoWidthChange]);\n  /** logo ResizeObserver end */\n\n  /** button ResizeObserver start */\n  const handleButtonWidthChange = React.useCallback(\n    throttle((entries) => {\n      const entry = entries[0];\n      const rect = entry.contentRect;\n      rect.width && setButtonContainerWidth(rect.width);\n    }, 32),\n    []\n  );\n\n  React.useEffect(() => {\n    if (!buttonContainerRef.current || mobileMode || minLimit || !buttonVisible) {\n      return;\n    }\n    const observer = new ResizeObserver(handleButtonWidthChange);\n    observer.observe(buttonContainerRef.current);\n\n    return () => {\n      observer.disconnect();\n    };\n  }, [mobileMode, handleButtonWidthChange, minLimit, buttonVisible]);\n  /** button ResizeObserver end */\n\n  React.useEffect(() => {\n    if (!mobileMode) {\n      setMobileListVisible(false);\n    } else {\n      setMoreListVisible(false);\n    }\n  }, [mobileMode]);\n\n  const handleCloseMoreList = (e) => {\n    if (moreButtonRef.current?.contains(e.target)) {\n      return;\n    }\n    if (moreListVisible) {\n      setMoreListVisible(false);\n    }\n  };\n\n  React.useEffect(() => {\n    moreListVisible && window.addEventListener('click', handleCloseMoreList);\n    return () => {\n      window.removeEventListener('click', handleCloseMoreList);\n    };\n  }, [moreListVisible]);\n\n  React.useEffect(() => {\n    const handleScroll = throttle((e) => {\n      if (!e.target) {\n        return;\n      }\n\n      if (mobileListVisible) {\n        setMobileListVisible(false);\n      }\n    }, 32);\n\n    let scrollContainer = window?.document.getElementById(viewportId);\n    scrollContainer?.addEventListener('scroll', handleScroll);\n    return () => {\n      scrollContainer?.removeEventListener('scroll', handleScroll);\n    };\n  }, [mobileListVisible]);\n\n  React.useEffect(() => {\n    let count = navItems.length;\n    if (showButton) {\n      if (primaryButton) count++;\n      if (secondaryButton) count++;\n    }\n\n    setMobileEntryVisible(count > 1);\n    count <= 1 && setMobileListVisible(false);\n  }, [primaryButton, secondaryButton, navItems, showButton]);\n\n  /** update logo mode start */\n  const handleImageAspectRatioUpdate = () => {\n    if (!logoRectRef.current) {\n      return;\n    }\n    const currentAspectRatio = LOGO_MAX_WIDTH / layoutObject.logoSize;\n    const { naturalWidth, naturalHeight } = logoRectRef.current;\n    const aspectRatio = naturalWidth / naturalHeight;\n    setIsOverWidthLogo(aspectRatio > currentAspectRatio);\n  };\n\n  React.useEffect(() => {\n    if (logoRectRef.current?.logo === logo) {\n      handleImageAspectRatioUpdate();\n      return;\n    }\n\n    const image = new Image();\n    image.onload = () => {\n      logoRectRef.current = {\n        logo,\n        naturalWidth: image.naturalWidth,\n        naturalHeight: image.naturalHeight,\n      };\n      handleImageAspectRatioUpdate();\n    };\n\n    image.src = logo;\n  }, [logo, layoutObject]);\n  /** update logo mode end */\n\n  const renderNavItem = (item, index) => {\n    return (\n      <EditableButton\n        key={item}\n        style={{ fontSize: layoutObject.fontSize }}\n        className={`${\n          index ? 'ml-8' : ''\n        } py-3 text-black whitespace-nowrap cursor-pointer hover:text-black/60 hover:transition-all duration-100 dark:text-white dark:hover:text-white/60`}\n      >\n        <EditableText propKey={`navItems_${index}`}>{item}</EditableText>\n      </EditableButton>\n    );\n  };\n\n  const renderMoreListItems = (items, startIndex = 0) => {\n    return items.map((item, index) => (\n      <EditableButton\n        key={item}\n        style={{\n          height: layoutObject.dropDownHeight,\n          paddingLeft: layoutObject.dropDownPaddingLeft,\n          paddingRight: layoutObject.dropDownPaddingRight,\n          fontSize: layoutObject.fontSize,\n        }}\n        className=\"flex-shrink-0 w-full h-full text-black whitespace-nowrap cursor-pointer text-left hover:text-black/60 hover:transition-all duration-100 dark:text-white dark:hover:text-white/60\"\n        onClick={() => setMoreListVisible(false)}\n      >\n        <EditableText propKey={`navItems_${startIndex + index}`}>{item}</EditableText>\n      </EditableButton>\n    ));\n  };\n\n  const renderRest = (omittedItems) => (\n    <div className=\"relative ml-8 \">\n      <motion.button\n        ref={moreButtonRef}\n        className=\"w-10 h-10 flex items-center justify-center flex-shrink-0\"\n        onClick={() => setMoreListVisible(!moreListVisible)}\n        whileTap={{ scale: 0.9 }}\n        style={{ fontSize: layoutObject.fontSize }}\n      >\n        <svg\n          style={{ transform: 'translateY(2px)' }}\n          className=\"hover:transition-all hover:scale-110 text-black dark:text-white\"\n          width=\"20\"\n          height=\"20\"\n          viewBox=\"0 0 20 20\"\n          fill=\"none\"\n          xmlns=\"http://www.w3.org/2000/svg\"\n        >\n          <circle cx=\"3\" cy=\"10\" r=\"1.5\" fill=\"currentColor\" />\n          <circle cx=\"10\" cy=\"10\" r=\"1.5\" fill=\"currentColor\" />\n          <circle cx=\"17\" cy=\"10\" r=\"1.5\" fill=\"currentColor\" />\n        </svg>\n      </motion.button>\n      {moreListVisible && (\n        <AnimatePresence>\n          <motion.div\n            style={{\n              boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.06)',\n              fontSize: layoutObject.fontSize,\n            }}\n            className={`max-h-96 overflow-auto overscroll-contain absolute z-40 top-full right-0 flex flex-col p-1 rounded-md bg-white border border-[#0000000a] dark:border-white/10 dark:bg-black`}\n            animate={{\n              scale: [0, 1],\n              opacity: [0, 1],\n            }}\n          >\n            {renderMoreListItems(omittedItems, navItems.length - omittedItems.length)}\n          </motion.div>\n        </AnimatePresence>\n      )}\n    </div>\n  );\n\n  const handleOverflowUpdate = (widths, overflow) => {\n    if (mobileMode) {\n      return;\n    }\n\n    if (widths.length >= 2) {\n      const firstItemWidth = widths[0];\n      const restItemWidth = overflow ? widths[widths.length - 1] : 72;\n      setMinPageWidth(firstItemWidth + restItemWidth);\n    } else if (navItems.length === 1 && widths.length && widths[0]) {\n      setMinPageWidth(widths[0]);\n    } else setMinPageWidth(MIN_PAGE_WIDTH);\n  };\n\n  const renderNavList = (items) => {\n    return (\n      <div\n        className={`${buttonVisible ? 'absolute' : 'flex flex-1 flex-shrink'} ${\n          center ? (buttonVisible ? 'left-1/2 -translate-x-1/2' : '') : leftLimit || minLimit ? `left-[${logoWidth + NAV_GAP}px]` : `right-[${buttonContainerWidth + NAV_GAP}px]`\n        } ${moreListVisible ? '' : 'overflow-hidden'}`}\n        style={{ width: buttonVisible ? pageWidth : undefined, minWidth: buttonVisible ? minPageWidth : undefined }}\n      >\n        <Overflow\n          data={items}\n          style={{ height: layoutObject.logoSize }}\n          className={`flex items-center ${buttonVisible ? 'justify-center' : 'justify-end'} flex-shrink flex-1`}\n          renderItem={renderNavItem}\n          maxCount={maxCount}\n          minCount={1}\n          renderRest={renderRest}\n          onUpdate={handleOverflowUpdate}\n        />\n      </div>\n    );\n  };\n\n  const handleMobileButtonClick = (e) => {\n    mobileListVisible && setMobileListVisible(false);\n  };\n\n  const renderContent = () => {\n    if (mobileMode) {\n      return (\n        <div className=\"relative flex flex-col w-full h-full\">\n          <div\n            className=\"flex flex-shrink-0 z-40 w-full pl-4 justify-between items-center overflow-hidden md:hidden\"\n            style={{\n              height: layoutObject.mobileNavHeight,\n              fontSize: layoutObject.mobileFontSize,\n            }}\n          >\n            <EditableImg\n              propKey=\"logo\"\n              style={{\n                height: isOverWidthLogo ? undefined : layoutObject.logoSize,\n              }}\n              className={`${isOverWidthLogo ? `!w-[${LOGO_MAX_WIDTH}px]` : `!w-auto`} !max-w-[${LOGO_MAX_WIDTH}px] object-cover flex-shrink min-w-0`}\n              src={logo}\n              alt=\"logo\"\n            />\n            <motion.button\n              className={`${!mobileEntryVisible ? 'hidden' : ''} flex justify-center items-center text-black flex-shrink-0`}\n              onClick={() => setMobileListVisible(!mobileListVisible)}\n              whileTap={{ scale: 0.9 }}\n              style={{\n                width: layoutObject.mobileNavHeight,\n                height: layoutObject.mobileNavHeight,\n                fontSize: layoutObject.mobileFontSize,\n              }}\n            >\n              {mobileListVisible ? (\n                <svg width={layoutObject.mobileIconSize} height={layoutObject.mobileIconSize} viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                  <path d=\"M4 16L16 4.25115\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                  <path d=\"M4 4L16 15.7489\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                </svg>\n              ) : (\n                <svg width={layoutObject.mobileIconSize} height={layoutObject.mobileIconSize} viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                  <path d=\"M3 5L16.375 5\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                  <path d=\"M3 10H16.375\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                  <path d=\"M3 15H16.375\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                </svg>\n              )}\n            </motion.button>\n          </div>\n          {mobileListVisible && (\n            <div\n              ref={mobileListRef}\n              className=\"absolute z-50 top-full w-full flex flex-grow flex-shrink flex-col bg-[#ffffffe0] dark:bg-black/80 backdrop-blur-xl rounded-b-3xl shadow-xl overflow-hidden md:hidden\"\n              style={{ fontSize: layoutObject.mobileFontSize, height: viewportHeight - layoutObject.mobileNavHeight - 24 }}\n            >\n              <motion.nav\n                className={`w-full h-full flex flex-col rounded-b-3xl`}\n                animate={{\n                  y: [20, 0],\n                  opacity: [0, 1],\n                }}\n                transition={{\n                  duration: 0.4,\n                }}\n              >\n                <div className=\"flex flex-col flex-grow flex-shrink overflow-auto overscroll-contain\">\n                  {navItems.map((item, navIndex) => (\n                    <EditableButton\n                      style={{\n                        height: layoutObject.mobileNavItemHeight,\n                        maxHeight: layoutObject.mobileNavItemHeight,\n                        fontSize: layoutObject.mobileFontSize,\n                      }}\n                      key={item}\n                      onClick={handleMobileButtonClick}\n                      className=\"w-full flex-grow-0 flex-shrink-0 text-black whitespace-nowrap cursor-pointer hover:text-black/60 hover:transition-all duration-100 dark:text-white dark:hover:text-white/60 select-none\"\n                    >\n                      <EditableText propKey={`navItems_${navIndex}`}>{item}</EditableText>\n                    </EditableButton>\n                  ))}\n                </div>\n                <div className={`${showButton ? '' : 'hidden'} w-full h-fit flex-shrink-0 flex items-center justify-between overflow-hidden gap-5 px-5 py-[10px]`}>\n                  {secondaryButton && (\n                    <EditableButton\n                      onClick={handleMobileButtonClick}\n                      style={{\n                        height: layoutObject.mobileNavItemHeight,\n                        fontSize: layoutObject.mobileFontSize,\n                      }}\n                      className={`BTN-SECONDARY overflow-hidden px-10 flex-1 group/nav whitespace-nowrap font-normal text-black flex justify-center gap-2 items-center rounded-full hover:bg-black/5 hover:transition-all hover:duration-300`}\n                    >\n                      <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"secondaryButton_textAttr\">\n                        {secondaryButton.textAttr}\n                      </EditableText>\n                      <EditableIcon\n                        propKey=\"secondaryButton_icon\"\n                        icon={secondaryButton.icon}\n                        iconLibrary=\"FontAwesome\"\n                        className=\" text-black group-hover/nav:translate-x-1 transition-all\"\n                      />\n                    </EditableButton>\n                  )}\n                  {primaryButton && (\n                    <EditableButton\n                      onClick={handleMobileButtonClick}\n                      style={{\n                        height: layoutObject.mobileNavItemHeight,\n                        color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                        fontSize: layoutObject.mobileFontSize,\n                      }}\n                      className={`BTN-PRIMARY overflow-hidden px-10 flex-1 group/nav whitespace-nowrap font-normal flex justify-center gap-2 items-center rounded-full bg-blue-500 hover:bg-blue-600 hover:transition-all hover:duration-300`}\n                    >\n                      <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"primaryButton_textAttr\">\n                        {primaryButton.textAttr}\n                      </EditableText>\n                      <EditableIcon\n                        propKey=\"primaryButton_icon\"\n                        icon={primaryButton.icon}\n                        iconLibrary=\"FontAwesome\"\n                        style={{\n                          color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                        }}\n                        className=\" group-hover/nav:translate-x-1 transition-all\"\n                      />\n                    </EditableButton>\n                  )}\n                </div>\n              </motion.nav>\n            </div>\n          )}\n        </div>\n      );\n    }\n\n    return (\n      <div\n        style={{\n          height: layoutObject.navHeight,\n        }}\n        className=\"relative w-full hidden gap-16 md:flex justify-between items-center\"\n      >\n        <div className={`h-full flex flex-shrink-0 items-center justify-start`} ref={logoRef} style={{ maxWidth: LOGO_MAX_WIDTH }}>\n          <EditableImg\n            propKey=\"logo\"\n            style={{\n              height: isOverWidthLogo ? undefined : layoutObject.logoSize,\n            }}\n            className={`${isOverWidthLogo ? `!w-[${LOGO_MAX_WIDTH}px]` : `!w-auto`} !max-w-[${LOGO_MAX_WIDTH}px] object-cover flex-shrink-0 min-w-0`}\n            src={logo}\n            alt=\"logo\"\n          />\n        </div>\n\n        {renderNavList(navItems)}\n        {buttonVisible && <div className=\"flex flex-shrink flex-1\" style={{ minWidth: leftLimit || rightLimit ? skeletonMinWidth : undefined }}></div>}\n\n        {buttonVisible && (\n          <div className={`w-fit h-full flex items-center justify-end overflow-hidden gap-3 ${minLimit ? 'flex-shrink' : 'flex-shrink-0'}`} ref={buttonContainerRef}>\n            {secondaryButton && (\n              <EditableButton\n                style={{\n                  height: layoutObject.buttonHeight,\n                  fontSize: layoutObject.fontSize,\n                }}\n                className={`BTN-SECONDARY max-w-[180px] w-fit px-5 group/nav whitespace-nowrap font-normal text-black flex gap-2 items-center rounded-full hover:bg-black/5 hover:transition-all hover:duration-300`}\n              >\n                <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"secondaryButton_textAttr\">\n                  {secondaryButton.textAttr}\n                </EditableText>\n                <EditableIcon\n                  propKey=\"secondaryButton_icon\"\n                  icon={secondaryButton.icon}\n                  iconLibrary=\"FontAwesome\"\n                  className=\"text-sm text-black group-hover/nav:translate-x-1 transition-all\"\n                />\n              </EditableButton>\n            )}\n            {primaryButton && (\n              <EditableButton\n                style={{\n                  height: layoutObject.buttonHeight,\n                  color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                  padding: `0 ${layoutObject.buttonPX}px`,\n                  fontSize: layoutObject.fontSize,\n                }}\n                className={`BTN-PRIMARY max-w-[180px] w-fit  group/nav  whitespace-nowrap font-normal flex gap-2 items-center rounded-full bg-blue-500 hover:bg-blue-600 hover:transition-all hover:duration-300`}\n              >\n                <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"primaryButton_textAttr\">\n                  {primaryButton.textAttr}\n                </EditableText>\n                <EditableIcon\n                  propKey=\"primaryButton_icon\"\n                  icon={primaryButton.icon}\n                  iconLibrary=\"FontAwesome\"\n                  style={{\n                    color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                  }}\n                  className=\"text-sm group-hover/nav:translate-x-1 transition-all\"\n                />\n              </EditableButton>\n            )}\n          </div>\n        )}\n      </div>\n    );\n  };\n\n  return (\n    <section\n      style={{\n        transitionTimingFunction: 'cubic-bezier(.165,.84,.44,1)',\n        transitionDuration: '300ms',\n        fontSize: layoutObject.fontSize,\n      }}\n      className={`${fixedTop ? 'sticky' : 'relative'} z-40 top-0 w-full bg-[#ffffffe0] dark:bg-black/80 backdrop-blur-sm md:px-8`}\n    >\n      <div className=\"max-w-7xl mx-auto w-full h-full\" ref={contentRef}>\n        {renderContent()}\n      </div>\n    </section>\n  );\n}",
+    "name": "Navigation_02",
+    "props": {
+      "fixedTop": false,
+      "logo": "https://cdn.wegic.ai/assets/onepage/thread/icon/1715742642990.png",
+      "logoSize": 40,
+      "siteTitle": "StudyUPDay",
+      "navItems": [
+        "text=Homepage&link=home",
+        "text=Courses&link=courses",
+        "text=About Us&link=about-us"
+      ],
+      "showButton": true,
+      "primaryButton": {
+        "icon": "fa-solid fa-arrow-right",
+        "textAttr": "Contact us",
+        "textColor": "#ffffff"
+      },
+      "version": 3
+    },
+    "id": "fcVlpCnkamvwr3APULzyR"
+  },
+  "footer": {
+    "code": "function Footer_02({\n  navigationItems = [\n    { titleAttr: 'text=About Us&link=/' },\n    { titleAttr: 'text=Our Services&link=/' },\n    { titleAttr: 'text=Projects&link=/' },\n    { titleAttr: 'text=Careers&link=/' },\n  ],\n  socialMediaItems = [\n    { icon: 'fa-brands fa-twitter', href: '#' },\n    { icon: 'fa-brands fa-facebook', href: '#' },\n    { icon: 'fa-brands fa-instagram', href: '#' },\n    { icon: 'fa-brands fa-github', href: '#' },\n  ],\n  copyrightText = '© Design Studio 2023, All Rights Reserved',\n}) {\n  return (\n    <section className=\"bg-slate-50 dark:bg-slate-800 px-6 py-20 md:px-8\">\n      <AnimateInView type=\"rise\">\n        <div className=\" mx-auto max-w-7xl flex flex-col gap-20\">\n          <div className=\"flex flex-col items-center gap-8 md:justify-between md:flex-row\">\n            <ul className=\"flex items-center gap-8\">\n              {navigationItems.map((item, index) => (\n                <li key={item.title} href={item.href}>\n                  <EditableButton\n                    className=\"TEXT-LINK font-semibold text-slate-900 dark:text-slate-50  hover:text-sky-400  dark:hover:text-sky-400 focus:text-sky-500 dark:focus:text-sky-500\"\n                  >\n                    <EditableText propKey={`navigationItems_${index}_titleAttr`}>{item.titleAttr}</EditableText>\n                  </EditableButton>\n                </li>\n              ))}\n            </ul>\n            <ul className=\"flex items-center gap-8 \">\n              {socialMediaItems.map((item, index) => (\n                <li key={item.icon} href={item.href}>\n                  <EditableButton\n                    className=\"TEXT-LINK text-slate-900 dark:text-slate-50 hover:text-sky-400 dark:hover:text-sky-400  dark:focus:text-slate-500\"\n                  >\n                    <EditableIcon propKey={`socialMediaItems_${index}_icon`} icon={item.icon} iconLibrary=\"FontAwesome\" className=\"text-lg\" />\n                  </EditableButton>\n                </li>\n              ))}\n            </ul>\n\n          </div>\n\n          <p className=\"w-full text-sm text-center text-slate-600 lg:mt-0 dark:text-slate-400\">\n            <EditableText propKey=\"copyrightText\">{copyrightText}</EditableText>\n          </p>\n\n        </div>\n      </AnimateInView>\n    </section>\n  );\n}",
+    "name": "Footer_02",
+    "props": {
+      "navigationItems": [
+        {
+          "titleAttr": "text=Homepage&link=home"
+        },
+        {
+          "titleAttr": "text=Courses&link=courses"
+        },
+        {
+          "titleAttr": "text=About Us&link=about-us"
+        },
+        {
+          "titleAttr": "text=Contact&link=contact"
+        }
+      ],
+      "socialMediaItems": [
+        {
+          "icon": "fa-brands fa-twitter",
+          "href": "https://twitter.com/StudyUPDay"
+        },
+        {
+          "icon": "fa-brands fa-facebook",
+          "href": "https://facebook.com/StudyUPDay"
+        },
+        {
+          "icon": "fa-brands fa-instagram",
+          "href": "https://instagram.com/StudyUPDay"
+        },
+        {
+          "icon": "fa-brands fa-github",
+          "href": "https://github.com/StudyUPDay"
+        }
+      ],
+      "copyrightText": "© StudyUPDay 2023, All Rights Reserved"
+    },
+    "id": "vuS9eRGcWuaBrekXPNWNl"
+  }
+}

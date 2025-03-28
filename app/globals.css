@@ -24,3 +24,56 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* global.css */
+/* .BTN-PRIMARY {
+  @apply text-base font-medium tracking-wide leading-normal;
+}
+
+.BTN-SECONDARY {
+  @apply text-base font-medium tracking-wide leading-normal;
+}
+
+.CARD {
+  @apply text-base font-normal tracking-normal leading-normal;
+}
+
+.DESC {
+  @apply text-lg font-normal tracking-normal leading-relaxed;
+}
+
+.FORM {
+  @apply space-y-4;
+}
+
+.IMAGE {
+  @apply rounded-lg shadow-md;
+}
+
+.INPUT {
+  @apply border rounded-md px-4 py-2 text-base font-normal tracking-normal leading-normal;
+}
+
+.LIST {
+  @apply list-disc pl-6 text-base font-normal tracking-normal leading-normal;
+}
+
+.TABLE {
+  @apply border-collapse border border-gray-300 text-base font-normal tracking-normal leading-normal;
+}
+
+.TEXT-CONTENT {
+  @apply text-base font-light tracking-normal leading-normal;
+}
+
+.TEXT-LINK {
+  @apply text-lg font-normal tracking-normal leading-normal;
+}
+
+.TITLE-PRIMARY {
+  @apply text-5xl font-bold tracking-wide leading-tight;
+}
+
+.TITLE-SECONDARY {
+  @apply text-4xl font-medium tracking-normal leading-normal;
+} */

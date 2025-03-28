@@ -1,6 +1,6 @@
 import React from "react";
 import { DynamicIcon } from "lucide-react/dynamic";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import * as faBrandsIcons from "@fortawesome/free-brands-svg-icons";
 import * as faSolidIcons from "@fortawesome/free-solid-svg-icons";
 import * as faRegularIcons from "@fortawesome/free-regular-svg-icons";
@@ -37,7 +37,7 @@ const dynamicImportFontAwesomeIcon = (iconClassName: string) => {
 
   if (!icon) return null;
   // 返回图标作为 React 组件
-  return (props) => <FontAwesomeIcon {...props} icon={icon}></FontAwesomeIcon>;;
+  return (props: any) => <FontAwesomeIcon {...props} icon={icon}></FontAwesomeIcon>;;
 };
 
 // 定义 `EditableIcon` 的 props 类型

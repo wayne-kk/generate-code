@@ -1,5 +1,4 @@
 import React, { useState, useEffect, CSSProperties } from "react";
-import { mapClassNames } from "../@utils/classMap";
 
 interface OverflowProps<T> {
     data: T[]; // 数据列表，类型为泛型 T
@@ -37,7 +36,6 @@ const Overflow = <T,>({
             onUpdate(newVisibleItems, newRestItems);
         }
     }, [data, maxCount, onUpdate]);
-    className = mapClassNames(className)
     return (
         <div className={className} style={style}>
             <div className="overflow-container flex items-center">

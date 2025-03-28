@@ -1,0 +1,320 @@
+{
+  "blocksMap": {
+    "S1fZXz1VgixseLr4R1GLW": {
+      "code": "function Hero_19({\n  title = 'Innovative Design Solutions',\n  description = 'Exploring creativity, delivering functional and aesthetic design to enhance your digital presence.',\n  backgroundImageUrl = 'https://source.unsplash.com/random/2830x1590/?creative,studio',\n  announcementText = 'Check our latest portfolio updates.',\n  announcementLinkAttr = 'text=Read more →&link=/',\n  buttonTextAttr = 'text=Discover Our Work&link=/',\n  learnMoreTextAttr = 'text=Explore Services&link=/',\n  buttonArrow = 'fa-solid fa-arrow-right',\n}) {\n  return (\n    <div className=\" bg-slate-900 dark:bg-slate-950\">\n      <div className=\"relative isolate overflow-hidden\">\n        <EditableImg\n          propKey=\"backgroundImageUrl\"\n          className=\"IMAGE absolute opacity-40 dark:opacity-30 inset-0 -z-10 h-full w-full object-cover\"\n          src={backgroundImageUrl}\n          alt=\"background\"\n        />\n        <div\n          className=\"absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80\"\n          aria-hidden=\"true\"\n        >\n        </div>\n        <div className=\"mx-auto max-w-2xl py-32 sm:py-48 lg:py-56\">\n          <div className=\"hidden sm:mb-8 sm:flex sm:justify-center\">\n            <div className=\"relative rounded-full flex gap-1 px-3 py-1 text-sm leading-6 text-white/60 hover:text-white/80 ring-1 ring-white/40 hover:ring-white/60 hover:transition-all duration-300\">\n              <EditableText propKey=\"announcementText\" className=\"DESC\">{announcementText}</EditableText>\n              <EditableButton className=\"TEXT-LINK font-semibold text-white\">\n                <EditableText propKey=\"announcementLinkAttr\">{announcementLinkAttr}</EditableText>\n              </EditableButton>\n            </div>\n          </div>\n          <div className=\"text-center\">\n            <h1 className=\"TITLE-PRIMARY text-4xl font-bold tracking-tight text-white sm:text-6xl\">\n              <EditableText propKey=\"title\">{title}</EditableText>\n            </h1>\n            <p className=\"DESC mt-6 text-lg leading-8 text-gray-300\">\n              <EditableText propKey=\"description\">{description}</EditableText>\n            </p>\n            <div className=\"mt-10 flex flex-col items-center justify-center gap-6 md:flex-row\">\n              <EditableButton\n                className=\"BTN-PRIMARY inline-flex items-center justify-center text-white bg-sky-500 font-medium border-0 py-2 xl:py-3 px-6 focus:outline-none hover:bg-sky-400 rounded-lg text-sm sm:text-base 2xl:text-lg transition-colors duration-500\"\n              >\n                <EditableText propKey=\"buttonTextAttr\">{buttonTextAttr}</EditableText>\n              </EditableButton>\n              <EditableButton className=\"TEXT-LINK text-sm group flex items-center gap-1 font-semibold leading-6 text-white\">\n                <EditableText propKey=\"learnMoreTextAttr\">{learnMoreTextAttr}</EditableText>\n                <EditableIcon propKey={\"buttonArrow\"} icon={buttonArrow} iconLibrary=\"FontAwesome\" className=\"group-hover:translate-x-1 transition-all duration-300\" />\n              </EditableButton>\n            </div>\n          </div>\n        </div>\n        <div\n          className=\"absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]\"\n          aria-hidden=\"true\"\n        >\n        </div>\n      </div>\n    </div>\n  );\n}",
+      "name": "Hero_19",
+      "props": {
+        "title": "欢迎来到餐桌故事",
+        "description": "在这里，我们将美食与故事完美融合，邀请您品味每一道菜背后的情感与文化。",
+        "backgroundImageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/ccfd687b-79fa-4471-b708-53420c1be013.jpeg?oldPrompt=一个现代风格的餐厅内部,温馨的灯光照射在精心布置的餐桌上,桌上摆放着精致的餐具和诱人的美食,背景中可以看到开放式厨房和忙碌的厨师,营造出优雅而热情的氛围, - 杂乱背景 - 低画质",
+        "announcementText": "探索我们的特色佳肴，开启美味之旅。",
+        "announcementLinkAttr": "text=了解更多&link=",
+        "buttonTextAttr": "text=立即预订&link=",
+        "learnMoreTextAttr": "text=发现我们的故事&link=",
+        "buttonArrow": "fa-solid fa-arrow-right"
+      },
+      "id": "S1fZXz1VgixseLr4R1GLW"
+    },
+    "zfxFNBHVG_AZ_hheAoeUi": {
+      "code": "function Gallery_03({\n  title = `Design Studio Essentials`,\n  description = `Enhance your creative environment with our curated selection of design studio essentials.`,\n  galleryInfo = [\n   {\n     imageUrl: `https://source.unsplash.com/700x800/?design,studio`,\n     name: `Creative Workspace`,\n     category: `Studio Design`,\n   },\n   {\n     imageUrl: `https://source.unsplash.com/700x800/?graphic,design`,\n     name: `Graphic Tools`,\n     category: `Graphic Design`,\n   },\n   {\n     imageUrl: `https://source.unsplash.com/700x800/?artist,office`,\n     name: `Artistic Space`,\n     category: `Art Studio`,\n   },\n   {\n     imageUrl: `https://source.unsplash.com/700x800/?interior,design`,\n     name: `Modern Interior`,\n     category: `Interior Design`,\n   },\n   {\n     imageUrl: `https://source.unsplash.com/700x800/?architecture,office`,\n     name: `Architect's Desk`,\n     category: `Architecture`,\n   },\n  {\n     imageUrl: `https://source.unsplash.com/700x800/?creative,tools`,\n     name: `Creative Tools`,\n     category: `Design Accessories`,\n   },\n ]\n\n}) {\n\n return (\n   <section className=\"bg-white dark:bg-slate-800 px-6 py-24 md:px-8 md:py-32\">\n    <div className=\"mx-auto w-full max-w-7xl flex flex-col gap-12\">\n      <AnimateInView type=\"rise\">\n       <div className=\"w-full flex flex-col gap-6 text-center md:text-left\">\n         <h2 className=\"TITLE-PRIMARY text-4xl font-semibold text-slate-900 dark:text-slate-50\">\n           <EditableText propKey={\"title\"}>{title}</EditableText>\n         </h2>\n         <p className=\"DESC font-normal text-slate-700 dark:text-slate-400\">\n           <EditableText propKey={\"description\"}>\n             {description}\n           </EditableText>\n         </p>\n       </div>\n       </AnimateInView>\n     <div className=\"grid grid-cols-2 gap-4 text-center md:grid-cols-3 lg:grid-cols-6\">\n       {galleryInfo.map((info, index) => (\n         <AnimateInView type=\"rise\" key={index}>\n           <div className=\"relative group\">\n             <div className=\"overflow-hidden aspect-w-3 aspect-h-4 flex justify-center items-center\">\n               <EditableImg\n                 propKey={`galleryInfo_${index}_imageUrl`}\n                 className=\"IMAGE object-cover w-full h-full transition-all duration-300 origin-bottom group-hover:scale-110 aspect-[3/4]\"\n                 src={info.imageUrl}\n                 alt={info.name}\n               />\n               <div className=\"absolute z-20  flex flex-col justify-center items-center\">\n                 <h3 className=\"TITLE-SECONDARY text-base font-bold text-white\">\n                   <EditableText propKey={`galleryInfo_${index}_name`}>{info.name}</EditableText>\n                 </h3>\n                 <p className=\"DESC text-sm font-medium text-gray-300\">\n                   <EditableText propKey={`galleryInfo_${index}_category`}>{info.category}</EditableText>\n                 </p>\n               </div>\n               <div className=\"absolute z-10 inset-0 bg-black/20  pointer-events-none\"></div>\n             </div>\n           </div>\n         </AnimateInView>\n       ))}\n      </div>\n   </div>   \n   </section>\n )\n}",
+      "name": "Gallery_03",
+      "props": {
+        "title": "特色美食展示",
+        "description": "每一道菜品都经过精心设计，只为带给您视觉与味觉的双重享受。",
+        "galleryInfo": [
+          {
+            "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/b697ce10-6419-401c-9f99-97d5bab6855d.jpeg?oldPrompt=精致的西式牛排, 摆放在白色瓷盘上, 配以烤蔬菜和酱汁, 背景为优雅的餐厅环境",
+            "name": "招牌黑椒牛排",
+            "category": "主菜"
+          },
+          {
+            "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/41e27b4a-db61-439d-8295-4ab3a3ef1e44.jpeg?oldPrompt=经典的法式洋葱汤, 表面覆盖金黄的奶酪, 配以法式面包片, 热气腾腾",
+            "name": "经典芝士蛋糕",
+            "category": "甜点"
+          },
+          {
+            "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/f1d8b913-1231-4c51-9b8e-eb12c83183aa.jpeg?oldPrompt=色彩丰富的水果沙拉, 包含草莓、蓝莓、猕猴桃等, 装在透明玻璃碗中, 光线柔和",
+            "name": "特调果香鸡尾酒",
+            "category": "饮品"
+          },
+          {
+            "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/8ffb68ad-a739-4b98-bb3c-b229c3298ed9.jpeg?oldPrompt=传统中式点心拼盘, 包含小笼包、春卷和蒸饺, 摆放在竹制蒸笼中, 餐具精致",
+            "name": "意式奶油培根面",
+            "category": "主菜"
+          },
+          {
+            "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/391e8713-8966-484b-8526-eb4174bf945e.jpeg?oldPrompt=新鲜制作的海鲜意大利面, 使用大虾和贝类, 撒上香草和橄榄油, 餐具摆放整齐",
+            "name": "法式水果塔",
+            "category": "甜点"
+          },
+          {
+            "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/a8ca9ecc-633f-442e-940e-bd8109d499e0.jpeg?oldPrompt=精美的巧克力蛋糕, 层次分明, 顶部装饰新鲜浆果和薄荷叶, 背景虚化的咖啡杯",
+            "name": "手工现磨咖啡",
+            "category": "饮品"
+          }
+        ]
+      },
+      "id": "zfxFNBHVG_AZ_hheAoeUi"
+    },
+    "MpxsBl54iQrv0smMxVHn-": {
+      "code": "function Content_02({\n  subTitle = \"Deploy faster\",\n  title = \"Elevate Your Design Projects\",\n  description = \"Our studio specializes in delivering exceptional design solutions that captivate and engage. From conceptualization to execution, we ensure every detail is perfect.\",\n  testimonial = \"Partnering with the studio transformed our brand's presence. Their commitment to excellence and innovative designs made a significant impact.\",\n  testimonialAuthor = \"Alex Doe\",\n  authorRole = \"@alexdoe\",\n  imageUrl = \"https://source.unsplash.com/random/1000x700/?portrait\",\n  features = [\n    { icon: \"fa-solid fa-cloud-arrow-up\", title: \"Seamless Deployment\", description: \"Effortlessly push updates and maintain your digital presence with our streamlined deployment processes.\" },\n    { icon: \"fa-solid fa-lock\", title: \"Robust Security\", description: \"Secure your online assets with state-of-the-art SSL certificates and comprehensive security protocols.\" },\n    { icon: \"fa-solid fa-server\", title: \"Reliable Backups\", description: \"Ensure data integrity with regular, automated backups and easy recovery options.\" }\n  ],\n  backgroundColor = {\n    colorA: \"#ff80b5\",\n    colorB: \"#9089fc\"\n  }\n}) {\n  return (\n    <div className=\"relative isolate overflow-hidden bg-white py-16 sm:py-20 dark:bg-slate-800\">\n      <div\n        className=\"absolute -top-80 left-[max(6rem,33%)] -z-10 transform-gpu blur-3xl sm:left-1/2 md:top-20 lg:ml-20 xl:top-3 xl:ml-56\"\n        aria-hidden=\"true\"\n      >\n        <div\n          className={`aspect-[801/1036] w-[50.0625rem] bg-gradient-to-tr from-[${backgroundColor.colorA}] to-[${backgroundColor.colorB}] opacity-30`}\n          style={{\n            clipPath:\n              'polygon(63.1% 29.6%, 100% 17.2%, 76.7% 3.1%, 48.4% 0.1%, 44.6% 4.8%, 54.5% 25.4%, 59.8% 49.1%, 55.3% 57.9%, 44.5% 57.3%, 27.8% 48%, 35.1% 81.6%, 0% 97.8%, 39.3% 100%, 35.3% 81.5%, 97.2% 52.8%, 63.1% 29.6%)',\n          }}\n        />\n      </div>\n      <div className=\"mx-auto max-w-7xl px-6 lg:px-8\">\n        <div className=\"mx-auto max-w-2xl lg:mx-0\">\n          <p className=\"text-lg font-semibold leading-8 tracking-tight text-sky-500 dark:text-slate-300\"> <EditableText propKey={`subTitle`}>{subTitle}</EditableText></p>\n          <h1 className=\"TITLE-PRIMARY mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-slate-50\">\n            <EditableText propKey={`title`}>{title}</EditableText>\n          </h1>\n          <p className=\"DESC mt-6 text-xl leading-8 text-gray-700 dark:text-slate-400\">\n            <EditableText propKey={`description`}>{description}</EditableText>\n          </p>\n        </div>\n        <div className=\"mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-10 lg:max-w-none lg:grid-cols-12\">\n          <div className=\"relative lg:order-last lg:col-span-5\">\n            <svg className=\"absolute -top-[40rem] left-1 -z-10 h-[64rem] w-[175.5rem] -translate-x-1/2 stroke-gray-900/10 dark:stroke-gray-100/10 [mask-image:radial-gradient(64rem_64rem_at_111.5rem_0%,white,transparent)]\" aria-hidden=\"true\">\n              <defs>\n                <pattern id=\"e87443c8-56e4-4c20-9111-55b82fa704e3\" width=\"200\" height=\"200\" patternUnits=\"userSpaceOnUse\">\n                  <path d=\"M0.5 0V200M200 0.5L0 0.499983\"></path>\n                </pattern>\n              </defs>\n              <rect width=\"100%\" height=\"100%\" strokeWidth=\"0\" fill=\"url(#e87443c8-56e4-4c20-9111-55b82fa704e3)\"></rect>\n            </svg>\n            <AnimateInView type=\"rise\">\n              <figure className=\"border-l border-black/10 dark:border-white/10 pl-8\">\n                <blockquote className=\"text-xl font-semibold leading-8 tracking-tight text-gray-900 dark:text-slate-50\">\n                  <p>\n                    <EditableText propKey={`testimonial`}>{testimonial}</EditableText>\n                  </p>\n                </blockquote>\n                <figcaption className=\"mt-8 flex gap-x-4\">\n                  <EditableImg propKey={`imageUrl`} src={imageUrl} className=\"IMAGE mt-1 h-10 w-10 flex-none rounded-full bg-gray-50 object-cover\" />\n                  <div className=\"text-sm leading-6\">\n                    <div className=\"font-semibold text-gray-900 dark:text-slate-50\">\n                      <EditableText propKey={`testimonialAuthor`}>{testimonialAuthor}</EditableText>\n                    </div>\n                    <div className=\"text-gray-600 dark:text-slate-300\">\n                      <EditableText propKey={`authorRole`}>{authorRole}</EditableText>\n                    </div>\n                  </div>\n                </figcaption>\n              </figure>\n            </AnimateInView>\n          </div>\n          <div className=\"max-w-xl text-base leading-7 gap-4 flex flex-col text-gray-700 lg:col-span-7 dark:text-slate-400\">\n            {features.map((feature, index) => (\n              <div key={index} className=\"flex flex-start gap-x-4\">\n                <EditableIcon propKey={`features_${index}_icon`} icon={feature.icon} iconLibrary=\"FontAwesome\" className=\"text-sky-500 dark:text-slate-300\" />\n                <span>\n                  <strong className=\"font-semibold text-gray-900 dark:text-slate-50\">\n                    <EditableText propKey={`features_${index}_title`}>{feature.title}</EditableText>\n                  </strong>\n                  <EditableText propKey={`features_${index}_description`}>{feature.description}</EditableText>\n                </span>\n              </div>\n            ))}\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}",
+      "name": "Content_02",
+      "props": {
+        "subTitle": "餐桌上的故事",
+        "title": "从食材到餐桌的每一步都是我们的承诺",
+        "description": "餐桌故事致力于为您提供不仅美味，更承载情感与文化的餐饮体验。我们的每一道菜品都讲述着一个故事，等待您来品味。",
+        "testimonial": "餐桌故事不仅是一家餐厅，更是一个充满爱的地方。每次光顾都能感受到家的温暖。",
+        "testimonialAuthor": "李小美",
+        "authorRole": "美食爱好者",
+        "imageUrl": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/44d744db-0618-4454-8eba-cc805458d004.jpeg?oldPrompt=餐厅内部场景, 现代风格装饰, 温馨灯光, 餐桌布置精致, 服务员友好微笑, 背景展示厨房区域, 环境整洁优雅, 无顾客干扰, 无杂乱物品",
+        "features": [
+          {
+            "icon": "fa-solid fa-utensils",
+            "title": "精致菜品",
+            "description": "每一道菜品都经过精心设计，呈现独特的风味与视觉享受。"
+          },
+          {
+            "icon": "fa-solid fa-heart",
+            "title": "贴心服务",
+            "description": "我们为每一位顾客提供温暖贴心的用餐体验。"
+          },
+          {
+            "icon": "fa-solid fa-leaf",
+            "title": "优质食材",
+            "description": "所有食材均为新鲜优质，确保健康与美味。"
+          }
+        ],
+        "backgroundColor": {
+          "colorA": "#f8b195",
+          "colorB": "#f67280"
+        }
+      },
+      "id": "MpxsBl54iQrv0smMxVHn-"
+    },
+    "xIOcu10NMfE3SZzqrtl9O": {
+      "code": "function Reviews_04({\n  title = 'Customer\\'s Review',\n  description = 'This is just a simple text made for this unique and awesome template, you can replace it with any text.',\n  reviews = [\n    {\n      name: 'Olivia Stanton',\n      role: 'Creative Director',\n      image: 'https://source.unsplash.com/random/1000x1000/?collaboration',\n      feedback: 'Before exploring The Art of Iconology, my perspective on iconography was fairly basic. This book has not only enhanced my skills but has inspired a whole new wave of creativity in our projects. A must-read for any designer!',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Ethan Parker',\n      role: 'Design Lead',\n      image: 'https://source.unsplash.com/random/1000x1000/?vision',\n      feedback: 'Our design process was transformed with the adoption of the VectorStream software suite. What once felt like a chore is now an exciting journey of visual storytelling. Every design team needs this tool in their arsenal.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Sophia Larson',\n      role: 'Head of UX',\n      image: 'https://source.unsplash.com/random/1000x1000/?user-experience',\n      feedback: 'I\\'m impressed with the intuitiveness of the CanvasFlow app. As a UX professional, watching our user satisfaction metrics soar has been a delightful experience. It\\'s nice to see our financials are also benefiting from this investment.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Derek Schmidt',\n      role: 'Product Manager',\n      image: 'https://source.unsplash.com/random/1000x1000/?innovation',\n      feedback: 'Reaching out for support with RenderPro was effortless. The quick turnaround and expert advice saved our product launch and put my mind at ease. I appreciate a company that stands confidently behind its service.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n    {\n      name: 'Amelia Davis',\n      role: 'Brand Strategist',\n      image: 'https://source.unsplash.com/random/1000x1000/?branding',\n      feedback: 'I never expected an out-of-office reply to solve my query, but here we are. ImageMint\\'s guide on sustainable branding practices arrived just in time to revamp our strategy. Kudos to the team for such responsive communication despite your staff\\'s retreat.',\n      rating: ['fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star', 'fa-solid fa-star'],\n    },\n  ],\n}) {\n  return (\n    <div className=\" dark:bg-slate-800\">\n      <div className=\" max-w-7xl mx-auto py-20 px-4\">\n        <div className=\"grid grid-cols-1 pb-6 text-center\">\n          <h3 className=\"TITLE-PRIMARY text-4xl font-semibold text-slate-900 dark:text-white md:text-5xl\">\n            <EditableText propKey=\"title\">{title}</EditableText>\n          </h3>\n          <p className=\"DESC mt-4 text-center  text-slate-700 dark:text-white/70 lg:text-lg \">\n            <EditableText propKey=\"description\">\n              {description}\n            </EditableText>\n          </p>\n        </div>\n\n        <div className=\"grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-6 gap-6\">\n          {reviews.map((review, index) => (\n            <AnimateInView type=\"rise\" key={`review_${index}`}>\n              <div className=\"w-full h-full\">\n                <div className=\"rounded-xl h-full flex flex-col gap-8 shadow dark:shadow-gray-800 p-8 bg-white dark:bg-slate-900\">\n                  <div className=\"flex items-center pb-8 border-b border-black/10 dark:border-white/10\">\n                    <EditableImg\n                      propKey={`reviews_${index}_image`}\n                      className=\"IMAGE h-14 w-14 rounded-full shadow dark:shadow-gray-800 object-cover aspect-[1/1]\"\n                      src={review.image}\n                    />\n                    <div className=\"pl-3\">\n                      <EditableButton className=\"TEXT-LINK text-lg font-semibold text-sky-600 hover:text-sky-700 dark:hover:text-white duration-500\">\n                        <EditableText propKey={`reviews_${index}_name`}>{review.name}</EditableText>\n                      </EditableButton>\n                      <p className=\"text-slate-500 dark:text-white/90\">\n                        <EditableText propKey={`reviews_${index}_role`}>{review.role}</EditableText>\n                      </p>\n                    </div>\n                  </div>\n                  <div className=\" flex flex-col gap-6\">\n                    <p className=\"TEXT-CONTENT text-slate-500 dark:text-white/90\">\n                      <EditableText propKey={`reviews_${index}_feedback`}>{review.feedback}</EditableText>\n                    </p>\n                    <ul className=\"flex items-center gap-2\">\n                      {review.rating.map((icon, iconIndex) => (\n                        <EditableIcon propKey={`reviews_${index}_rating_${iconIndex}`} icon={icon} iconLibrary=\"FontAwesome\" className=\"text-amber-400 text-xl\" />\n                      ))}\n                    </ul>\n                  </div>\n                </div>\n              </div>\n            </AnimateInView>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "name": "Reviews_04",
+      "props": {
+        "title": "顾客评价",
+        "description": "聆听顾客的声音，感受他们对餐桌故事的喜爱。",
+        "reviews": [
+          {
+            "name": "王先生",
+            "role": "美食博客作者",
+            "image": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/f32d4921-bc02-41bb-b932-64d86691ca54.jpeg?oldPrompt=顾客在餐厅内愉快用餐的场景，环境温馨优雅，现代装饰风格，餐桌上有精致的美食，顾客面带微笑，氛围温暖",
+            "feedback": "餐桌故事的每一道菜品都让我感到惊喜，尤其是黑椒牛排，堪称完美！",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "李女士",
+            "role": "家庭主妇",
+            "image": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/0d233b73-1e67-4293-a735-2facb8514a81.jpeg?oldPrompt=顾客在餐厅内与服务员互动，服务员态度友好，背景是餐厅的开放式厨房，氛围现代且温馨，顾客正在点餐",
+            "feedback": "这里的芝士蛋糕是我吃过最棒的，孩子们也非常喜欢。",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "张先生",
+            "role": "商务人士",
+            "image": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/4e7a8961-9df9-4b71-aef1-169346623fcf.jpeg?oldPrompt=顾客在餐厅内写评价，背景是餐厅的优雅环境，顾客手持手机，表情认真，氛围温暖且现代，餐桌上还有未吃完的美食",
+            "feedback": "特调鸡尾酒非常棒，完美搭配我的商务晚餐。",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "赵小姐",
+            "role": "学生",
+            "image": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/924bc94a-6684-471f-acc5-ba12c3bcd6f5.jpeg?oldPrompt=顾客在餐厅门口拍照留念，背景是餐厅的标志性装饰，阳光明媚，氛围友好，顾客手持美食，表情满意",
+            "feedback": "法式水果塔让我仿佛置身巴黎，太棒了！",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          },
+          {
+            "name": "刘先生",
+            "role": "退休老人",
+            "image": "https://cdn.a1.art/assets/images/app_1811317900177637378/1811317900181831681/de235693-a11e-4730-850d-0f6bfcc75f69.jpeg?oldPrompt=顾客在餐厅内与朋友聚会，餐桌上摆满各种美食，氛围热闹且愉快，背景是餐厅的特色装饰，灯光柔和",
+            "feedback": "手工咖啡让我一天都充满活力，非常推荐！",
+            "rating": [
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star",
+              "fa-solid fa-star"
+            ]
+          }
+        ]
+      },
+      "id": "xIOcu10NMfE3SZzqrtl9O"
+    },
+    "WmbwtVv4mi3-6JZL4okyQ": {
+      "code": "function Stats_10({\n  title = \"Transforming Workspaces Globally\",\n  description = \"At our design studio, we reimagine workplaces to be more dynamic, collaborative, and conducive to creativity.\",\n  stats = [\n    {\n      key: \"users\",\n      number: \"250k\",\n      text: \"Creative Minds Engaged\",\n      detail: \"Joining a community of forward-thinking professionals.\"\n    },\n    {\n      key: \"revenue\",\n      number: \"$8.9 billion\",\n      text: \"Revenue Generated by Our Clients\",\n      detail: \"Empowering businesses to achieve their highest potential.\"\n    },\n    {\n      key: \"transactions\",\n      number: \"401,093\",\n      text: \"Successful Projects Delivered\",\n      detail: \"Crafting spaces that inspire innovation and productivity.\"\n    }\n  ]\n}) {\n  return (\n    <div className=\"bg-white dark:bg-slate-800 py-16 sm:py-20\">\n      <div className=\"mx-auto max-w-7xl px-6 lg:px-8\">\n        <div className=\"mx-auto max-w-2xl lg:mx-0\">\n          <h2 className=\"TITLE-PRIMARY text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl\">\n            <EditableText propKey={`title`}>{title}</EditableText>\n          </h2>\n          <p className=\"DESC mt-6 text-base leading-7 text-slate-700 dark:text-slate-300\">\n            <EditableText propKey={`description`}>{description}</EditableText>\n          </p>\n        </div>\n        <div className=\"mx-auto mt-16 flex max-w-2xl flex-col gap-8 lg:mx-0 lg:mt-20 lg:max-w-none lg:flex-row lg:items-end\">\n          {stats.map((stat, index) => (\n            <div key={stat.key} className={`flex flex-col-reverse justify-between gap-x-16 gap-y-8 rounded-2xl ${index === 1 ? 'bg-gray-900 dark:bg-slate-900' : 'bg-gray-50 dark:bg-slate-800 dark:border border-black/10 dark:border-white/10'} p-8 sm:w-${index === 2 ? '11/12' : '3/4'} sm:max-w-md sm:flex-row-reverse sm:items-end lg:w-full lg:max-w-none lg:flex-auto lg:flex-col lg:items-start ${index === 1 ? 'lg:gap-y-44' : 'lg:gap-y-28'}`}>\n              <p className={`TEXT-CONTENT flex-none text-3xl font-bold tracking-tight ${index === 1 ? 'text-white' : 'text-slate-900 dark:text-white'}`}>\n                <EditableText propKey={`stats_${index}_number`}>{stat.number}</EditableText>\n              </p>\n              <div className=\"sm:w-80 sm:shrink lg:w-auto lg:flex-none\">\n                <p className={`TITLE-SECONDARY text-lg font-semibold tracking-tight ${index === 1 ? 'text-white' : 'text-slate-900 dark:text-white'}`}>\n                  <EditableText propKey={`stats_${index}_text`}>{stat.text}</EditableText>\n                </p>\n                <p className={`DESC mt-2 text-base leading-7 ${index === 1 ? 'text-white/70' : 'text-slate-600 dark:text-slate-300'}`}>\n                  <EditableText propKey={`stats_${index}_detail`}>{stat.detail}</EditableText>\n                </p>\n              </div>\n            </div>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}",
+      "name": "Stats_10",
+      "props": {
+        "title": "餐厅数据一览",
+        "description": "了解我们的营业时间及关键数据，规划您的美食之旅。",
+        "stats": [
+          {
+            "key": "hours",
+            "number": "10:00 - 22:00",
+            "text": "营业时间",
+            "detail": "每天为您提供12小时的美食服务。"
+          },
+          {
+            "key": "seats",
+            "number": "120",
+            "text": "座位数",
+            "detail": "宽敞舒适的用餐环境，适合家庭聚会与商务宴请。"
+          },
+          {
+            "key": "dishes",
+            "number": "50+",
+            "text": "菜品选择",
+            "detail": "丰富的菜单选择，总有一道适合您的口味。"
+          }
+        ]
+      },
+      "id": "WmbwtVv4mi3-6JZL4okyQ"
+    },
+    "-U_Es6q-EhSggRhHsULAx": {
+      "code": "function Contact_08({\n  title = 'Get in Touch',\n  description = 'Explore how our design solutions can empower your creativity.',\n  contactOptions = [\n    {\n      id: 1,\n      icon: 'fa-solid fa-message',\n      title: 'Design Consultation',\n      description: 'Discuss your project ideas and how we can bring them to life.',\n      textAttr: 'text=Start a conversation&link=/',\n      buttonIcon: 'fa-solid fa-arrow-right',\n    },\n    {\n      id: 2,\n      icon: 'fa-solid fa-bug',\n      title: 'Technical Support',\n      description: 'Get help with any technical issues or inquiries.',\n      textAttr: 'text=Get Support&link=/',\n      buttonIcon: 'fa-solid fa-arrow-right',\n    },\n    {\n      id: 3,\n      icon: 'fa-solid fa-desktop',\n      title: 'Project Collaboration',\n      description: 'Collaborate with us on your upcoming design projects.',\n      textAttr: 'text=Collaborate now&link=/',\n      buttonIcon: 'fa-solid fa-arrow-right',\n    },\n  ],\n}) {\n  return (\n    <div className=\"isolate bg-white px-6 py-16 sm:py-20 lg:px-8 dark:bg-slate-800\">\n      <div className=\"mx-auto max-w-2xl sm:text-center\">\n        <h2 className=\"TITLE-PRIMARY text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl dark:text-white/80\">\n          <EditableText propKey=\"title\">{title}</EditableText>\n        </h2>\n        <p className=\"DESC mt-2 text-lg leading-8 text-slate-700 dark:text-white/60\">\n          <EditableText propKey=\"description\">{description}</EditableText>\n        </p>\n      </div>\n      <div className=\"mx-auto mt-20 max-w-lg space-y-16\">\n        {contactOptions.map((option, index) => (\n          <AnimateInView key={option.id} type=\"rise\">\n            <div className=\"flex gap-x-6\">\n              <div className=\"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500\">\n                <EditableIcon propKey={`contactOptions_${index}_icon`} icon={option.icon} iconLibrary=\"FontAwesome\" className=\"text-lg text-white\" aria-hidden=\"true\" />\n              </div>\n              <div>\n                <h3 className=\"TITLE-SECONDARY text-base font-semibold leading-7 text-slate-900 dark:text-white/80\">\n                  <EditableText propKey={`contactOptions_${index}_title`}>{option.title}</EditableText>\n                </h3>\n                <p className=\"DESC mt-2 leading-7 text-slate-600 dark:text-white/60\">\n                  <EditableText propKey={`contactOptions_${index}_description`}>{option.description}</EditableText>\n                </p>\n                <p className=\"mt-4\">\n                  <EditableButton className=\"TEXT-LINK text-sm flex items-center gap-1 group font-semibold leading-6 text-sky-400 dark:text-sky-400 dark:hover:text-white\">\n                    <EditableText propKey={`contactOptions_${index}_textAttr`}>{option.textAttr}</EditableText>\n                    <EditableIcon propKey={`contactOptions_${index}_buttonIcon`} icon={option.buttonIcon} className=\"group-hover:translate-x-1 transition-all duration-300\" />\n                  </EditableButton>\n                </p>\n              </div>\n            </div>\n          </AnimateInView>\n        ))}\n      </div>\n    </div>\n  );\n}\n",
+      "name": "Contact_08",
+      "props": {
+        "title": "联系我们",
+        "description": "无论是预订还是咨询，我们都期待与您的交流。",
+        "contactOptions": [
+          {
+            "id": 1,
+            "icon": "fa-solid fa-phone",
+            "title": "电话预订",
+            "description": "通过电话快速预订您的餐桌。",
+            "textAttr": "text=拨打电话&link=",
+            "buttonIcon": "fa-solid fa-arrow-right"
+          },
+          {
+            "id": 2,
+            "icon": "fa-solid fa-envelope",
+            "title": "邮件咨询",
+            "description": "发送邮件了解更多关于我们的信息。",
+            "textAttr": "text=发送邮件&link=",
+            "buttonIcon": "fa-solid fa-arrow-right"
+          },
+          {
+            "id": 3,
+            "icon": "fa-solid fa-calendar",
+            "title": "在线预约",
+            "description": "通过在线系统轻松预约您的用餐时间。",
+            "textAttr": "text=立即预约&link=",
+            "buttonIcon": "fa-solid fa-arrow-right"
+          }
+        ]
+      },
+      "id": "-U_Es6q-EhSggRhHsULAx"
+    }
+  },
+  "children": [
+    "S1fZXz1VgixseLr4R1GLW",
+    "zfxFNBHVG_AZ_hheAoeUi",
+    "MpxsBl54iQrv0smMxVHn-",
+    "xIOcu10NMfE3SZzqrtl9O",
+    "WmbwtVv4mi3-6JZL4okyQ",
+    "-U_Es6q-EhSggRhHsULAx"
+  ],
+  "extra": {
+    "color": {
+      "name": "自定义颜色",
+      "colorHex": "#06060a",
+      "isCustom": true
+    },
+    "webTheme": "餐厅,美食,菜单",
+    "font": {
+      "heading": "Poppins",
+      "body": "Lato"
+    }
+  },
+  "id": "1hTi-cQVmO9XRQKUy-l1c",
+  "version": "1.0.0",
+  "navigation": {
+    "code": "function Navigation_01({\n  logo = 'https://cdn.wegic.ai/assets/onepage/thread/icon/default.png',\n  navItems = [\n    'text=Home&link=/home',\n    'text=About&link=/about',\n    'text=Service&link=/service',\n    'text=Case&link=/case',\n    'text=Blog&link=/blog',\n    'text=Contact&link=/contact',\n    'text=Location&link=/location',\n    'text=Map&link=/map',\n  ],\n  primaryButton = {\n    icon: 'fa-solid fa-arrow-right',\n    textAttr: 'Contact us',\n    textColor: 'black',\n  },\n  secondaryButton,\n  fixedTop = true,\n  logoSize = 40,\n  showButton = true,\n  maxCount = 7,\n}) {\n  const LOGO_MAX_WIDTH = React.useMemo(() => 300, []);\n  const MOBILE_WIDTH = React.useMemo(() => 768, []);\n  const viewportId = React.useMemo(() => window?.siteEngine?.scrollContainerId || 'preview-viewport', []);\n  const [viewportHeight, setViewportHeight] = React.useState(0);\n  const [mobileMode, setMobileMode] = React.useState(false);\n  const moreButtonRef = React.useRef(null);\n  const [moreListVisible, setMoreListVisible] = React.useState(false);\n  const mobileListRef = React.useRef(null);\n  const [mobileListVisible, setMobileListVisible] = React.useState(false);\n  const [mobileEntryVisible, setMobileEntryVisible] = React.useState(false);\n  const buttonVisible = showButton && (secondaryButton || primaryButton);\n  const layoutObject = React.useMemo(() => {\n    const layout = {\n      logoSize: 0,\n      navHeight: 0,\n      buttonHeight: 0,\n      buttonPX: 0,\n      fontSize: 0,\n      dropDownHeight: 0,\n      dropDownPaddingLeft: 0,\n      dropDownPaddingRight: 0,\n      mobileNavHeight: 56,\n      mobileNavItemHeight: 56,\n      mobileFontSize: 14,\n      mobileIconSize: 20,\n    };\n\n    if (logoSize < 48) {\n      layout.fontSize = 14;\n      layout.dropDownHeight = 48;\n      layout.dropDownPaddingLeft = 12;\n      layout.dropDownPaddingRight = 48;\n    } else if (logoSize >= 48 && logoSize < 64) {\n      layout.fontSize = 15;\n      layout.dropDownHeight = 64;\n      layout.dropDownPaddingLeft = 20;\n      layout.dropDownPaddingRight = 80;\n    } else if (logoSize >= 64) {\n      layout.fontSize = 16;\n      layout.dropDownHeight = 64;\n      layout.dropDownPaddingLeft = 20;\n      layout.dropDownPaddingRight = 80;\n    }\n\n    if (mobileMode) {\n      if (logoSize < 56) {\n        layout.logoSize = 32;\n        layout.mobileNavHeight = 56;\n        layout.mobileFontSize = 14;\n        layout.mobileIconSize = 20;\n      } else {\n        layout.logoSize = 48;\n        layout.mobileNavHeight = 72;\n        layout.mobileFontSize = 16;\n        layout.mobileIconSize = 24;\n      }\n    } else {\n      layout.logoSize = logoSize;\n      if (logoSize < 56) {\n        layout.navHeight = logoSize + 24;\n      } else if (logoSize >= 56 && logoSize < 64) {\n        layout.navHeight = logoSize + 40;\n      } else {\n        layout.navHeight = 120;\n      }\n    }\n\n    /** button */\n    if (logoSize < 48) {\n      layout.buttonHeight = 40;\n      layout.buttonPX = 20;\n    } else if (logoSize >= 48 && logoSize < 56) {\n      layout.buttonHeight = 48;\n      layout.buttonPX = 20;\n    } else {\n      layout.buttonHeight = 56;\n      layout.buttonPX = 28;\n    }\n\n    return layout;\n  }, [logoSize, mobileMode]);\n  const [isOverWidthLogo, setIsOverWidthLogo] = React.useState(false);\n  const logoRectRef = React.useRef(null);\n  const [overflow, setOverflow] = React.useState(false);\n  const overflowRef = React.useRef(null);\n\n  const handleViewportWidthChange = React.useCallback(\n    throttle((entries) => {\n      const entry = entries[0];\n      const rect = entry.contentRect;\n      setViewportHeight(rect.height);\n      if (rect.width > MOBILE_WIDTH) {\n        mobileMode && setMobileMode(false);\n      } else {\n        !mobileMode && setMobileMode(true);\n      }\n    }, 16),\n    [mobileMode]\n  );\n\n  React.useEffect(() => {\n    const scrollDom = document.getElementById(viewportId);\n    const observer = new ResizeObserver(handleViewportWidthChange);\n    observer.observe(scrollDom);\n\n    return () => {\n      observer.disconnect();\n    };\n  }, [viewportId, handleViewportWidthChange]);\n\n  React.useEffect(() => {\n    if (!mobileMode) {\n      setMobileListVisible(false);\n    } else {\n      setMoreListVisible(false);\n    }\n  }, [mobileMode]);\n\n  const handleCloseMoreList = (e) => {\n    if (moreButtonRef.current?.contains(e.target)) {\n      return;\n    }\n    if (moreListVisible) {\n      setMoreListVisible(false);\n    }\n  };\n\n  React.useEffect(() => {\n    window.addEventListener('click', handleCloseMoreList);\n    return () => {\n      window.removeEventListener('click', handleCloseMoreList);\n    };\n  }, [moreListVisible]);\n\n  React.useEffect(() => {\n    const handleScroll = throttle((e) => {\n      if (!e.target) {\n        return;\n      }\n\n      if (mobileListVisible) {\n        setMobileListVisible(false);\n      }\n    }, 32);\n\n    let scrollContainer = window?.document.getElementById(viewportId);\n    scrollContainer?.addEventListener('scroll', handleScroll);\n    return () => {\n      scrollContainer?.removeEventListener('scroll', handleScroll);\n    };\n  }, [mobileListVisible]);\n\n  React.useEffect(() => {\n    let count = navItems.length;\n    if (showButton) {\n      if (primaryButton) count++;\n      if (secondaryButton) count++;\n    }\n\n    setMobileEntryVisible(count > 1);\n    count <= 1 && setMobileListVisible(false);\n  }, [primaryButton, secondaryButton, navItems, showButton]);\n\n  /** update logo mode start */\n  const handleImageAspectRatioUpdate = () => {\n    if (!logoRectRef.current) {\n      return;\n    }\n    const currentAspectRatio = LOGO_MAX_WIDTH / layoutObject.logoSize;\n    const { naturalWidth, naturalHeight } = logoRectRef.current;\n    const aspectRatio = naturalWidth / naturalHeight;\n    setIsOverWidthLogo(aspectRatio > currentAspectRatio);\n  };\n\n  React.useEffect(() => {\n    if (logoRectRef.current?.logo === logo) {\n      handleImageAspectRatioUpdate();\n      return;\n    }\n\n    const image = new Image();\n    image.onload = () => {\n      logoRectRef.current = {\n        logo,\n        naturalWidth: image.naturalWidth,\n        naturalHeight: image.naturalHeight,\n      };\n      handleImageAspectRatioUpdate();\n    };\n\n    image.src = logo;\n  }, [logo, layoutObject]);\n  /** update logo mode end */\n\n  const renderNavItem = (item, index, textClassName) => {\n    return (\n      <EditableButton\n        key={item}\n        style={{ fontSize: layoutObject.fontSize }}\n        className={`${\n          index ? 'ml-8' : ''\n        } py-3 text-black whitespace-nowrap cursor-pointer hover:text-black/60 hover:transition-all duration-100 dark:text-white dark:hover:text-white/60`}\n      >\n        <EditableText propKey={`navItems_${index}`} className={textClassName}>\n          {item}\n        </EditableText>\n      </EditableButton>\n    );\n  };\n\n  const renderMoreListItems = (items, startIndex = 0) => {\n    return items.map((item, index) => {\n      return (\n        <EditableButton\n          key={item}\n          style={{\n            height: layoutObject.dropDownHeight,\n            paddingLeft: layoutObject.dropDownPaddingLeft,\n            paddingRight: layoutObject.dropDownPaddingRight,\n            fontSize: layoutObject.fontSize,\n            ...(overflow & (index === 0) ? { height: 0, opacity: 0, pointerEvents: 'none' } : {}),\n          }}\n          className=\"flex-shrink-0 w-full h-full text-black whitespace-nowrap cursor-pointer text-left hover:text-black/60 hover:transition-all duration-100 dark:text-white dark:hover:text-white/60\"\n          onClick={() => setMoreListVisible(false)}\n        >\n          <EditableText propKey={`navItems_${startIndex + index}`}>{item}</EditableText>\n        </EditableButton>\n      );\n    });\n  };\n\n  const renderRest = (omittedItems) => (\n    <div className={`relative ml-8`}>\n      <motion.button\n        ref={moreButtonRef}\n        className=\"w-10 h-10 flex items-center justify-center flex-shrink-0\"\n        onClick={() => setMoreListVisible(!moreListVisible)}\n        whileTap={{ scale: 0.9 }}\n        style={{ fontSize: layoutObject.fontSize }}\n      >\n        <svg\n          style={{ transform: 'translateY(2px)' }}\n          className=\"hover:transition-all hover:scale-110 text-black dark:text-white\"\n          width=\"20\"\n          height=\"20\"\n          viewBox=\"0 0 20 20\"\n          fill=\"none\"\n          xmlns=\"http://www.w3.org/2000/svg\"\n        >\n          <circle cx=\"3\" cy=\"10\" r=\"1.5\" fill=\"currentColor\" />\n          <circle cx=\"10\" cy=\"10\" r=\"1.5\" fill=\"currentColor\" />\n          <circle cx=\"17\" cy=\"10\" r=\"1.5\" fill=\"currentColor\" />\n        </svg>\n      </motion.button>\n      {moreListVisible && (\n        <AnimatePresence>\n          <motion.div\n            style={{\n              boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.06)',\n              fontSize: layoutObject.fontSize,\n            }}\n            className={`max-h-96 overflow-auto overscroll-contain absolute z-40 top-full left-0 xl:left-auto xl:right-0 flex flex-col p-1 rounded-md bg-white border border-[#0000000a] dark:border-white/10 dark:bg-black`}\n            animate={{\n              scale: [0, 1],\n              opacity: [0, 1],\n            }}\n          >\n            {renderMoreListItems(omittedItems, navItems.length - omittedItems.length)}\n          </motion.div>\n        </AnimatePresence>\n      )}\n    </div>\n  );\n\n  const handleOverflowUpdate = (width) => {\n    setOverflow(width.length <= 1);\n  };\n\n  const renderNavList = (items) => {\n    return (\n      <Overflow\n        ref={overflowRef}\n        data={items}\n        style={{ height: layoutObject.logoSize }}\n        className={`flex flex-1 items-center justify-start flex-shrink-0 min-w-0 ${overflow ? 'translate-x-[80px]' : ''}`}\n        renderItem={renderNavItem}\n        maxCount={maxCount}\n        minCount={0}\n        renderRest={renderRest}\n        onUpdate={handleOverflowUpdate}\n      />\n    );\n  };\n\n  const handleMobileButtonClick = (e) => {\n    mobileListVisible && setMobileListVisible(false);\n  };\n\n  const renderContent = () => {\n    if (mobileMode) {\n      return (\n        <div className=\"relative flex flex-col\">\n          <div\n            className=\"relative flex flex-shrink-0 z-40 w-full pl-4 justify-between items-center overflow-hidden md:hidden\"\n            style={{\n              height: layoutObject.mobileNavHeight,\n              fontSize: layoutObject.mobileFontSize,\n            }}\n          >\n            <EditableImg\n              propKey=\"logo\"\n              style={{\n                height: isOverWidthLogo ? undefined : layoutObject.logoSize,\n              }}\n              className={`${isOverWidthLogo ? `!w-[${LOGO_MAX_WIDTH}px]` : `!w-auto`} !max-w-[${LOGO_MAX_WIDTH}px] object-cover flex-shrink min-w-0`}\n              src={logo}\n              alt=\"logo\"\n            />\n            <motion.button\n              className={`${!mobileEntryVisible ? 'hidden' : ''} flex justify-center items-center text-black flex-shrink-0`}\n              onClick={() => setMobileListVisible(!mobileListVisible)}\n              whileTap={{ scale: 0.9 }}\n              style={{\n                width: layoutObject.mobileNavHeight,\n                height: layoutObject.mobileNavHeight,\n                fontSize: layoutObject.mobileFontSize,\n              }}\n            >\n              {mobileListVisible ? (\n                <svg width={layoutObject.mobileIconSize} height={layoutObject.mobileIconSize} viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                  <path d=\"M4 16L16 4.25115\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                  <path d=\"M4 4L16 15.7489\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                </svg>\n              ) : (\n                <svg width={layoutObject.mobileIconSize} height={layoutObject.mobileIconSize} viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                  <path d=\"M3 5L16.375 5\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                  <path d=\"M3 10H16.375\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                  <path d=\"M3 15H16.375\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />\n                </svg>\n              )}\n            </motion.button>\n          </div>\n          {mobileListVisible && (\n            <div\n              ref={mobileListRef}\n              className=\"absolute z-50 top-full w-full flex flex-grow flex-shrink flex-col bg-[#ffffffe0] dark:bg-black/80 backdrop-blur-xl rounded-b-3xl shadow-xl overflow-hidden md:hidden\"\n              style={{ fontSize: layoutObject.mobileFontSize, height: viewportHeight - layoutObject.mobileNavHeight - 24 }}\n            >\n              <motion.nav\n                className={`w-full h-full flex flex-col rounded-b-3xl`}\n                animate={{\n                  y: [20, 0],\n                  opacity: [0, 1],\n                }}\n                transition={{\n                  duration: 0.4,\n                }}\n              >\n                <div className=\"flex flex-col flex-grow flex-shrink overflow-auto overscroll-contain\">\n                  {navItems.map((item, navIndex) => (\n                    <EditableButton\n                      style={{\n                        height: layoutObject.mobileNavItemHeight,\n                        maxHeight: layoutObject.mobileNavItemHeight,\n                        fontSize: layoutObject.mobileFontSize,\n                      }}\n                      key={item}\n                      onClick={handleMobileButtonClick}\n                      className=\"w-full flex-grow-0 flex-shrink-0 text-black whitespace-nowrap cursor-pointer hover:text-black/60 hover:transition-all duration-100 dark:text-white dark:hover:text-white/60 select-none\"\n                    >\n                      <EditableText propKey={`navItems_${navIndex}`}>{item}</EditableText>\n                    </EditableButton>\n                  ))}\n                </div>\n                <div className={`${showButton ? '' : 'hidden'} w-full h-fit flex-shrink-0 flex items-center justify-between overflow-hidden gap-5 px-5 py-[10px]`}>\n                  {secondaryButton && (\n                    <EditableButton\n                      onClick={handleMobileButtonClick}\n                      style={{\n                        height: layoutObject.mobileNavItemHeight,\n                        fontSize: layoutObject.mobileFontSize,\n                      }}\n                      className={`BTN-SECONDARY overflow-hidden px-10 flex-1 group/nav whitespace-nowrap font-normal text-black flex justify-center gap-2 items-center rounded-full hover:bg-black/5 hover:transition-all hover:duration-300`}\n                    >\n                      <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"secondaryButton_textAttr\">\n                        {secondaryButton.textAttr}\n                      </EditableText>\n                      <EditableIcon\n                        propKey=\"secondaryButton_icon\"\n                        icon={secondaryButton.icon}\n                        iconLibrary=\"FontAwesome\"\n                        className=\" text-black group-hover/nav:translate-x-1 transition-all\"\n                      />\n                    </EditableButton>\n                  )}\n                  {primaryButton && (\n                    <EditableButton\n                      onClick={handleMobileButtonClick}\n                      style={{\n                        height: layoutObject.mobileNavItemHeight,\n                        color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                        fontSize: layoutObject.mobileFontSize,\n                      }}\n                      className={`BTN-PRIMARY overflow-hidden px-10 flex-1 group/nav whitespace-nowrap font-normal flex justify-center gap-2 items-center rounded-full bg-blue-500 hover:bg-blue-600 hover:transition-all hover:duration-300`}\n                    >\n                      <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"primaryButton_textAttr\">\n                        {primaryButton.textAttr}\n                      </EditableText>\n                      <EditableIcon\n                        propKey=\"primaryButton_icon\"\n                        icon={primaryButton.icon}\n                        iconLibrary=\"FontAwesome\"\n                        style={{\n                          color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                        }}\n                        className=\" group-hover/nav:translate-x-1 transition-all\"\n                      />\n                    </EditableButton>\n                  )}\n                </div>\n              </motion.nav>\n            </div>\n          )}\n        </div>\n      );\n    }\n\n    return (\n      <div\n        style={{\n          height: layoutObject.navHeight,\n        }}\n        className=\"w-full hidden gap-16 md:flex justify-between items-center\"\n      >\n        <div className=\"flex flex-1 flex-shrink  min-w-0 items-center\">\n          <div className=\"w-0\">{overflow && renderNavItem(navItems[0], 0, 'max-w-[80px] overflow-hidden text-ellipsis text-nowrap flex-shrink-0')}</div>\n          {renderNavList(navItems)}\n        </div>\n\n        <div className={`w-fit h-full flex items-center flex-shrink-0 min-w-0 ${buttonVisible ? 'justify-center' : 'justify-end'}`}>\n          <EditableImg\n            propKey=\"logo\"\n            style={{\n              height: isOverWidthLogo ? undefined : layoutObject.logoSize,\n            }}\n            className={`${isOverWidthLogo ? `!w-[${LOGO_MAX_WIDTH}px]` : `!w-auto`} !max-w-[${LOGO_MAX_WIDTH}px] object-cover flex-shrink-0 min-w-0`}\n            src={logo}\n            alt=\"logo\"\n          />\n        </div>\n\n        {buttonVisible && (\n          <div className={`w-fit h-full flex flex-1 items-center justify-end overflow-hidden gap-3 flex-shrink`}>\n            {secondaryButton && (\n              <EditableButton\n                style={{\n                  height: layoutObject.buttonHeight,\n                  fontSize: layoutObject.fontSize,\n                }}\n                className={`BTN-SECONDARY max-w-[180px] w-fit px-5 group/nav whitespace-nowrap font-normal text-black flex gap-2 items-center rounded-full hover:bg-black/5 hover:transition-all hover:duration-300`}\n              >\n                <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"secondaryButton_textAttr\">\n                  {secondaryButton.textAttr}\n                </EditableText>\n                <EditableIcon\n                  propKey=\"secondaryButton_icon\"\n                  icon={secondaryButton.icon}\n                  iconLibrary=\"FontAwesome\"\n                  className=\"text-sm text-black group-hover/nav:translate-x-1 transition-all\"\n                />\n              </EditableButton>\n            )}\n            {primaryButton && (\n              <EditableButton\n                style={{\n                  height: layoutObject.buttonHeight,\n                  color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                  padding: `0 ${layoutObject.buttonPX}px`,\n                  fontSize: layoutObject.fontSize,\n                }}\n                className={`BTN-PRIMARY max-w-[180px] w-fit  group/nav  whitespace-nowrap font-normal flex gap-2 items-center rounded-full bg-blue-500 hover:bg-blue-600 hover:transition-all hover:duration-300`}\n              >\n                <EditableText className=\"overflow-hidden text-ellipsis\" propKey=\"primaryButton_textAttr\">\n                  {primaryButton.textAttr}\n                </EditableText>\n                <EditableIcon\n                  propKey=\"primaryButton_icon\"\n                  icon={primaryButton.icon}\n                  iconLibrary=\"FontAwesome\"\n                  style={{\n                    color: primaryButton.textColor ? primaryButton.textColor : 'black',\n                  }}\n                  className=\"text-sm group-hover/nav:translate-x-1 transition-all\"\n                />\n              </EditableButton>\n            )}\n          </div>\n        )}\n      </div>\n    );\n  };\n\n  return (\n    <section\n      style={{\n        transitionTimingFunction: 'cubic-bezier(.165,.84,.44,1)',\n        transitionDuration: '300ms',\n        fontSize: layoutObject.fontSize,\n        height: mobileMode && mobileListVisible ? viewportHeight - 48 : 'auto',\n      }}\n      className={`${fixedTop ? 'sticky' : 'relative'} z-40 top-0 w-full bg-[#ffffffe0] dark:bg-black/80 backdrop-blur-sm md:px-8`}\n    >\n      <div className=\"max-w-7xl mx-auto w-full h-full\">{renderContent()}</div>\n    </section>\n  );\n}",
+    "name": "Navigation_01",
+    "props": {
+      "fixedTop": false,
+      "logo": "https://cdn.wegic.ai/assets/onepage/thread/icon/1742958710942.png",
+      "logoSize": 40,
+      "siteTitle": "餐桌故事",
+      "navItems": [
+        "text=主页&link=home",
+        "text=菜单&link=menu",
+        "text=关于我们&link=about-us"
+      ],
+      "showButton": true,
+      "primaryButton": {
+        "icon": "fa-solid fa-arrow-right",
+        "textAttr": "text=联系我们",
+        "textColor": "#ffffff"
+      },
+      "version": 3
+    },
+    "id": "ff_zoeMz3v-uAd7eEth-9"
+  },
+  "footer": {
+    "code": "function Footer_02({\n  navigationItems = [\n    { titleAttr: 'text=About Us&link=/' },\n    { titleAttr: 'text=Our Services&link=/' },\n    { titleAttr: 'text=Projects&link=/' },\n    { titleAttr: 'text=Careers&link=/' },\n  ],\n  socialMediaItems = [\n    { icon: 'fa-brands fa-twitter', href: '#' },\n    { icon: 'fa-brands fa-facebook', href: '#' },\n    { icon: 'fa-brands fa-instagram', href: '#' },\n    { icon: 'fa-brands fa-github', href: '#' },\n  ],\n  copyrightText = '© Design Studio 2023, All Rights Reserved',\n}) {\n  return (\n    <section className=\"bg-slate-50 dark:bg-slate-800 px-6 py-20 md:px-8\">\n      <AnimateInView type=\"rise\">\n        <div className=\" mx-auto max-w-7xl flex flex-col gap-20\">\n          <div className=\"flex flex-col items-center gap-8 md:justify-between md:flex-row\">\n            <ul className=\"flex items-center gap-8\">\n              {navigationItems.map((item, index) => (\n                <li key={item.title} href={item.href}>\n                  <EditableButton\n                    className=\"TEXT-LINK font-semibold text-slate-900 dark:text-slate-50  hover:text-sky-400  dark:hover:text-sky-400 focus:text-sky-500 dark:focus:text-sky-500\"\n                  >\n                    <EditableText propKey={`navigationItems_${index}_titleAttr`}>{item.titleAttr}</EditableText>\n                  </EditableButton>\n                </li>\n              ))}\n            </ul>\n            <ul className=\"flex items-center gap-8 \">\n              {socialMediaItems.map((item, index) => (\n                <li key={item.icon} href={item.href}>\n                  <EditableButton\n                    className=\"TEXT-LINK text-slate-900 dark:text-slate-50 hover:text-sky-400 dark:hover:text-sky-400  dark:focus:text-slate-500\"\n                  >\n                    <EditableIcon propKey={`socialMediaItems_${index}_icon`} icon={item.icon} iconLibrary=\"FontAwesome\" className=\"text-lg\" />\n                  </EditableButton>\n                </li>\n              ))}\n            </ul>\n\n          </div>\n\n          <p className=\"w-full text-sm text-center text-slate-600 lg:mt-0 dark:text-slate-400\">\n            <EditableText propKey=\"copyrightText\">{copyrightText}</EditableText>\n          </p>\n\n        </div>\n      </AnimateInView>\n    </section>\n  );\n}",
+    "name": "Footer_02",
+    "props": {
+      "navigationItems": [
+        {
+          "titleAttr": "text=关于我们&link=about-us"
+        },
+        {
+          "titleAttr": "text=菜单&link=menu"
+        },
+        {
+          "titleAttr": "text=联系我们&link="
+        },
+        {
+          "titleAttr": "text=顾客评价&link="
+        }
+      ],
+      "socialMediaItems": [
+        {
+          "icon": "fa-brands fa-wechat",
+          "href": ""
+        },
+        {
+          "icon": "fa-brands fa-weibo",
+          "href": ""
+        },
+        {
+          "icon": "fa-brands fa-instagram",
+          "href": ""
+        },
+        {
+          "icon": "fa-brands fa-facebook",
+          "href": ""
+        }
+      ],
+      "copyrightText": "© 餐桌故事 2023 版权所有 | 品味美食，品味故事"
+    },
+    "id": "cK9IsF_VFgoNIXqlUQv0w"
+  }
+}
