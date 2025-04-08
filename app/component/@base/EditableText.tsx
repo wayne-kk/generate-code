@@ -14,7 +14,7 @@ const EditableText: React.FC<EditableTextProps> = ({ propKey, className, childre
     if (typeof text !== 'string') text = text[0] || ''
     // 从文本中提取 `text=` 后的内容
     const match = text.match(/text=([^&]*)/);
-    const result = match ? match[1] : text;
+    const result = decodeURIComponent(match ? match[1] : text);
 
     return isEditing ? (
         <input

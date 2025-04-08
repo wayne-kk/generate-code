@@ -6,6 +6,7 @@ import EditableText from './@base/EditableText'
 import EditableButton from './@base/EditableButton'
 import EditableImg from './@base/EditableImg'
 import EditableIcon from './@base/EditableIcon'
+import Marquee from './@base/Marquee'
 import Overflow from './@base/Overflow'
 import Carousel from './@base/Carousel'
 import { motion } from 'framer-motion';
@@ -23,7 +24,7 @@ export default function CombinationApp(props: CombinationAppProps) {
     const { blocksMap, children, navigation, footer } = props
     return (
         <div>
-            <CodeLoader
+            {navigation && <CodeLoader
                 code={navigation.code}
                 customComponents={
                     {
@@ -38,7 +39,7 @@ export default function CombinationApp(props: CombinationAppProps) {
                         throttle
                     }}
                 props={navigation.props}
-            />
+            />}
             {children.map((child, index) => (
                 <div key={child}>
                     <CodeLoader
@@ -51,6 +52,7 @@ export default function CombinationApp(props: CombinationAppProps) {
                                 EditableIcon,
                                 Carousel,
                                 EditableImg,
+                                Marquee,
                                 motion,
                                 throttle
                             }}
@@ -58,7 +60,7 @@ export default function CombinationApp(props: CombinationAppProps) {
                     />
                 </div>
             ))}
-            <CodeLoader
+            {footer && <CodeLoader
                 code={footer.code}
                 customComponents={
                     {
@@ -72,7 +74,7 @@ export default function CombinationApp(props: CombinationAppProps) {
                         throttle
                     }}
                 props={footer.props}
-            />
+            />}
         </div>
     )
 }

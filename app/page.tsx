@@ -8,6 +8,7 @@ export default function Home() {
   const [wegicUrl, setWegicUrl] = useState<string>(''); // 存储用户输入的 wegicUrl
   const [cookie, setCookie] = useState<string>(''); // 存储用户输入的 Cookie
   const [isSave, setIsSave] = useState<boolean>(false); // 存储用户是否选择保存数据
+  const [isSaveDB, setIsSaveDB] = useState<boolean>(false); // 存储用户是否选择保存数据
   const [loading, setLoading] = useState<boolean>(false); // 显示加载状态
   const [error, setError] = useState<string | null>(null); // 存储错误信息
 
@@ -32,7 +33,7 @@ export default function Home() {
       localStorage.setItem('cookie', cookie);
 
       // 构造请求体
-      const requestBody = { wegicUrl, cookie, isSave };
+      const requestBody = { wegicUrl, cookie, isSave, isSaveDB };
 
       const response = await fetch('/api/fetchResource', {
         method: 'POST', // 使用 POST 请求
@@ -98,6 +99,13 @@ export default function Home() {
             className="mr-2 h-5 w-5 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label className="text-gray-700 font-medium">Save Data</label>
+          <input
+            type="checkbox"
+            checked={isSaveDB}
+            onChange={(e) => setIsSaveDB(e.target.checked)}
+            className="ml-2 mr-2 h-5 w-5 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
+          />
+          <label className="text-gray-700 font-medium">Save Data To DB</label>
         </div>
 
         <button
