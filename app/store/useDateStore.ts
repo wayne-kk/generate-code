@@ -1,13 +1,19 @@
 import { create } from 'zustand';
 
 interface DataStore {
-  data: any; // 存储数据的类型
-  setData: (data: any) => void; // 设置数据的方法
+  pageDefaultData: any;
+  setPageDefaultData: (data: any) => void;
+
+  pageInfo: any;
+  setPageInfo: (info: any) => void;
 }
 
 const useDataStore = create<DataStore>((set) => ({
-  data: null, // 初始化数据为 null
-  setData: (data) => set({ data }), // 设置数据
+  pageDefaultData: null,
+  setPageDefaultData: (data) => set({ pageDefaultData: data }),
+
+  pageInfo: null,
+  setPageInfo: (info) => set({ pageInfo: info }),
 }));
 
 export default useDataStore;

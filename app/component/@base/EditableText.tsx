@@ -1,3 +1,4 @@
+import useDataStore from "@/store/useDateStore";
 import React, { useState } from "react";
 
 interface EditableTextProps {
@@ -7,15 +8,18 @@ interface EditableTextProps {
 }
 
 // EditableText: 允许用户编辑的文本组件
-const EditableText: React.FC<EditableTextProps> = ({ propKey, className, children = "" }) => {
+const EditableText: React.FC<EditableTextProps & React.HTMLAttributes<HTMLDivElement>> = ({ propKey, className, children = "", ...rest }) => {
     let [text, setText] = useState<string>(children);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     console.log('text', text)
     if (typeof text !== 'string') text = text[0] || ''
+    const linkText = text.split('&')[1];
     // 从文本中提取 `text=` 后的内容
     const match = text.match(/text=([^&]*)/);
     const result = decodeURIComponent(match ? match[1] : text);
 
+    const pageDefaultData = { ...useDataStore((state => state.pageDefaultData)) }
+    const setPageDefaultData = useDataStore((state => state.setPageDefaultData))
     return isEditing ? (
         <input
             type="text"
@@ -26,7 +30,19 @@ const EditableText: React.FC<EditableTextProps> = ({ propKey, className, childre
             className="border-b border-gray-400 focus:outline-none"
         />
     ) : (
-            <div key={propKey} onClick={() => setIsEditing(true)} className={className}>
+            <div key={propKey} onClick={(e) => {
+                const linkText = e.currentTarget.dataset.link;
+                if (!linkText) return
+                const pageInfo = pageDefaultData.pageInfo
+                for (const info of pageInfo.data.list) {
+                    if (linkText.includes(info.path)) {
+                        pageDefaultData.blocksMap = info.blocksData.blocksMap
+                        pageDefaultData.children = info.blocksData.children
+                        setPageDefaultData(pageDefaultData)
+                        console.log('pageDefaultData', pageDefaultData)
+                    }
+                }
+            }} className={className} data-link={linkText} {...rest} >
                 {result}
             </div>
     );

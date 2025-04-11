@@ -39,15 +39,11 @@ const fetchPageData = async (blockUrl: string) => {
       "method": "GET"
     }
   );
-
-
-  const blockData = await blockResponse.json();
-  return { ...blockData, }
+  return await blockResponse.json();
 }
 
 
 function writeTsxFile(block: any) {
-  console.log('block', block)
   if (!block) return
   const blockId = block.id.replaceAll('-', '_');
   const blockName = block.name.split('_')[0];
@@ -156,7 +152,6 @@ export const ${prefix}_ExposingConfigs = withExposingConfigs(${prefix}_Builder, 
 
 
 function saveBlockToDB(block: any) {
-  console.log('block', block)
   if (!block || !block.id || !block.name || !block.code) return;
 
   const stmt = db.prepare(`
@@ -199,6 +194,63 @@ async function fetchWegicInfo(assistantThreadUrl: string, cookie: string) {
   return await wegicResponse.json()
 }
 
+function replaceIdsInUrl(url: string, assistantId: string, pageId: string) {
+  return url.replace(
+    /\/(\d+)\/(\d+)\.json(\?[^#]*)?$/, // 改进的正则，允许有查询参数
+    `/${assistantId}/${pageId}.json$3`   // 保留查询参数
+  );
+}
+function savePageDataToDB(pageData: any) {
+  const { footer, navigation, blocksMap, children } = pageData
+  saveBlockToDB(footer)
+  saveBlockToDB(navigation)
+  children.forEach((childId: any) => {
+    saveBlockToDB(blocksMap[childId])
+  })
+}
+
+
+function savePageDataToTsx(pageData: any) {
+  // 保存数据到本地 JSON 文件
+  const resourceLibraryPath = path.join(process.cwd(), 'resourceLibrary'); // 保存到 resourceLibrary 文件夹
+
+  // 如果 resourceLibrary 文件夹不存在，则创建它
+  if (!fs.existsSync(resourceLibraryPath)) {
+    fs.mkdirSync(resourceLibraryPath, { recursive: true });
+  }
+
+  const { footer, navigation, blocksMap, children } = pageData
+
+  writeTsxFile(footer)
+  writeTsxFile(navigation)
+  children.forEach((childId: any) => {
+    writeTsxFile(blocksMap[childId])
+  })
+}
+
+async function fetchSitePage(url: string, cookie: string) {
+  const sitePageResponse = await fetch(url, {
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+      "baggage": "sentry-environment=builder-aibuild-tencent-zprod,sentry-public_key=2fd59afed8e24931852a1bf5c508cc26,sentry-trace_id=1caa03d42f37472b949e3553a1194dc7,sentry-sample_rate=0.05,sentry-sampled=false",
+      "priority": "u=1, i",
+      "sec-ch-ua": "\"Chromium\";v=\"134\", \"Not:A-Brand\";v=\"24\", \"Google Chrome\";v=\"134\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"macOS\"",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      "sentry-trace": "1caa03d42f37472b949e3553a1194dc7-b0242e9dcb793a7f-0",
+      "cookie": cookie,
+      "Referer": "https://wegic.ai/app/1904820318146498562",
+      "Referrer-Policy": "strict-origin-when-cross-origin"
+    },
+    "body": null,
+    "method": "GET"
+  })
+  return await sitePageResponse.json()
+}
 
 
 export async function POST(request: Request): Promise<Response> {
@@ -208,7 +260,6 @@ export async function POST(request: Request): Promise<Response> {
 
     const { isSave, isSaveDB, wegicUrl, cookie } = body;
     let pageData: any = {}
-    let pageName = 'default'
 
     if (wegicUrl) {
 
@@ -217,48 +268,40 @@ export async function POST(request: Request): Promise<Response> {
 
       const wegicData = await fetchWegicInfo(assistantThreadUrl, cookie)
 
-      if (wegicData.data) {
 
+      if (wegicData.data) {
         // 获取页面信息
         //  https://wegic.ai/api/onepage/assistant_site_page?assistantThreadId=1896430208263827457
         const assistantSitePageUrl = `https://wegic.ai/api/onepage/assistant_site_page?assistantThreadId=${appId}`
         const mainData = await fetchPageData(wegicData.data.mainFile)
-        pageData = { ...mainData }
-        pageData = { ... await fetchPageData(wegicData.data.defaultPage.dslFile) }
-        const pageInfo = fetchWegicInfo(assistantSitePageUrl, cookie)
+        const pageInfo = await fetchWegicInfo(assistantSitePageUrl, cookie)
         
+        for (const info of pageInfo.data.list) {
+          const sitePage = await fetchSitePage(`https://wegic.ai/api/onepage/assistant_site_page/${info.id}`, cookie)
+          const dslPageUrl = sitePage.data.dslFile
+          const pageDslData = await fetchPageData(dslPageUrl)
+          if (info.id === wegicData.data.defaultPage.id) {
 
-        pageName = wegicData.data.assistantSite.title + '-' + appId
+            pageData = { ...mainData, ...pageDslData }
+          }
+          info.blocksData = pageDslData
+          if (isSaveDB) {
+            savePageDataToDB(pageDslData)
+          }
+          if (isSave) {
+            savePageDataToTsx(pageDslData)
+          }
+        }
+        pageData.pageInfo = pageInfo
       }
-
     }
 
-
     if (isSave) {
-      // 保存数据到本地 JSON 文件
-      const resourceLibraryPath = path.join(process.cwd(), 'resourceLibrary'); // 保存到 resourceLibrary 文件夹
-
-      // 如果 resourceLibrary 文件夹不存在，则创建它
-      if (!fs.existsSync(resourceLibraryPath)) {
-        fs.mkdirSync(resourceLibraryPath, { recursive: true });
-      }
-
-      const { footer, navigation, blocksMap, children } = pageData
-      console.log('footer', pageData)
-      writeTsxFile(footer)
-      writeTsxFile(navigation)
-      children.forEach((childId: any) => {
-        writeTsxFile(blocksMap[childId])
-      })
+      savePageDataToTsx(pageData)
     }
 
     if (isSaveDB) {
-      const { footer, navigation, blocksMap, children } = pageData
-      saveBlockToDB(footer)
-      saveBlockToDB(navigation)
-      children.forEach((childId: any) => {
-        saveBlockToDB(blocksMap[childId])
-      })
+      savePageDataToDB(pageData)
     }
 
     // 返回成功响应
@@ -266,10 +309,12 @@ export async function POST(request: Request): Promise<Response> {
       message: 'Data fetched and saved successfully!',
       data: pageData,
     };
+
     return new Response(JSON.stringify(successResponse), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
+
   } catch (error: unknown) {
     console.error('Error fetching or saving data:', error);
 

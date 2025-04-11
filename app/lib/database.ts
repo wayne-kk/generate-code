@@ -14,8 +14,13 @@ db.exec(`
 `);
 
 export function searchBlocksRandomly(keyword: string) {
-    const stmt = db.prepare('SELECT * FROM blocks WHERE name LIKE ? ORDER BY RANDOM() LIMIT 1');
-    return stmt.get(`%${keyword}%`);
+  const stmt = db.prepare('SELECT * FROM blocks WHERE name LIKE ?');
+  const matched = stmt.all(`%${keyword}%`);
+  if (matched.length === 0) return null;
+
+  const randomIndex = Math.floor(Math.random() * matched.length);
+  console.log('matched Length', matched.length)
+  return matched[randomIndex];
 }
 
 
