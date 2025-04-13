@@ -11,9 +11,9 @@ const CACHE_DIR = path.join(process.cwd(), "npm_cache");
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { packageName: string; entry: string } }
+    { params }: { params: Promise<{ packageName: string; entry: string }> }
 ) {
-    const { packageName, entry } = params;
+    const { packageName, entry } = await params;
     const packageUrl = `${ALIYUN_NPM_REGISTRY}${packageName}`;
 
     try {

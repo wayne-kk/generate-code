@@ -194,12 +194,6 @@ async function fetchWegicInfo(assistantThreadUrl: string, cookie: string) {
   return await wegicResponse.json()
 }
 
-function replaceIdsInUrl(url: string, assistantId: string, pageId: string) {
-  return url.replace(
-    /\/(\d+)\/(\d+)\.json(\?[^#]*)?$/, // 改进的正则，允许有查询参数
-    `/${assistantId}/${pageId}.json$3`   // 保留查询参数
-  );
-}
 function savePageDataToDB(pageData: any) {
   const { footer, navigation, blocksMap, children } = pageData
   saveBlockToDB(footer)
@@ -275,7 +269,7 @@ export async function POST(request: Request): Promise<Response> {
         const assistantSitePageUrl = `https://wegic.ai/api/onepage/assistant_site_page?assistantThreadId=${appId}`
         const mainData = await fetchPageData(wegicData.data.mainFile)
         const pageInfo = await fetchWegicInfo(assistantSitePageUrl, cookie)
-        
+
         for (const info of pageInfo.data.list) {
           const sitePage = await fetchSitePage(`https://wegic.ai/api/onepage/assistant_site_page/${info.id}`, cookie)
           const dslPageUrl = sitePage.data.dslFile
