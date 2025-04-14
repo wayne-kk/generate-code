@@ -284,16 +284,17 @@ export async function POST(request: Request): Promise<Response> {
           const dslPageUrl = sitePage.data.dslFile
           const pageDslData = await fetchPageData(dslPageUrl)
           if (info.id === wegicData.data.defaultPage.id) {
-
             pageData = { ...mainData, ...pageDslData }
+          } else {
+            if (isSaveDB) {
+              savePageDataToDB(pageDslData)
+            }
+            // if (isSave) {
+            //   savePageDataToTsx(pageDslData)
+            // }
           }
           info.blocksData = pageDslData
-          if (isSaveDB) {
-            savePageDataToDB(pageDslData)
-          }
-          if (isSave) {
-            savePageDataToTsx(pageDslData)
-          }
+
         }
         pageData.pageInfo = pageInfo
       }
@@ -303,9 +304,9 @@ export async function POST(request: Request): Promise<Response> {
     //   savePageDataToTsx(pageData)
     // }
 
-    // if (isSaveDB) {
-    //   savePageDataToDB(pageData)
-    // }
+    if (isSaveDB) {
+      savePageDataToDB(pageData)
+    }
 
     // 返回成功响应
     const successResponse: ApiResponse = {

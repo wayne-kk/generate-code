@@ -8,10 +8,8 @@ export default function Display() {
     // if (!pageDefaultData) {
     //     pageDefaultData = mockData
     // }
-    console.log('pageDefaultData', pageDefaultData)
-    if (!pageDefaultData) return null
+    if (Object.keys(pageDefaultData).length === 0) return null
     // fetchBlockData(data)
-    // const blockData = 
     return (
         <div id="preview-viewport">
             {/* 将获取到的数据传递给 CombinationApp 组件 */}
