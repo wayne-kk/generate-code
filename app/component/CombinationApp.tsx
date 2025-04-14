@@ -14,14 +14,14 @@ import throttle from 'lodash.throttle'
 
 
 export interface CombinationAppProps {
-    blocksMap: any
-    children: string[]
-    navigation: any
-    footer: any
+    blocksMap?: any
+    children?: string[]
+    navigation?: any
+    footer?: any
 }
 
 export default function CombinationApp(props: CombinationAppProps) {
-    const { blocksMap, children, navigation, footer } = props
+    const { blocksMap, children = [], navigation, footer } = props
     return (
         <div>
             {navigation && <CodeLoader

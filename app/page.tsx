@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import useDataStore from './store/useDateStore';
 
 export default function Home() {
   const [wegicUrl, setWegicUrl] = useState<string>('');
@@ -13,7 +12,6 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const setPageDefaultData = useDataStore((state) => state.setPageDefaultData);
   const router = useRouter();
 
   useEffect(() => {
@@ -64,7 +62,7 @@ export default function Home() {
       
       // 更新 Zustand（这里只存第一条，你可以改为存数组）
       if (validData.length > 0) {
-        setPageDefaultData(validData[0]); // or setPageDefaultData(validData)
+        localStorage.setItem('pageDefaultData', JSON.stringify(validData[0]));
       }
 
       router.push('/display');

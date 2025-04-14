@@ -1,4 +1,4 @@
-import useDataStore from "@/store/useDateStore";
+'use client'
 import React, { useState } from "react";
 
 interface EditableTextProps {
@@ -18,8 +18,7 @@ const EditableText: React.FC<EditableTextProps & React.HTMLAttributes<HTMLDivEle
     const match = text.match(/text=([^&]*)/);
     const result = decodeURIComponent(match ? match[1] : text);
 
-    const pageDefaultData = { ...useDataStore((state => state.pageDefaultData)) }
-    const setPageDefaultData = useDataStore((state => state.setPageDefaultData))
+    const pageDefaultData = { ...JSON.parse(localStorage.getItem('pageDefaultData') ?? '{}') }
     return isEditing ? (
         <input
             type="text"
@@ -38,8 +37,7 @@ const EditableText: React.FC<EditableTextProps & React.HTMLAttributes<HTMLDivEle
                     if (linkText.includes(info.path)) {
                         pageDefaultData.blocksMap = info.blocksData.blocksMap
                         pageDefaultData.children = info.blocksData.children
-                        setPageDefaultData(pageDefaultData)
-                        console.log('pageDefaultData', pageDefaultData)
+                        localStorage.setItem('pageDefaultData', JSON.stringify(pageDefaultData))
                     }
                 }
             }} className={className} data-link={linkText} {...rest} >
