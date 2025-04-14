@@ -1,6 +1,6 @@
 import supabase from "@/lib/supabase";
 
-export async function getAllTypes() {
+async function getAllTypes() {
     // 使用 distinct 来查询唯一的 type 字段
     const { data, error } = await supabase
         .from('blocks')
@@ -15,7 +15,7 @@ export async function getAllTypes() {
     if (!data || data.length === 0) return [];
 
     // 返回所有唯一的 type 类型
-    return data.map((item) => item.type);
+    return Array.from(new Set(data.map(item => item.type)));
 }
 
 export async function GET(request: Request) {
