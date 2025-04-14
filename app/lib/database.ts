@@ -1,27 +1,25 @@
-import Database from 'better-sqlite3';
-import path from 'path';
+import supabase from './supabase';
 
-const db = new Database(path.join(process.cwd(), 'local.db'));
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS blocks (
-    id TEXT PRIMARY KEY,
-    name TEXT,
-    code TEXT,
-    props TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-`);
+export async function searchBlocksRandomly(keyword: string) {
+  // 查询 blocks 表，使用 ilike 进行模糊匹配
+  const { data, error } = await supabase
+    .from('blocks')  // 查询 blocks 表
+    .select('*')
+    .ilike('name', `%${keyword}%`);  // 模糊匹配 name 字段
 
-export function searchBlocksRandomly(keyword: string) {
-  const stmt = db.prepare('SELECT * FROM blocks WHERE name LIKE ?');
-  const matched = stmt.all(`%${keyword}%`);
-  if (matched.length === 0) return null;
+  if (error) {
+    console.error('Error querying blocks:', error.message);
+    return null;
+  }
 
-  const randomIndex = Math.floor(Math.random() * matched.length);
-  console.log('matched Length', matched.length)
-  return matched[randomIndex];
+  // 如果没有匹配的结果，返回 null
+  if (!data || data.length === 0) return null;
+
+  // 获取一个随机索引
+  const randomIndex = Math.floor(Math.random() * data.length);
+  console.log('Matched Length:', data.length);
+
+  // 返回随机的 block
+  return data[randomIndex];
 }
-
-
-export default db;

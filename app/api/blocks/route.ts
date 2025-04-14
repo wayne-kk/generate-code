@@ -24,7 +24,7 @@ export async function GET(req: Request) {
     let data;
 
     if (keyword) {
-      data = searchBlocksRandomly(keyword);
+      data = await searchBlocksRandomly(keyword);
       if (!data) {
         return NextResponse.json({ message: 'No items found matching the keyword.' }, {
           status: 404,
