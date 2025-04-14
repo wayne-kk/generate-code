@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { isString, isArray, isObject, isNumber } from 'lodash-es';
-import db from '@/lib/database';
 import supabase from '@/lib/supabase';
 
 // 定义请求体的类型
@@ -152,24 +151,6 @@ export const ${prefix}_ExposingConfigs = withExposingConfigs(${prefix}_Builder, 
 }
 
 
-// function saveBlockToDB(block: any) {
-//   if (!block || !block.id || !block.name || !block.code) return;
-
-//   const stmt = db.prepare(`
-//     INSERT OR REPLACE INTO blocks (id, name, code, props)
-//     VALUES (@id, @name, @code, @props)
-//   `);
-//   const blockId = block.id.replaceAll('-', '_');
-//   const blockName = block.name.split('_')[0];
-//   const prefix = blockName + '_' + blockId;
-
-//   stmt.run({
-//     id: block.id,
-//     name: prefix,
-//     code: block.code,
-//     props: JSON.stringify(block.props || {}),
-//   });
-// }
 async function saveBlockToDB(block: any) {
   if (!block || !block.id || !block.name || !block.code) return;
 
@@ -185,6 +166,7 @@ async function saveBlockToDB(block: any) {
       id: block.id,
       name: prefix,
       code: block.code,
+      type: blockName,
       props: block.props ? JSON.stringify(block.props) : '{}',
     })
     .eq('id', block.id);  // 根据 ID 确保更新现有数据
