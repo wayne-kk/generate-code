@@ -1,5 +1,71 @@
 @import "tailwindcss";
 
+/* styles.css */
+
+/* TITLE-PRIMARY */
+.TITLE-PRIMARY {
+  @apply text-5xl font-bold tracking-wide leading-tight;
+}
+
+/* TITLE-SECONDARY */
+.TITLE-SECONDARY {
+  @apply text-4xl font-semibold tracking-normal leading-normal;
+}
+
+/* DESC */
+.DESC {
+  @apply text-lg font-normal tracking-normal leading-relaxed;
+}
+
+/* TEXT-CONTENT */
+.TEXT-CONTENT {
+  @apply text-base font-normal tracking-normal leading-relaxed;
+}
+
+/* TEXT-LINK */
+.TEXT-LINK {
+  @apply text-lg font-medium tracking-normal leading-normal;
+}
+
+/* BTN-PRIMARY */
+.BTN-PRIMARY {
+  @apply text-base font-medium tracking-wide leading-snug;
+}
+
+/* BTN-SECONDARY */
+.BTN-SECONDARY {
+  @apply text-base font-medium tracking-wide leading-snug;
+}
+
+/* CARD */
+.CARD {
+  @apply text-base font-normal tracking-normal leading-normal;
+}
+
+/* INPUT */
+.INPUT {
+  @apply text-base font-normal tracking-normal leading-normal border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500;
+}
+
+/* FORM */
+.FORM {
+  @apply flex flex-col gap-4;
+}
+
+/* TABLE */
+.TABLE {
+  @apply w-full border-collapse border border-gray-300 text-base font-normal tracking-normal leading-normal;
+}
+
+/* LIST */
+.LIST {
+  @apply list-disc list-inside text-base font-normal tracking-normal leading-relaxed;
+}
+
+/* IMAGE */
+.IMAGE {
+  @apply rounded-lg shadow-md object-cover;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;

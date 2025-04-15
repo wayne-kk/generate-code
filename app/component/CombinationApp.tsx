@@ -9,7 +9,7 @@ import EditableIcon from './@base/EditableIcon'
 import Marquee from './@base/Marquee'
 import Overflow from './@base/Overflow'
 import Carousel from './@base/Carousel'
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import throttle from 'lodash.throttle'
 
 
@@ -36,7 +36,8 @@ export default function CombinationApp(props: CombinationAppProps) {
                         EditableImg,
                         Overflow,
                         motion,
-                        throttle
+                        throttle,
+                        
                     }}
                 props={navigation.props}
             />}
@@ -54,7 +55,8 @@ export default function CombinationApp(props: CombinationAppProps) {
                                 EditableImg,
                                 Marquee,
                                 motion,
-                                throttle
+                                throttle,
+                                AnimatePresence
                             }}
                         props={blocksMap[child].props}
                     />
