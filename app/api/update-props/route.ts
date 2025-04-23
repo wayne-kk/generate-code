@@ -30,40 +30,40 @@ async function fetchNewImageUrl(query: string): Promise<string | null> {
 
 // 递归函数，用于处理 props 对象中的图片 URL
 async function updatePropsWithImageUrls(props: any, query: string): Promise<any> {
-    // 如果是数组，递归处理每个元素
-    if (Array.isArray(props)) {
-        for (let i = 0; i < props.length; i++) {
-            props[i] = await updatePropsWithImageUrls(props[i], query); // 递归更新
-        }
+    // ✅ 处理字符串类型（递归终点）
+    if (typeof props === 'string' && isImageUrl(props)) {
+        return await fetchNewImageUrl(query); // 替换为新图片 URL
     }
-    // 如果是对象，递归处理每个键
-    else if (typeof props === 'object' && props !== null) {
+
+    // ✅ 处理数组
+    if (Array.isArray(props)) {
+        const updatedArray = [];
+        for (let i = 0; i < props.length; i++) {
+            updatedArray.push(await updatePropsWithImageUrls(props[i], query));
+        }
+        return updatedArray;
+    }
+
+    // ✅ 处理对象
+    if (typeof props === 'object' && props !== null) {
+        const updatedObject: any = {};
         for (const key in props) {
             if (props.hasOwnProperty(key)) {
-                const value = props[key];
-
-                // 如果值是图片 URL，调用 fetch-images API 获取新的图片 URL
-                if (typeof value === 'string' && isImageUrl(value)) {
-                    if (key === 'logo') {
-                        props[key] = 'https://img.js.design/assets/img/6805f22761b367c073a8c972.png'
-                    } else {
-                        const newImageUrl = await fetchNewImageUrl(query); // 使用传递的 query
-                        console.log('newImageUrl', newImageUrl)
-                        if (newImageUrl) {
-                            props[key] = newImageUrl; // 替换原图片 URL
-                        }
-                    }
-                }
-                // 如果值是对象或数组，递归调用
-                else {
-                    props[key] = await updatePropsWithImageUrls(value, query);
+                // 特殊处理 logo
+                if (key === 'logo' && typeof props[key] === 'string' && isImageUrl(props[key])) {
+                    updatedObject[key] = 'https://img.js.design/assets/img/6805f22761b367c073a8c972.png';
+                } else {
+                    updatedObject[key] = await updatePropsWithImageUrls(props[key], query);
                 }
             }
         }
+        return updatedObject;
     }
-    // 如果是其他类型的数据（非对象或数组），不做处理
+
+    // 原样返回其他类型（number、boolean 等）
     return props;
 }
+
 
 // 主处理函数，接收请求并更新 props 中的图片 URL
 export async function POST(request: Request) {
