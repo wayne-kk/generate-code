@@ -127,22 +127,22 @@ export async function insertAiBlock(block: any) {
   const blockName = block.name;
   const blockType = blockName.split('_')[0];
 
-
+  const blockId = nanoid()
   // 使用 Supabase 插入数据
   const { data, error } = await supabase
     .from('ai_blocks')  // 替换为你的表名
     .upsert({
-      id: nanoid(),
+      id: blockId,
       source_id: block.id,
       name: blockName,
       code: block.code,
       type: blockType,
       props: typeof block.props === 'string' ? block.props : JSON.stringify(block.props || {}),
     }, { onConflict: 'id' })  // 使用 upsert 方法插入或更新数据
-
   if (error) {
     console.error('Error inserting block:', error);
   } else {
     console.log('Block saved:', data);
   }
+  return blockId
 }

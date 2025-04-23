@@ -7,11 +7,12 @@ interface EditableImgProps {
     propKey: string; // 必须传入的唯一标识符
     style?: CSSProperties; // 内联样式
 }
-
+import './base.css'; // 引入基础样式
 
 const EditableImg = ({ src, alt, className, propKey, style }: EditableImgProps) => {
     const [imageSrc, setImageSrc] = useState(src);
     const [imageAlt, setImageAlt] = useState(alt);
+    className = 'editable-img ' + className;
     return (
             <img
                 style={style}

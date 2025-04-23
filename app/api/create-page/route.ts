@@ -76,7 +76,7 @@ export async function POST(req: Request) {
             });
         }
 
-        return new Response(JSON.stringify({ pagedata }), {
+        return new Response(JSON.stringify({ pageId: pagedata.id }), {
             status: 200,
             headers,
         });

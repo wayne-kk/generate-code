@@ -21,29 +21,40 @@ const skyColorDefaults = {
 const generateCSS = () => {
   let css = ':root {\n';
 
-  // 为每个色阶生成统一的 CSS 变量 --ai-theme-color-{scale}，这里以 sky 系列为例
+  // 添加 CSS 变量
   colorScales.forEach(scale => {
-    const colorValue = skyColorDefaults[scale]; // 获取默认的 OKLCH 颜色
-    css += `  --ai-theme-color-${scale}: ${colorValue};\n`; // 使用默认 OKLCH 颜色并加上 !important
+    const colorValue = skyColorDefaults[scale];
+    css += `  --ai-theme-color-${scale}: ${colorValue};\n`;
+    css += `  --ai-theme-color-from-${scale}: ${colorValue};\n`;
+    css += `  --ai-theme-color-to-${scale}: ${colorValue};\n`;
   });
 
   css += '}\n';
 
-  // 为每个颜色系列生成相应的背景色类、文本色类和边框色类，所有的色阶都指向统一的颜色变量
-  ['red', 'sky', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange', 'teal', 'indigo', 'cyan', 'lime', 'amber', 'rose'].forEach(color => {
+  const colorSeries = ['red', 'sky', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange', 'teal', 'indigo', 'cyan', 'lime', 'amber', 'rose'];
+
+  colorSeries.forEach(color => {
     colorScales.forEach(scale => {
-      // 为每个颜色系列的每个色阶生成对应的 Tailwind 背景色类
+      // 背景色
       css += `.bg-${color}-${scale} { background-color: var(--ai-theme-color-${scale}) !important; }\n`;
-      // 为每个颜色系列的每个色阶生成对应的文本色类
+      // 文本色
       css += `.text-${color}-${scale} { color: var(--ai-theme-color-${scale}) !important; }\n`;
-      // 为每个颜色系列的每个色阶生成对应的边框色类
+      // 边框色
       css += `.border-${color}-${scale} { border-color: var(--ai-theme-color-${scale}) !important; }\n`;
     });
   });
+  const colorSeries2 = [...colorSeries, 'gray']
+  colorSeries2.forEach(color => {
+    colorScales.forEach(scale => {
+      // 渐变起点
+      css += `.from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-from-${scale}) !important; }\n`;
+      // 渐变终点
+      css += `.to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-to-${scale}) !important; }\n`;
+    });
+  });
 
-  // 将生成的 CSS 写入文件
   fs.writeFileSync('app/custom-styles.css', css, 'utf8');
-  console.log('Custom override CSS generated successfully!');
+  console.log('Custom override CSS with from/to classes generated successfully!');
 };
 
 generateCSS();

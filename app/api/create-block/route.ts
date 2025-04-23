@@ -21,9 +21,9 @@ export async function POST(req: Request) {
     try {
         const block = await req.json();  // 从请求体中解析出 block 数据
         // 调用 insertOrUpdateBlock 方法
-        await insertAiBlock(block);
+        const blockId = await insertAiBlock(block);
 
-        return NextResponse.json({ blockId: block.id }, {
+        return NextResponse.json({ blockId: blockId }, {
             status: 200,
             headers: CORS_HEADERS,
         });
