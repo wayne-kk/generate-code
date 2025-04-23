@@ -33,7 +33,6 @@ const dynamicImportFontAwesomeIcon = (iconClassName: string) => {
   // 转换图标名称，例如 "fa-twitter" => "faTwitter"
   const iconKey = formatIconName(iconName);
   const icon = iconLibrary[iconKey];
-  console.log('iconKey', iconKey, icon)
 
   if (!icon) return null;
   // 返回图标作为 React 组件

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { isString, isArray, isObject, isNumber } from 'lodash-es';
-import supabase from '@/lib/supabase';
+import { insertBlock } from '@/lib/database';
 
 // 定义请求体的类型
 interface RequestBody {
@@ -151,33 +151,6 @@ export const ${prefix}_ExposingConfigs = withExposingConfigs(${prefix}_Builder, 
 }
 
 
-async function saveBlockToDB(block: any) {
-  if (!block || !block.id || !block.name || !block.code) return;
-
-  // 对 block 数据做适当转换
-  const blockId = block.id.replaceAll('-', '_');
-  const blockName = block.name.split('_')[0];
-  const prefix = blockName + '_' + blockId;
-
-  // 使用 Supabase 插入或更新数据
-  const { data, error } = await supabase
-    .from('blocks')  // 替换为你的表名
-    .upsert({
-      id: block.id,
-      name: prefix,
-      code: block.code,
-      type: blockName,
-      props: block.props ? JSON.stringify(block.props) : '{}',
-    })
-    .eq('id', block.id);  // 根据 ID 确保更新现有数据
-
-  if (error) {
-    console.error('Error inserting block:', error);
-  } else {
-    console.log('Block saved:', data);
-  }
-}
-
 
 async function fetchWegicInfo(assistantThreadUrl: string, cookie: string) {
   const wegicResponse = await fetch(assistantThreadUrl, {
@@ -205,10 +178,10 @@ async function fetchWegicInfo(assistantThreadUrl: string, cookie: string) {
 
 function savePageDataToDB(pageData: any) {
   const { footer, navigation, blocksMap, children } = pageData
-  saveBlockToDB(footer)
-  saveBlockToDB(navigation)
+  insertBlock(footer)
+  insertBlock(navigation)
   children.forEach((childId: any) => {
-    saveBlockToDB(blocksMap[childId])
+    insertBlock(blocksMap[childId])
   })
 }
 

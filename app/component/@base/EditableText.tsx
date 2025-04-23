@@ -11,7 +11,6 @@ interface EditableTextProps {
 const EditableText: React.FC<EditableTextProps & React.HTMLAttributes<HTMLDivElement>> = ({ propKey, className, children = "", ...rest }) => {
     let [text, setText] = useState<string>(children);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    console.log('text', text)
     if (typeof text !== 'string') text = text[0] || ''
     const linkText = text.split('&')[1];
     // 从文本中提取 `text=` 后的内容

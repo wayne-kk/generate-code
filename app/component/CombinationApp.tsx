@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import CodeLoader from './@codeLoader/CodeLoader'
 import AnimateInView from './@base/AnimateInView'
 import EditableText from './@base/EditableText'
@@ -22,6 +22,7 @@ export interface CombinationAppProps {
 
 export default function CombinationApp(props: CombinationAppProps) {
     const { blocksMap, children = [], navigation, footer } = props
+    console.log('children', children, blocksMap)
     return (
         <div>
             {navigation && <CodeLoader
@@ -50,6 +51,7 @@ export default function CombinationApp(props: CombinationAppProps) {
                                 AnimateInView,
                                 EditableText,
                                 EditableButton,
+                                Overflow,
                                 EditableIcon,
                                 Carousel,
                                 EditableImg,

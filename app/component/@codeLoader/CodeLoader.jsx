@@ -4,7 +4,6 @@ import * as Babel from '@babel/standalone';
 
 const CodeLoader = ({ code, customComponents = {}, props = {} }) => {
     const [Component, setComponent] = useState(null);
-
     useEffect(() => {
         try {
             let wrappedCode = code.includes("export default")
