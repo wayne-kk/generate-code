@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import supabase from './supabase';
 
 /**
@@ -126,34 +127,18 @@ export async function insertAiBlock(block: any) {
   const blockName = block.name;
   const blockType = blockName.split('_')[0];
 
-  // 首先检查是否存在相同 name 的数据
-  const { data: existingBlocks, error: fetchError } = await supabase
-    .from('ai_blocks')  // 替换为你的表名
-    .select('id')
-    .eq('name', blockName);  // 根据 name 来查询是否已经存在数据
-
-  if (fetchError) {
-    console.error('Error fetching existing blocks:', fetchError);
-    return;
-  }
-
-  // 如果已有相同 name 的数据，则跳过插入
-  if (existingBlocks && existingBlocks.length > 0) {
-    console.log('Block with the same name already exists, skipping insertion.');
-    return;
-  }
 
   // 使用 Supabase 插入数据
   const { data, error } = await supabase
     .from('ai_blocks')  // 替换为你的表名
     .upsert({
-      id: block.id,
+      id: nanoid(),
+      source_id: block.id,
       name: blockName,
       code: block.code,
       type: blockType,
       props: typeof block.props === 'string' ? block.props : JSON.stringify(block.props || {}),
     }, { onConflict: 'id' })  // 使用 upsert 方法插入或更新数据
-    .eq('id', block.id);  // 根据 ID 确保更新现有数据
 
   if (error) {
     console.error('Error inserting block:', error);

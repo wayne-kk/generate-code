@@ -17,7 +17,7 @@ function isImageUrl(value: string): boolean {
 async function fetchNewImageUrl(query: string): Promise<string | null> {
     try {
         // 从环境变量中获取 BASE_URL
-        const response = await axios.get(`https://similarly-grateful-gopher.ngrok-free.app/api/fetch-images`, {
+        const response = await axios.get(`https://wayne.beer/api/fetch-images`, {
             params: { query }, // 传递查询参数
         });
         // 获取图片 URL
