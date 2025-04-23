@@ -3,5 +3,10 @@
         "env": {
             "NEXT_PRIVATE_TARGET": "server"
         }
+    },
+    "functions": {
+        "app/api/**/*": {
+            "maxDuration": 60
+        }
     }
 }

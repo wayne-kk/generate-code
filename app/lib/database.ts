@@ -51,6 +51,30 @@ export async function getBlockById(blockId: string) {
   return data;
 }
 
+/**
+ * 通过 blockId 查询 blocks 表，获取具体的 block 数据
+ * @param blockId 
+ * @returns 
+ */
+export async function getAiBlockById(blockId: string) {
+  // 查询 blocks 表，通过 blockId 获取具体的 block 数据
+  const { data, error } = await supabase
+    .from('ai_blocks')  // 查询 blocks 表
+    .select('*')
+    .eq('id', blockId)  // 通过 id 字段进行精确匹配
+    .single();  // 只返回一个匹配项
+
+  if (error) {
+    console.error('Error querying block by ID:', error.message);
+    return null;
+  }
+
+  // 如果没有找到对应的 block，返回 null
+  if (!data) return null;
+
+  return data;
+}
+
 
 export async function insertBlock(block: any) {
   if (!block || !block.id || !block.name || !block.code) return;
