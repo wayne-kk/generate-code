@@ -92,7 +92,7 @@ const BlocksPage = () => {
             </div>
 
             {/* 右侧展示区域 */}
-            <div id="preview-viewport" className="w-4/5 p-4">
+            <div id="preview-viewport" className="w-4/5 p-4 font-fa font-custom-body">
                 {selectedBlock ? (
                     <CombinationApp
                         children={[selectedBlockId!]}

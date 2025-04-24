@@ -49,9 +49,9 @@ const generateCSS = () => {
   colorSeries2.forEach(color => {
     colorScales.forEach(scale => {
       // 渐变起点
-      css += `.from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-from-${scale}) !important; }\n`;
+      css += `.from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-${scale}) !important; }\n`;
       // 渐变终点
-      css += `.to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-to-${scale}) !important; }\n`;
+      css += `.to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-${scale}) !important; }\n`;
     });
   });
 

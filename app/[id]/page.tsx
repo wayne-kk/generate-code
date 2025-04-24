@@ -1,19 +1,28 @@
-'use client';  // 明确标记为客户端组件
+'use client';
 
 import CombinationApp from '@/component/CombinationApp';
 import chroma from 'chroma-js';
 import { useParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { ChromePicker } from 'react-color';
-import './container.css'; // 引入 CSS 文件
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFont } from '@fortawesome/free-solid-svg-icons';
+import './container.css';
+import { fontOptions, getSystemFont } from '@/utils/font';
+
 const Page = () => {
     const [pageData, setPageData] = useState<any>(null);
     const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
     const [color, setColor] = useState('#87CEEB');
-    const [showPicker, setShowPicker] = useState(false); // 控制 ChromePicker 显示
+    const [showPicker, setShowPicker] = useState(false);
     const pickerRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLDivElement>(null);
+
+    const [showFontPicker, setShowFontPicker] = useState(false);
+    const fontPickerRef = useRef<HTMLDivElement>(null);
+    const fontButtonRef = useRef<HTMLDivElement>(null);
+    const [selectedFont, setSelectedFont] = useState('Inter');
 
     const handleColorChange = (newColor: any) => {
         setColor(newColor.hex);
@@ -33,12 +42,7 @@ const Page = () => {
             chroma.mix(baseColor, 'black', ratio).hex()
         );
 
-        const initColorScale = [
-            ...lightColorScale,
-            midColor,
-            ...darkColorScale,
-        ];
-
+        const initColorScale = [...lightColorScale, midColor, ...darkColorScale];
         const levels = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
         const root = document.getElementById('preview-viewport');
@@ -52,15 +56,31 @@ const Page = () => {
         console.log('colorScale', initColorScale);
     };
 
-    const handleClickOutside = (e: MouseEvent) => {
-        if (
-            pickerRef.current &&
-            !pickerRef.current.contains(e.target as Node) &&
-            buttonRef.current &&
-            !buttonRef.current.contains(e.target as Node)
-        ) {
-            setShowPicker(false);
+    const handleFontChange = (font: string) => {
+        setSelectedFont(font);
+        const root = document.getElementById('preview-viewport');
+        if (root) {
+            root.style.setProperty('--custom-heading-font', getSystemFont(font));
+            root.style.setProperty('--custom-body-font', getSystemFont(font));
         }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+        const target = e.target as Node;
+        const isOutsideColorPicker =
+            pickerRef.current &&
+            !pickerRef.current.contains(target) &&
+            buttonRef.current &&
+            !buttonRef.current.contains(target);
+
+        const isOutsideFontPicker =
+            fontPickerRef.current &&
+            !fontPickerRef.current.contains(target) &&
+            fontButtonRef.current &&
+            !fontButtonRef.current.contains(target);
+
+        if (isOutsideColorPicker) setShowPicker(false);
+        if (isOutsideFontPicker) setShowFontPicker(false);
     };
 
     useEffect(() => {
@@ -75,7 +95,7 @@ const Page = () => {
                     const pageData = data.data;
                     setPageData(pageData);
                     console.log('pageData', pageData);
-                    handleColorChange({ hex: pageData.extra.color.colorHex })
+                    handleColorChange({ hex: pageData.extra.color.colorHex });
                 } else {
                     setError(data.error || '数据获取失败');
                 }
@@ -103,8 +123,8 @@ const Page = () => {
     }
 
     return (
-        <div id="preview-viewport" className="relative min-h-screen site_preview">
-            {/* 固定右上角色块按钮 */}
+        <div id="preview-viewport" className="relative min-h-screen site_preview" >
+            {/* 颜色选择按钮 */}
             <div
                 ref={buttonRef}
                 className="fixed top-4 right-4 w-8 h-8 rounded-full shadow-lg cursor-pointer border border-white z-50"
@@ -120,6 +140,35 @@ const Page = () => {
                     <ChromePicker color={color} onChange={handleColorChange} />
                 </div>
             )}
+
+            {/* 字体选择按钮 */}
+            <div
+                ref={fontButtonRef}
+                className="fixed top-4 right-16 w-8 h-8 rounded-full shadow-lg cursor-pointer border border-white z-50 bg-gray-200 flex items-center justify-center"
+                onClick={() => setShowFontPicker(!showFontPicker)}
+            >
+                <FontAwesomeIcon icon={faFont} />
+            </div>
+
+            {showFontPicker && (
+                <div
+                    ref={fontPickerRef}
+                    className="fixed top-16 right-16 z-50 bg-white rounded shadow-lg p-2 space-y-1 w-48 max-h-60 overflow-y-auto"
+                >
+                    {fontOptions.map((font) => (
+                        <div
+                            key={font}
+                            onClick={() => handleFontChange(font)}
+                            className={`cursor-pointer px-3 py-2 rounded hover:bg-gray-100 ${selectedFont === font ? 'bg-gray-200 font-bold' : ''
+                                }`}
+                            style={{ fontFamily: font }}
+                        >
+                            {font}
+                        </div>
+                    ))}
+                </div>
+            )}
+
 
             <CombinationApp children={pageData.children} blocksMap={pageData.blocks_data} />
         </div>

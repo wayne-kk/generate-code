@@ -3,33 +3,37 @@
 /* 导入 Tailwind 的基本样式 */
 /* app/globals.css */
 
-@theme {
+/* @theme {
   --font-pacifico: "Pacifico", cursive;
   --font-roboto: "Roboto", sans-serif;
   --font-bebas-neue: "Bebas Neue", sans-serif;
-}
-
-/* .font-semibold {
-  @apply font-custom-head;
 } */
 
+
 .font-custom-head {
-  font-family: var(--font-pacifico);
+  font-family: var(--custom-heading-font);
 }
 
 /* Tailwind 会识别 font-[var(--xxx)] 写法 */
 .font-pacifico {
-  font-family: var(--font-pacifico);
+  font-family: var(--custom-heading-font);
 }
 
 .font-roboto {
-  font-family: var(--font-roboto);
+  font-family: var(--custom-heading-font);
 }
 
 .font-bebas {
-  font-family: var(--font-bebas-neue);
+  font-family: var(--custom-heading-font);
 }
 
+.font-extrabold {
+  font-family: var(--custom-heading-font);
+}
+
+.font-custom-body {
+  font-family: var(--custom-body-font);
+}
 /* .TITLE-PRIMARY {
   @apply text-5xl font-bold tracking-wide leading-tight;
 }

@@ -51,7 +51,7 @@ async function updatePropsWithImageUrls(props: any, query: string): Promise<any>
             if (props.hasOwnProperty(key)) {
                 // 特殊处理 logo
                 if (key === 'logo' && typeof props[key] === 'string' && isImageUrl(props[key])) {
-                    updatedObject[key] = 'https://img.js.design/assets/img/6805f22761b367c073a8c972.png';
+                    updatedObject[key] = 'https://img.js.design/assets/min_img/680a1e0361b367c0736a991b.m.png';
                 } else {
                     updatedObject[key] = await updatePropsWithImageUrls(props[key], query);
                 }
