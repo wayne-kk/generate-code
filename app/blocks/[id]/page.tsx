@@ -1,4 +1,4 @@
-// app/[id]/page.tsx
+// app/blocks/[id]/page.tsx
 'use client';  // 明确标记为客户端组件
 
 import CombinationApp from '@/component/CombinationApp';

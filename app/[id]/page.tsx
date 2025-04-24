@@ -5,7 +5,7 @@ import chroma from 'chroma-js';
 import { useParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { ChromePicker } from 'react-color';
-
+import './container.css'; // 引入 CSS 文件
 const Page = () => {
     const [pageData, setPageData] = useState<any>(null);
     const [error, setError] = useState<string | null>(null);
@@ -103,7 +103,7 @@ const Page = () => {
     }
 
     return (
-        <div id="preview-viewport" className="relative min-h-screen">
+        <div id="preview-viewport" className="relative min-h-screen site_preview">
             {/* 固定右上角色块按钮 */}
             <div
                 ref={buttonRef}

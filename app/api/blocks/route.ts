@@ -1,7 +1,7 @@
 // app/api/blocks/route.ts
 
 import { NextResponse } from 'next/server';
-import { getRandomBlockByKeyword, getBlockById } from '@/lib/database';
+import { getRandomBlockByKeyword, getBlockById, getAllBlocks } from '@/lib/database';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -44,7 +44,7 @@ export async function GET(req: Request) {
       }
     } else {
       // 如果没有提供关键字和 blockId
-      data = { message: 'Either keyword or blockId is required for search.' };
+      data = await getAllBlocks();
     }
 
     return NextResponse.json({ message: 'success', data }, {

@@ -1,5 +1,34 @@
-@import "tailwindcss";
+/* @import "tailwindcss"; */
+/* 导入 Tailwind 的font-family */
 /* 导入 Tailwind 的基本样式 */
+/* app/globals.css */
+
+@theme {
+  --font-pacifico: "Pacifico", cursive;
+  --font-roboto: "Roboto", sans-serif;
+  --font-bebas-neue: "Bebas Neue", sans-serif;
+}
+
+/* .font-semibold {
+  @apply font-custom-head;
+} */
+
+.font-custom-head {
+  font-family: var(--font-pacifico);
+}
+
+/* Tailwind 会识别 font-[var(--xxx)] 写法 */
+.font-pacifico {
+  font-family: var(--font-pacifico);
+}
+
+.font-roboto {
+  font-family: var(--font-roboto);
+}
+
+.font-bebas {
+  font-family: var(--font-bebas-neue);
+}
 
 /* .TITLE-PRIMARY {
   @apply text-5xl font-bold tracking-wide leading-tight;

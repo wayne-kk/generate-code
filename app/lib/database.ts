@@ -146,3 +146,21 @@ export async function insertAiBlock(block: any) {
   }
   return blockId
 }
+
+
+/**
+ * 获取 blocks 表中所有 block 数据
+ * @returns 所有 blocks 的数组或 null（查询失败时）
+ */
+export async function getAllBlocks() {
+  const { data, error } = await supabase
+    .from('blocks')  // 查询 blocks 表
+    .select('*');    // 选择所有字段
+
+  if (error) {
+    console.error('Error fetching all blocks:', error.message);
+    return null;
+  }
+
+  return data;
+}

@@ -25,9 +25,11 @@ const generateCSS = () => {
   colorScales.forEach(scale => {
     const colorValue = skyColorDefaults[scale];
     css += `  --ai-theme-color-${scale}: ${colorValue};\n`;
-    css += `  --ai-theme-color-from-${scale}: ${colorValue};\n`;
-    css += `  --ai-theme-color-to-${scale}: ${colorValue};\n`;
   });
+
+  // 添加字体变量
+  css += `--custom-heading-font: Lato, ui-sans-serif, system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
+  css += `--custom-body-font: Audiowide, ui - sans - serif, system - ui, -apple - system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", sans - serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
 
   css += '}\n';
 
