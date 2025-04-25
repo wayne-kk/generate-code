@@ -1,0 +1,23 @@
+
+> generate-code@0.1.0 dev
+> next dev --turbopack -p 12000 --hostname 0.0.0.0
+
+   ▲ Next.js 15.3.1 (Turbopack)
+   - Local:        http://localhost:12000
+   - Network:      http://0.0.0.0:12000
+
+ ✓ Starting...
+ ✓ Ready in 1072ms
+ ⚠ Webpack is configured while Turbopack is not, which may cause problems.
+ ⚠ See instructions if you need to configure Turbopack:
+  https://nextjs.org/docs/app/api-reference/next-config-js/turbo
+
+ ○ Compiling / ...
+ ✓ Compiled / in 2.3s
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1171ms
+ GET / 500 in 3645ms
+ GET / 500 in 24ms
+ GET / 500 in 27ms
+ GET / 500 in 31ms
+[?25h

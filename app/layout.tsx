@@ -1,5 +1,5 @@
 // app/layout.tsx
-import './custom-styles.css';
+// import './custom-styles.css'; // Temporarily commented out due to issues
 import "./globals.css";
 import {
   Pacifico, Bebas_Neue, UnifrakturMaguntia, Abril_Fatface, New_Rocker,
@@ -7,6 +7,7 @@ import {
   Merriweather, Gochi_Hand, Fredoka, MedievalSharp,
   Roboto, Noto_Serif, Indie_Flower, Righteous, Pirata_One
 } from 'next/font/google'
+import Navbar from './components/Navbar'
 
 const pacifico = Pacifico({ subsets: ['latin'], variable: '--font-pacifico', weight: '400' })
 const bebasNeue = Bebas_Neue({ subsets: ['latin'], variable: '--font-bebas-neue', weight: '400' })
@@ -64,8 +65,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script src="https://cdn.tailwindcss.com"></script>
       </head>
       <body className="antialiased">
+        <Navbar />
         {children}
-      </body>
+      </body> 
     </html>
-  )
+  )   
 }
