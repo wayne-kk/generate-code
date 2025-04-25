@@ -13,55 +13,85 @@ function isImageUrl(value: string): boolean {
 }
 
 
-// 调用 fetch-images API 获取新的图片 URL
-async function fetchNewImageUrl(query: string): Promise<string | null> {
+// 调用 fetch-images API 获取新的图片 URL，支持传入 count
+async function fetchNewImages(query: string, count: number = 1): Promise<string[] | null> {
     try {
         // 从环境变量中获取 BASE_URL
-        const response = await axios.get(`https://wayne.beer/api/fetch-images`, {
-            params: { query }, // 传递查询参数
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-images`, {
+            params: { query, count }, // 传递查询参数和图片数量
         });
-        // 获取图片 URL
-        return response.data?.imageUrl || null;
+
+        // 获取图片 URLs
+        const images = response.data?.images || [];
+        return images.length > 0 ? images : null;
     } catch (error) {
-        console.error('Error fetching new image:', error);
+        console.error('Error fetching new images:', error);
         return null;
     }
 }
 
 // 递归函数，用于处理 props 对象中的图片 URL
 async function updatePropsWithImageUrls(props: any, query: string): Promise<any> {
-    // ✅ 处理字符串类型（递归终点）
-    if (typeof props === 'string' && isImageUrl(props)) {
-        return await fetchNewImageUrl(query); // 替换为新图片 URL
-    }
+    let imageCount = 0; // 统计图片数量
+    const pathsToUpdate: { path: string[], value: any }[] = []; // 用来记录需要更新的图片路径
 
-    // ✅ 处理数组
-    if (Array.isArray(props)) {
-        const updatedArray = [];
-        for (let i = 0; i < props.length; i++) {
-            updatedArray.push(await updatePropsWithImageUrls(props[i], query));
-        }
-        return updatedArray;
-    }
-
-    // ✅ 处理对象
-    if (typeof props === 'object' && props !== null) {
-        const updatedObject: any = {};
-        for (const key in props) {
-            if (props.hasOwnProperty(key)) {
-                // 特殊处理 logo
-                if (key === 'logo' && typeof props[key] === 'string' && isImageUrl(props[key])) {
-                    updatedObject[key] = 'https://img.js.design/assets/min_img/680a1e0361b367c0736a991b.m.png';
-                } else {
-                    updatedObject[key] = await updatePropsWithImageUrls(props[key], query);
+    // 递归遍历对象，统计图片 URL 的数量
+    function countImages(obj: any, path: string[] = []) {
+        if (typeof obj === 'string' && isImageUrl(obj)) {
+            imageCount++;
+            pathsToUpdate.push({ path, value: obj });
+        } else if (Array.isArray(obj)) {
+            obj.forEach((item, index) => countImages(item, [...path, `${index}`]));
+        } else if (typeof obj === 'object' && obj !== null) {
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    countImages(obj[key], [...path, key]);
                 }
             }
         }
-        return updatedObject;
     }
 
-    // 原样返回其他类型（number、boolean 等）
-    return props;
+    // 开始统计图片数量
+    countImages(props);
+
+    // 如果没有图片，直接返回原对象
+    if (imageCount === 0) {
+        return props;
+    }
+
+    // 一次性请求所需的图片
+    const images: any = await fetchNewImages(query, imageCount) || [];
+
+    if (!images || images.length === 0) {
+        return props
+    }
+    // 使用请求到的图片 URL 更新 props
+    let imageIndex = 0;
+    function updateImages(obj: any): any {
+        if (typeof obj === 'string' && isImageUrl(obj)) {
+            // 更新图片
+            const newImageUrl = images[imageIndex++].imageUrl;
+            return newImageUrl;
+        } else if (Array.isArray(obj)) {
+            return obj.map(updateImages);
+        } else if (typeof obj === 'object' && obj !== null) {
+            const updatedObj: any = {};
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    if (key === 'logo' && typeof props[key] === 'string' && isImageUrl(props[key])) {
+                        updatedObj[key] = 'https://img.js.design/assets/min_img/680a1e0361b367c0736a991b.m.png';
+                    } else {
+                        updatedObj[key] = updateImages(obj[key]);
+                    }
+                }
+            }
+            return updatedObj;
+        }
+        return obj;
+    }
+
+    // 更新所有图片 URL
+    return updateImages(props);
 }
 
 

@@ -50,6 +50,7 @@
     "tailwindcss-palette": "^0.0.0",
     "tar": "^7.4.3",
     "throttle": "^1.0.3",
+    "unsplash-js": "^7.0.19",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

@@ -1,27 +1,60 @@
+import React, { CSSProperties } from 'react';
 
-import React, { CSSProperties, useState } from 'react';
-interface EditableImgProps {
-    src?: string; // 图片的初始地址
-    alt?: string; // 图片的初始描述
-    className?: string; // 自定义样式类名
-    propKey: string; // 必须传入的唯一标识符
-    style?: CSSProperties; // 内联样式
+interface imageProps {
+    id: string;
+    alt_description: string;
+    imageUrl: string;
+    user: {
+        name?: string;
+        username?: string;
+        profileUrl?: string;
+    };
 }
-import './base.css'; // 引入基础样式
 
-const EditableImg = ({ src, alt, className, propKey, style }: EditableImgProps) => {
-    const [imageSrc, setImageSrc] = useState(src);
-    const [imageAlt, setImageAlt] = useState(alt);
-    className = 'editable-img ' + className;
+interface EditableImgProps {
+    src?: string | imageProps;
+    alt?: string;
+    className?: string;
+    propKey: string;
+    style?: CSSProperties;
+}
+
+const EditableImg = ({ src, alt, className = '', propKey, style }: EditableImgProps) => {
+    const imgSrc = typeof src === 'string' ? src : src?.imageUrl;
+    const altText = alt || (typeof src !== 'string' ? src?.alt_description : '');
+
+// const userName = typeof src !== 'string' ? src?.user?.name : '';
+// const userUsername = typeof src !== 'string' ? src?.user?.username : '';
+// const userLink = userUsername
+//     ? `https://unsplash.com/@${userUsername}?utm_source=your_app_name&utm_medium=referral`
+//     : '#';
     return (
-            <img
-                style={style}
+        <img
             key={propKey}
-                src={imageSrc}
-                alt={imageAlt}
-            className={className} // 可以根据需要修改样式
+            src={imgSrc}
+            alt={altText}
+            className={`editable-img ${className}`}
+            style={style}
         />
-    );
+    )
+    // return (
+    //     <div className="inline-block text-center">
+    //         <a
+    //             href={userLink}
+    //             target="_blank"
+    //             rel="noopener noreferrer"
+    //             title={`Photo by ${userName} on Unsplash`}
+    //         >
+    //             <img
+    //                 key={propKey}
+    //                 src={imgSrc}
+    //                 alt={altText}
+    //                 className={`editable-img ${className}`}
+    //                 style={style}
+    //             />
+    //         </a>
+    //     </div>
+    // );
 };
 
 export default EditableImg;
