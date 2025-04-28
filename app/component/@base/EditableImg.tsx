@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-
+import "./base.css"
 interface imageProps {
     id: string;
     alt_description: string;

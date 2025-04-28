@@ -27,13 +27,13 @@ const dynamicImportFontAwesomeIcon = (iconClassName: string) => {
     "fa-regular": faRegularIcons,
   };
 
-  const iconLibrary = iconLibraries[iconType];
+  const iconLibrary = iconLibraries[iconType] ?? iconLibraries["fa-solid"];
   if (!iconLibrary) return null;
 
   // 转换图标名称，例如 "fa-twitter" => "faTwitter"
   const iconKey = formatIconName(iconName);
-  const icon = iconLibrary[iconKey];
-
+  const icon = iconLibrary[iconKey] ?? iconLibraries["fa-solid"][iconKey] ?? iconLibraries["fa-brands"][iconKey]
+  console.log("icon", icon);
   if (!icon) return null;
   // 返回图标作为 React 组件
   return (props: any) => <FontAwesomeIcon {...props} icon={icon}></FontAwesomeIcon>;;
