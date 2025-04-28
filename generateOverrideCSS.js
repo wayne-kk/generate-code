@@ -28,8 +28,8 @@ const generateCSS = () => {
   });
 
   // 添加字体变量
-  css += `--custom-heading-font: Lato, ui-sans-serif, system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
-  css += `--custom-body-font: Audiowide, ui - sans - serif, system - ui, -apple - system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, "Noto Sans", sans - serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
+  css += `--custom-heading-font:  Lato, "ui-sans-serif", "system-ui", "-apple-system", "blinkmacsystemfont", "Segoe UI", "roboto", "Helvetica Neue", arial, "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
+  css += `--custom-body-font: Audiowide, "ui-sans-serif", "system-ui", "-apple-system", "blinkmacsystemfont", "Segoe UI", "roboto", "Helvetica Neue", arial, "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
 
   css += '}\n';
 

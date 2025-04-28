@@ -14,8 +14,15 @@
   font-family: var(--custom-heading-font);
 }
 
+.font-extrabold {
+  font-family: var(--custom-heading-font);
+}
+
+.font-custom-body {
+  font-family: var(--custom-body-font);
+}
 /* Tailwind 会识别 font-[var(--xxx)] 写法 */
-.font-pacifico {
+/* .font-pacifico {
   font-family: var(--custom-heading-font);
 }
 
@@ -27,13 +34,74 @@
   font-family: var(--custom-heading-font);
 }
 
-.font-extrabold {
+.font-bebasNeue {
   font-family: var(--custom-heading-font);
 }
 
-.font-custom-body {
-  font-family: var(--custom-body-font);
+.font-unifraktur {
+  font-family: var(--custom-heading-font);
 }
+
+.font-abreFatface {
+  font-family: var(--custom-heading-font);
+}
+
+.font-newRocker {
+  font-family: var(--custom-heading-font);
+}
+
+.font-inter {
+  font-family: var(--custom-heading-font);
+}
+
+.font-playfair {
+  font-family: var(--custom-heading-font);
+}
+
+.font-bubblegum {
+  font-family: var(--custom-heading-font);
+}
+
+.font-comfortaa {
+  font-family: var(--custom-heading-font);
+}
+
+.font-merriweather {
+  font-family: var(--custom-heading-font);
+}
+
+.font-gochiHand {
+  font-family: var(--custom-heading-font);
+}
+
+.font-fredoka {
+  font-family: var(--custom-heading-font);
+}
+
+.font-medievalSharp {
+  font-family: var(--custom-heading-font);
+}
+
+.font-roboto {
+  font-family: var(--custom-heading-font);
+}
+
+.font-notoSerif {
+  font-family: var(--custom-heading-font);
+}
+
+.font-indieFlower {
+  font-family: var(--custom-heading-font);
+}
+
+.font-righteous {
+  font-family: var(--custom-heading-font);
+}
+
+.font-pirataOne {
+  font-family: var(--custom-heading-font);
+}
+*/
 /* .TITLE-PRIMARY {
   @apply text-5xl font-bold tracking-wide leading-tight;
 }

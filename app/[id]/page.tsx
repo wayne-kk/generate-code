@@ -8,7 +8,7 @@ import { ChromePicker } from 'react-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFont } from '@fortawesome/free-solid-svg-icons';
 import './container.css';
-import { fontOptions, getSystemFont } from '@/utils/font';
+import { getSystemFont, fontOptions } from '@/hooks/useFont';
 
 const Page = () => {
     const [pageData, setPageData] = useState<any>(null);
@@ -31,14 +31,14 @@ const Page = () => {
 
     const setColorTheme = (color: string) => {
         const baseColor = chroma(color);
-
-        const lightColorScale = [50, 100, 200, 300, 400].map((ratio) =>
+        const lightRatioList = [0.7, 0.5, 0.4, 0.3, 0.2];
+        const lightColorScale = lightRatioList.map((ratio) =>
             chroma.mix(baseColor, 'white', ratio).hex()
         );
 
         const midColor = baseColor.hex();
-
-        const darkColorScale = [600, 700, 800, 900, 950].map((ratio) =>
+        const darkRatioList = [0.1, 0.3, 0.5, 0.7, 0.85];
+        const darkColorScale = darkRatioList.map((ratio) =>
             chroma.mix(baseColor, 'black', ratio).hex()
         );
 
@@ -53,7 +53,6 @@ const Page = () => {
                 root.style.setProperty(variableName, color);
             });
         }
-        console.log('colorScale', initColorScale);
     };
 
     const handleFontChange = (font: string) => {
@@ -95,7 +94,6 @@ const Page = () => {
                     const pageData = data.data;
                     setPageData(pageData);
                     console.log('pageData', pageData);
-                    handleColorChange({ hex: pageData.extra.color.colorHex });
                 } else {
                     setError(data.error || '数据获取失败');
                 }
@@ -106,6 +104,19 @@ const Page = () => {
 
         fetchPageData();
     }, [id]);
+
+    // 等 pageData 渲染好后，单独监听
+    useEffect(() => {
+        if (!pageData) return;
+
+        const root = document.getElementById('preview-viewport');
+        if (!root) {
+            console.warn('preview-viewport not found yet');
+            return;
+        }
+        handleColorChange({ hex: pageData.extra.themeColor });
+        handleFontChange(pageData.extra.themeFont.bodyText);
+    }, [pageData]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);

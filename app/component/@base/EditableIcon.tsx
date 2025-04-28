@@ -1,6 +1,6 @@
 import React from "react";
 import { DynamicIcon } from "lucide-react/dynamic";
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as faBrandsIcons from "@fortawesome/free-brands-svg-icons";
 import * as faSolidIcons from "@fortawesome/free-solid-svg-icons";
 import * as faRegularIcons from "@fortawesome/free-regular-svg-icons";
@@ -53,7 +53,7 @@ const EditableIcon: React.FC<EditableIconProps> = ({
   propKey,
   icon,
   className,
-  iconLibrary = "Lucide",
+  iconLibrary = "FontAwesome",
   style,
 }) => {
   // 如果没有传入图标名称，返回 null
