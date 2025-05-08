@@ -100,7 +100,8 @@ export async function POST(request: Request) {
     try {
         const { props, query } = await request.json(); // 获取请求体中的 props 和 query（默认为 'nature'）
         // 递归更新 props 中的图片 URL
-        const updatedProps = await updatePropsWithImageUrls(props, JSON.stringify(query));
+        console.log('query', query);
+        const updatedProps = await updatePropsWithImageUrls(props, query);
 
         return NextResponse.json(updatedProps); // 返回更新后的 props
     } catch (error) {

@@ -31,13 +31,13 @@ const Page = () => {
 
     const setColorTheme = (color: string) => {
         const baseColor = chroma(color);
-        const lightRatioList = [0.7, 0.5, 0.4, 0.3, 0.2];
+        const lightRatioList = [0.9, 0.75, 0.57, 0.37, 0.13];
         const lightColorScale = lightRatioList.map((ratio) =>
             chroma.mix(baseColor, 'white', ratio).hex()
         );
 
         const midColor = baseColor.hex();
-        const darkRatioList = [0.1, 0.3, 0.5, 0.7, 0.85];
+        const darkRatioList = [0.1, 0.3, 0.5, 0.7, 0.9];
         const darkColorScale = darkRatioList.map((ratio) =>
             chroma.mix(baseColor, 'black', ratio).hex()
         );

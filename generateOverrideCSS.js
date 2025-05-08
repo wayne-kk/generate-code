@@ -33,7 +33,7 @@ const generateCSS = () => {
 
   css += '}\n';
 
-  const colorSeries = ['red', 'sky', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange', 'teal', 'indigo', 'cyan', 'lime', 'amber', 'rose'];
+  const colorSeries = ['red', 'sky', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange', 'teal', 'indigo', 'cyan', 'lime', 'amber', 'rose', 'emerald'];
 
   colorSeries.forEach(color => {
     colorScales.forEach(scale => {
@@ -43,6 +43,10 @@ const generateCSS = () => {
       css += `.text-${color}-${scale} { color: var(--ai-theme-color-${scale}) !important; }\n`;
       // 边框色
       css += `.border-${color}-${scale} { border-color: var(--ai-theme-color-${scale}) !important; }\n`;
+      // hover 背景色
+      css += `.hover\\:bg-${color}-${scale}:hover { background-color: var(--ai-theme-color-${scale}) !important; }\n`;
+      // hover 文字色
+      css += `.hover\\:text-${color}-${scale}:hover { color: var(--ai-theme-color-${scale}) !important; }\n`;
     });
   });
   const colorSeries2 = [...colorSeries, 'gray']

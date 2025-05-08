@@ -33,10 +33,9 @@ const dynamicImportFontAwesomeIcon = (iconClassName: string) => {
   // 转换图标名称，例如 "fa-twitter" => "faTwitter"
   const iconKey = formatIconName(iconName);
   const icon = iconLibrary[iconKey] ?? iconLibraries["fa-solid"][iconKey] ?? iconLibraries["fa-brands"][iconKey]
-  console.log("icon", icon);
   if (!icon) return null;
   // 返回图标作为 React 组件
-  return (props: any) => <FontAwesomeIcon {...props} icon={icon}></FontAwesomeIcon>;;
+  return (props: any) => <FontAwesomeIcon {...props} icon={icon}></FontAwesomeIcon>;
 };
 
 // 定义 `EditableIcon` 的 props 类型
