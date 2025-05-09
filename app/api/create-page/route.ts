@@ -1,5 +1,6 @@
 import supabase from "@/lib/supabase";
 import { nanoid } from "nanoid";
+import { generateCover } from "../../../utils/generateCover";
 
 const defaultExtra = {
     "color": {
@@ -67,7 +68,12 @@ export async function POST(req: Request) {
             .from('page_data')
             .upsert([pagedata], { onConflict: 'id' });
 
-        console.log('data', data, error);
+
+        const imageUrl = await generateCover(process.env.NEXT_PUBLIC_BASE_URL + '/' + pagedata.id)
+        console.log('imageUrl', imageUrl);
+        await supabase
+            .from('page_data')
+            .upsert([{ id: pagedata.id, cover_url: imageUrl }], { onConflict: 'id' });
 
         if (error) {
             return new Response(JSON.stringify({ error: error.message }), {

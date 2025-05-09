@@ -37,7 +37,7 @@ const CodeLoader = ({ code, customComponents = {}, props = {} }) => {
 
     if (!Component) return <div>Loading...</div>;
 
-    return <Component {...props} />;
+    return <Component  {...props} />;
 };
 
 export default CodeLoader;

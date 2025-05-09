@@ -22,8 +22,10 @@ export interface CombinationAppProps {
 
 export default function CombinationApp(props: CombinationAppProps) {
     const { blocksMap, children = [], navigation, footer } = props
+
+
     return (
-        <div>
+        <div id="combination-app">
             {navigation && <CodeLoader
                 code={navigation.code}
                 customComponents={
@@ -37,7 +39,6 @@ export default function CombinationApp(props: CombinationAppProps) {
                         Overflow,
                         motion,
                         throttle,
-                        
                     }}
                 props={navigation.props}
             />}

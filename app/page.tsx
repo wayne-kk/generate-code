@@ -1,151 +1,117 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
+type PageData = {
+  id: string;
+  page_name: string;
+  page_description?: string;
+  cover_url?: string;
+  created_at: string;
+};
+
 export default function Home() {
-  const [wegicUrl, setWegicUrl] = useState<string>('');
-  const [wegicUrlList, setWegicUrlList] = useState<string>(''); // 多行输入支持批量
-  const [cookie, setCookie] = useState<string>('');
-  const [isSave, setIsSave] = useState<boolean>(false);
-  const [isSaveDB, setIsSaveDB] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
+  const [pages, setPages] = useState<PageData[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
   const router = useRouter();
+  const pageSize = 20;
 
-  useEffect(() => {
-    const storedCookie = localStorage.getItem('cookie');
-    if (storedCookie) {
-      setCookie(storedCookie);
-    }
-  }, []);
+  const PLACEHOLDER_IMAGE =
+    'https://images.unsplash.com/photo-1553995551-662b0b1036ad?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
-  const fetchSingle = async (url: string) => {
-    const requestBody = { wegicUrl: url, cookie, isSave, isSaveDB };
-    const response = await fetch('/api/fetchResource', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result.data;
-  };
-
-  const handleFetchData = async () => {
+  const fetchPages = async (pageToFetch: number) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      setError(null);
-      localStorage.setItem('cookie', cookie);
-
-      // 构造 URL 列表
-      const urls = wegicUrlList
-        ? wegicUrlList.split('\n').map((url) => url.trim()).filter(Boolean)
-        : [wegicUrl];
-
-      const allData = await Promise.all(
-        urls.map((url) =>
-          fetchSingle(url).catch((err) => {
-            console.error(`Error fetching ${url}:`, err);
-            return null;
-          })
-        )
-      );
-
-      // 可选：过滤掉失败的请求
-      const validData = allData.filter((d) => d !== null);
-      
-      // 更新 Zustand（这里只存第一条，你可以改为存数组）
-      if (validData.length > 0) {
-        localStorage.setItem('pageDefaultData', JSON.stringify(validData[0]));
+      const res = await fetch(`/api/getAllPages?page=${pageToFetch}&pageSize=${pageSize}`);
+      const json = await res.json();
+      if (res.ok) {
+        setPages((prev) => [...prev, ...json.data]);
+        setTotalPages(json.pagination?.totalPages || 1);
+      } else {
+        console.error(json.error || 'Fetch error');
       }
-
-      router.push('/display');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      console.error('Failed to fetch pages:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchPages(1);
+  }, []);
+
+  const loadMoreRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+
+      if (!node || loading || page >= totalPages) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setPage((prevPage) => {
+              const nextPage = prevPage + 1;
+              fetchPages(nextPage);
+              return nextPage;
+            });
+          }
+        },
+        { threshold: 1.0 }
+      );
+
+      observer.observe(node);
+      observerRef.current = observer;
+      loaderRef.current = node;
+    },
+    [loading, page, totalPages]
+  );
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">Fetch Data</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-6">
+      <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">🌟 My Pages</h1>
 
-        {/* 单个 URL */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">Wegic URL (Single):</label>
-          <input
-            type="text"
-            value={wegicUrl}
-            onChange={(e) => setWegicUrl(e.target.value)}
-            placeholder="Enter Wegic URL"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-          />
-        </div>
-
-        {/* 多个 URL */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">Wegic URLs (Batch - one per line):</label>
-          <textarea
-            value={wegicUrlList}
-            onChange={(e) => setWegicUrlList(e.target.value)}
-            placeholder="Enter one URL per line"
-            rows={4}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg resize-none"
-          />
-        </div>
-
-        {/* Cookie */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">Cookie:</label>
-          <input
-            type="text"
-            value={cookie}
-            onChange={(e) => {
-              localStorage.setItem('cookie', e.target.value);
-              setCookie(e.target.value);
-            }}
-            placeholder="Enter Cookie"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-          />
-        </div>
-
-        {/* 选项 */}
-        <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            checked={isSave}
-            onChange={(e) => setIsSave(e.target.checked)}
-            className="mr-2 h-5 w-5"
-          />
-          <label className="text-gray-700 font-medium">Save Data</label>
-          <input
-            type="checkbox"
-            checked={isSaveDB}
-            onChange={(e) => setIsSaveDB(e.target.checked)}
-            className="ml-4 mr-2 h-5 w-5"
-          />
-          <label className="text-gray-700 font-medium">Save to DB</label>
-        </div>
-
-        {/* 按钮 */}
-        <button
-          onClick={handleFetchData}
-          className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600"
-        >
-          Fetch Data
-        </button>
-
-        {loading && <div className="mt-4 text-blue-500 text-center">Loading...</div>}
-        {error && <div className="mt-4 text-red-500 text-center">Error: {error}</div>}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {pages.map((pageItem) => (
+          <div
+            key={pageItem.id}
+            className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
+            onClick={() => router.push(`/${pageItem.id}`)}
+          >
+            <img
+              src={pageItem.cover_url || PLACEHOLDER_IMAGE}
+              alt={pageItem.page_name}
+              className="w-full h-56 object-cover rounded-t-2xl"
+            />
+            <div className="p-6">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-2 truncate">
+                {pageItem.page_name || 'Untitled Page'}
+              </h2>
+              <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                {pageItem.page_description || 'No description provided.'}
+              </p>
+              <p className="text-gray-400 text-xs">
+                🕒 {new Date(pageItem.created_at).toLocaleDateString()}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
+
+      {loading && (
+        <div className="text-center mt-8 text-blue-500 font-medium animate-pulse">
+          Loading more...
+        </div>
+      )}
+
+      <div ref={loadMoreRef} className="h-1 mt-8" />
     </div>
   );
 }

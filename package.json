@@ -19,6 +19,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@sparticuz/chromium": "^133.0.0",
     "@supabase/supabase-js": "^2.49.4",
     "@tailwindcss/postcss": "^4.1.4",
     "@types/lodash-es": "^4.17.12",
@@ -33,12 +34,15 @@
     "openai": "^4.96.0",
     "patch-package": "^8.0.0",
     "prettier": "^3.5.3",
+    "puppeteer": "^24.8.2",
+    "puppeteer-core": "^24.8.2",
     "react": "^19.1.0",
     "react-color": "^2.19.3",
     "react-dom": "^19.1.0",
     "react-responsive-carousel": "^3.2.23",
     "react-tooltip": "^5.28.1",
-    "unsplash-js": "^7.0.19"
+    "unsplash-js": "^7.0.19",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
