@@ -1,6 +1,6 @@
 'use client'
 import "./globals.css";
-import Navbar from './component/Navbar'
+import Navbar from './component/@business/Navbar'
 
 import { usePathname } from "next/navigation"
 import { useFonts } from "./hooks/useFont";

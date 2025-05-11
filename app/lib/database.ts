@@ -109,7 +109,7 @@ export async function insertBlock(block: any) {
       name: blockName,
       code: block.code,
       type: blockType,
-      props: typeof block.props === 'string' ? block.props : JSON.stringify(block.props || {}),
+      props: block.props,
     }, { onConflict: 'id' })  // 使用 upsert 方法插入或更新数据
     .eq('id', block.id);  // 根据 ID 确保更新现有数据
 
@@ -137,7 +137,7 @@ export async function insertAiBlock(block: any) {
       name: blockName,
       code: block.code,
       type: blockType,
-      props: typeof block.props === 'string' ? block.props : JSON.stringify(block.props || {}),
+      props: block.props,
     }, { onConflict: 'id' })  // 使用 upsert 方法插入或更新数据
   if (error) {
     console.error('Error inserting block:', error);

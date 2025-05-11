@@ -23,7 +23,6 @@ export interface CombinationAppProps {
 export default function CombinationApp(props: CombinationAppProps) {
     const { blocksMap, children = [], navigation, footer } = props
 
-
     return (
         <div id="combination-app">
             {navigation && <CodeLoader

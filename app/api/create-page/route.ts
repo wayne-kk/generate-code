@@ -1,6 +1,5 @@
 import supabase from "@/lib/supabase";
 import { nanoid } from "nanoid";
-import { generateCover } from "../../../utils/generateCover";
 
 const defaultExtra = {
     "color": {

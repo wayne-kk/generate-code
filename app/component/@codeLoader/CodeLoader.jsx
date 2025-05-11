@@ -33,11 +33,10 @@ const CodeLoader = ({ code, customComponents = {}, props = {} }) => {
         } catch (error) {
             console.error('Error loading component:', error);
         }
-    }, []);
+    }, [code]);
 
     if (!Component) return <div>Loading...</div>;
-
-    return <Component  {...props} />;
+    return <Component key={JSON.stringify(props)}  {...props} />;
 };
 
 export default CodeLoader;
