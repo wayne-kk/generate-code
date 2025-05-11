@@ -33,47 +33,24 @@ export async function POST(req: Request) {
         // 构建需要更新的字段，只有对应字段有值时才进行更新
         const pagedata: any = {
             id: pageId || nanoid(),
+            page_name: pageName,
+            page_description: pageDescription,
+            sections: sections,
+            extra: extra,
+            children: children,
+            blocks_data: blocksData,
         };
-
-        // 逐个判断字段是否有值，只有有值才更新
-        if (pageName !== undefined && pageName !== null) {
-            pagedata.page_name = pageName;
-        }
-
-        if (pageDescription !== undefined && pageDescription !== null) {
-            pagedata.page_description = pageDescription;
-        }
-
-        if (sections !== undefined && sections !== null) {
-            pagedata.sections = sections;
-        }
-
-        // 如果 extra 为 undefined 或 null，使用 defaultExtra
-        if (extra !== undefined && extra !== null) {
-            pagedata.extra = extra;
-        } else {
-            pagedata.extra = defaultExtra;
-        }
-
-        if (children !== undefined && children !== null) {
-            pagedata.children = children;
-        }
-
-        if (blocksData !== undefined && blocksData !== null) {
-            pagedata.blocks_data = blocksData;
-        }
 
         // 在 Supabase 中插入数据
         const { data, error } = await supabase
             .from('page_data')
             .upsert([pagedata], { onConflict: 'id' });
 
+        // const imageUrl = await generateCover(process.env.NEXT_PUBLIC_BASE_URL + '/' + pagedata.id)
 
-        const imageUrl = await generateCover(process.env.NEXT_PUBLIC_BASE_URL + '/' + pagedata.id)
-        console.log('imageUrl', imageUrl);
-        await supabase
-            .from('page_data')
-            .upsert([{ id: pagedata.id, cover_url: imageUrl }], { onConflict: 'id' });
+        // await supabase
+        //     .from('page_data')
+        //     .upsert([{ id: pagedata.id, cover_url: imageUrl }], { onConflict: 'id' });
 
         if (error) {
             return new Response(JSON.stringify({ error: error.message }), {
