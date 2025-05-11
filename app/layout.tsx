@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased">
         {showNavbar && <Navbar />}
         <Toaster position="top-center" />
-        {children}
+        <div className="mt-16">{children}</div>
       </body> 
     </html>
   )   

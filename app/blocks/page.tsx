@@ -9,7 +9,7 @@ import EditableIcon from '@/component/@base/EditableIcon';
 import EditableImg from '@/component/@base/EditableImg';
 import EditableText from '@/component/@base/EditableText';
 import { AnimatePresence, motion } from 'framer-motion';
-import { isObject, throttle } from 'lodash-es';
+import { isObject, set, throttle } from 'lodash-es';
 import { Carousel } from 'react-responsive-carousel';
 import Marquee from '@/component/@base/Marquee';
 import Overflow from '@/component/@base/Overflow';
@@ -22,107 +22,82 @@ const BlocksPage = () => {
     const [blocksMap, setBlocksMap] = useState<Record<string, any>>({});
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+    const [sourceId, setSourceId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [code, setCode] = useState<string | null>(null);
+    const [oldCode, setOldCode] = useState<string | null>(null);
     const [props, setProps] = useState<any>({});
+    const [activeTab, setActiveTab] = useState<'new' | 'old'>('new');
+    const [compareCode, setCompareCode] = useState<string | null>(null);
 
     const updateBlockData = async (blockData: any) => {
-        console.log('更新组件数据', blockData);
         try {
             const res = await fetch(`/api/aigcode-blocks/update`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(blockData)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(blockData),
             });
 
             const result = await res.json();
             if (res.ok) {
                 toast.success('组件更新成功');
-                console.log('更新成功', result);
                 return { success: true, data: result.data };
             } else {
                 toast.error(result.error || '组件更新失败');
-                console.error('更新失败', result.error);
                 return { success: false, error: result.error };
             }
         } catch (err) {
             toast.error('请求失败');
-            console.error('请求失败', err);
             return { success: false, error: '请求失败' };
         }
     };
 
     const deleteBlockData = async (id: string) => {
-        console.log('删除组件 ID:', id);
         try {
             const res = await fetch(`/api/aigcode-blocks/delete`, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id }),
             });
 
             const result = await res.json();
             if (res.ok) {
                 toast.success('组件删除成功');
-                console.log('删除成功', result);
-
-                // 🔁 重新获取组件列表
                 const refreshed = await fetch(`/api/${source}`);
                 const data = await refreshed.json();
                 if (refreshed.ok) {
                     const map: Record<string, any> = {};
                     for (const block of data.data) {
-                        if (isObject(block.props)) {
-                            map[block.id] = { ...block, props: block.props };
-                        } else {
-                            const parsedProps = JSON.parse(block.props);
-                            map[block.id] = { ...block, props: parsedProps };
-                        }
+                        const parsedProps = isObject(block.props) ? block.props : JSON.parse(block.props);
+                        map[block.id] = { ...block, props: parsedProps };
                     }
                     setBlocks(data.data);
                     setBlocksMap(map);
-
-                    // 🧼 清空选中的 block
                     setSelectedBlockId(null);
                     setCode(null);
                     setProps({});
                 }
-
                 return { success: true, data: result.data };
             } else {
                 toast.error(result.error || '组件删除失败');
-                console.error('删除失败', result.error);
                 return { success: false, error: result.error };
             }
         } catch (err) {
             toast.error('请求失败');
-            console.error('请求失败', err);
             return { success: false, error: '请求失败' };
         }
     };
 
-
-
-    // 获取所有 blocks 数据
     useEffect(() => {
         const fetchBlocks = async () => {
             try {
                 const res = await fetch(`/api/${source}`);
                 const data = await res.json();
-
                 if (res.ok) {
                     const map: Record<string, any> = {};
                     for (const block of data.data) {
-                        if (isObject(block.props)) {
-                            map[block.id] = { ...block, props: block.props };
-                        } else {
-                            const parsedProps = JSON.parse(block.props);
-                            map[block.id] = { ...block, props: parsedProps };
-                        }
+                        const parsedProps = isObject(block.props) ? block.props : JSON.parse(block.props);
+                        map[block.id] = { ...block, props: parsedProps };
                     }
                     setBlocks(data.data);
                     setBlocksMap(map);
@@ -133,27 +108,32 @@ const BlocksPage = () => {
                 setError('请求失败');
             }
         };
-
         fetchBlocks();
     }, [source]);
 
-    // 所有独特的类型
-    const uniqueTypes = [...new Set(blocks.map(block => block.type).filter(Boolean))];
+    useEffect(() => {
+        if (!sourceId) return;
+        const fetchCompare = async () => {
+            const res = await fetch(`/api/blocks?blockId=${sourceId}`);
+            const json = await res.json();
+            if (res.ok) {
+                setCompareCode(json.data.code);
+            }
+        };
+        fetchCompare();
+    }, [sourceId]);
 
-    // 当前选中类型下的 blocks
-    const filteredBlocks = selectedType
-        ? blocks.filter(block => block.type === selectedType)
-        : [];
+    const uniqueTypes = [...new Set(blocks.map(block => block.type).filter(Boolean))];
+    const filteredBlocks = selectedType ? blocks.filter(block => block.type === selectedType) : [];
 
     return (
-        <div className="flex h-screen">
-            {/* 左侧选择栏 */}
-            <div className="w-1/5 p-4 border-r border-gray-300">
+        <div className="flex h-screen overflow-hidden">
+            {/* 左侧固定侧边栏 */}
+            <div className="w-1/5 h-full overflow-y-auto p-4 border-r border-gray-300 fixed left-0 top-16 bg-white z-10">
                 <h2 className="text-lg font-bold mb-4">选择组件</h2>
 
                 {error && <div className="text-red-500 mb-2">{error}</div>}
 
-                {/* 组件库选择 */}
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">组件库</label>
                     <select
@@ -173,7 +153,6 @@ const BlocksPage = () => {
                     </select>
                 </div>
 
-                {/* 类型选择 */}
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">组件类型</label>
                     <select
@@ -191,7 +170,6 @@ const BlocksPage = () => {
                     </select>
                 </div>
 
-                {/* 组件选择 */}
                 {selectedType && (
                     <div>
                         <label className="block text-sm font-medium mb-1">组件名称</label>
@@ -199,9 +177,12 @@ const BlocksPage = () => {
                             className="w-full p-2 border rounded"
                             value={selectedBlockId || ''}
                             onChange={(e) => {
-                                setSelectedBlockId(e.target.value);
-                                setProps(blocksMap[e.target.value]?.props ?? null);
-                                setCode(blocksMap[e.target.value]?.code ?? null);
+                                const id = e.target.value;
+                                setSelectedBlockId(id);
+                                setSourceId(blocksMap[id]?.source_id ?? null);
+                                setProps(blocksMap[id]?.props ?? {});
+                                setCode(blocksMap[id]?.code ?? null);
+                                setOldCode(blocksMap[id]?.code ?? null);
                             }}
                         >
                             <option value="">请选择组件</option>
@@ -214,48 +195,65 @@ const BlocksPage = () => {
                     </div>
                 )}
 
-                {/* 更新按钮 */}
-                {source === 'blocks' &&
-                    <div className="mt-[500px] flex justify-end">
+                {source === 'blocks' && selectedBlockId && (
+                    <div className="mt-8 mb-4">
                         <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
+                            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
                             onClick={() => {
-                                console.log('selectedBlockId', selectedBlockId)
-                                if (selectedBlockId) {
-                                    updateBlockData({ ...blocksMap[selectedBlockId], id: nanoid(), code, props });
-                                }
+                                updateBlockData({
+                                    ...blocksMap[selectedBlockId],
+                                    id: nanoid(),
+                                    code,
+                                    props,
+                                    source_id: selectedBlockId,
+                                });
                             }}
                         >
                             更新组件
                         </button>
+                        <div className="flex gap-2 mt-4">
+                            <button
+                                onClick={() => setActiveTab('new')}
+                                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium border transition-colors duration-200
+                                    ${activeTab === 'new'
+                                        ? 'bg-blue-500 text-white border-blue-500'
+                                        : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-300'}
+                                            `}>
+                                新设计
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('old')}
+                                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium border transition-colors duration-200
+                                        ${activeTab === 'old'
+                                        ? 'bg-blue-500 text-white border-blue-500'
+                                        : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-300'}
+                                        `}>
+                                经典设计
+                            </button>
+                        </div>
                     </div>
-                }
+                )}
 
-                {/* 删除按钮 */}
-                {source === 'aigcode-blocks' &&
-                    <div className="mt-[500px] flex justify-end">
+                {source === 'aigcode-blocks' && selectedBlockId && (
+                    <div className="mt-8">
                         <button
-                            className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
+                            className="w-full bg-[#ef4444] text-white px-4 py-2 rounded hover:bg-[#fca5a5] transition"
                             onClick={() => {
-                                console.log('selectedBlockId', selectedBlockId)
-                                if (selectedBlockId) {
-                                    deleteBlockData(selectedBlockId);
-                                }
+                                deleteBlockData(selectedBlockId);
                             }}
                         >
                             删除组件
                         </button>
                     </div>
-                }
-
+                )}
             </div>
 
-            {/* 右侧展示区域 */}
-            <div id="preview-viewport" className="w-4/5 p-4 font-fa font-custom-body">
-                {code ? (
+            {/* 右侧滚动主内容区域 */}
+            <div id="preview-viewport" className="ml-[20%] w-[80%] h-full overflow-y-auto p-4 font-fa font-custom-body">
+                {(code && oldCode) ? (
                     <>
                         <CodeLoader
-                            code={code}
+                            code={activeTab === 'new' ? code : oldCode}
                             customComponents={{
                                 AnimateInView,
                                 EditableText,
@@ -271,6 +269,25 @@ const BlocksPage = () => {
                             }}
                             props={{}}
                         />
+                        {(compareCode && source === 'aigcode-blocks') && (
+                            <CodeLoader
+                                code={compareCode}
+                                customComponents={{
+                                    AnimateInView,
+                                    EditableText,
+                                    EditableButton,
+                                    Overflow,
+                                    EditableIcon,
+                                    Carousel,
+                                    EditableImg,
+                                    Marquee,
+                                    motion,
+                                    throttle,
+                                    AnimatePresence,
+                                }}
+                                props={{}}
+                            />
+                        )}
                         <div className="flex gap-4">
                             <div className="flex-1 min-w-0">
                                 <MonacoEditor
@@ -279,17 +296,6 @@ const BlocksPage = () => {
                                     onChange={(value) => setCode(value!)}
                                 />
                             </div>
-                            {/* 可启用编辑 props 面板 */}
-                            {/* <div className="flex-1 min-w-0">
-                                <MonacoEditor
-                                    key={JSON.stringify(props, null, 2)}
-                                    value={JSON.stringify(props, null, 2)}
-                                    language="json"
-                                    onChange={(value) => {
-                                        setProps(JSON.parse(value ?? '{}'));
-                                    }}
-                                />
-                            </div> */}
                         </div>
                     </>
                 ) : (

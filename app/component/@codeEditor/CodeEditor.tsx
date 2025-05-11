@@ -13,7 +13,7 @@ export default function MonacoEditor({ value, language = 'javascript', onChange 
     return (
         <div className="border rounded-md overflow-hidden w-full min-w-0">
             <Editor
-                height="500px"
+                height="700px"
                 defaultLanguage={language}
                 defaultValue={value}
                 theme="vs-dark"
