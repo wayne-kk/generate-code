@@ -13,6 +13,8 @@ import { isObject, throttle } from 'lodash-es';
 import { Carousel } from 'react-responsive-carousel';
 import Marquee from '@/component/@base/Marquee';
 import Overflow from '@/component/@base/Overflow';
+import { nanoid } from 'nanoid';
+import toast from 'react-hot-toast';
 
 const BlocksPage = () => {
     const [source, setSource] = useState<'blocks' | 'aigcode-blocks'>('blocks');
@@ -37,17 +39,73 @@ const BlocksPage = () => {
 
             const result = await res.json();
             if (res.ok) {
+                toast.success('组件更新成功');
                 console.log('更新成功', result);
                 return { success: true, data: result.data };
             } else {
+                toast.error(result.error || '组件更新失败');
                 console.error('更新失败', result.error);
                 return { success: false, error: result.error };
             }
         } catch (err) {
+            toast.error('请求失败');
             console.error('请求失败', err);
             return { success: false, error: '请求失败' };
         }
     };
+
+    const deleteBlockData = async (id: string) => {
+        console.log('删除组件 ID:', id);
+        try {
+            const res = await fetch(`/api/aigcode-blocks/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id }),
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+                toast.success('组件删除成功');
+                console.log('删除成功', result);
+
+                // 🔁 重新获取组件列表
+                const refreshed = await fetch(`/api/${source}`);
+                const data = await refreshed.json();
+                if (refreshed.ok) {
+                    const map: Record<string, any> = {};
+                    for (const block of data.data) {
+                        if (isObject(block.props)) {
+                            map[block.id] = { ...block, props: block.props };
+                        } else {
+                            const parsedProps = JSON.parse(block.props);
+                            map[block.id] = { ...block, props: parsedProps };
+                        }
+                    }
+                    setBlocks(data.data);
+                    setBlocksMap(map);
+
+                    // 🧼 清空选中的 block
+                    setSelectedBlockId(null);
+                    setCode(null);
+                    setProps({});
+                }
+
+                return { success: true, data: result.data };
+            } else {
+                toast.error(result.error || '组件删除失败');
+                console.error('删除失败', result.error);
+                return { success: false, error: result.error };
+            }
+        } catch (err) {
+            toast.error('请求失败');
+            console.error('请求失败', err);
+            return { success: false, error: '请求失败' };
+        }
+    };
+
+
 
     // 获取所有 blocks 数据
     useEffect(() => {
@@ -157,19 +215,39 @@ const BlocksPage = () => {
                 )}
 
                 {/* 更新按钮 */}
-                <div className="mt-[500px] flex justify-end">
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
-                        onClick={() => {
-                            console.log('selectedBlockId', selectedBlockId)
-                            if (selectedBlockId) {
-                                updateBlockData({ ...blocksMap[selectedBlockId], code, props });
-                            }
-                        }}
-                    >
-                        更新组件
-                    </button>
-                </div>
+                {source === 'blocks' &&
+                    <div className="mt-[500px] flex justify-end">
+                        <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
+                            onClick={() => {
+                                console.log('selectedBlockId', selectedBlockId)
+                                if (selectedBlockId) {
+                                    updateBlockData({ ...blocksMap[selectedBlockId], id: nanoid(), code, props });
+                                }
+                            }}
+                        >
+                            更新组件
+                        </button>
+                    </div>
+                }
+
+                {/* 删除按钮 */}
+                {source === 'aigcode-blocks' &&
+                    <div className="mt-[500px] flex justify-end">
+                        <button
+                            className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
+                            onClick={() => {
+                                console.log('selectedBlockId', selectedBlockId)
+                                if (selectedBlockId) {
+                                    deleteBlockData(selectedBlockId);
+                                }
+                            }}
+                        >
+                            删除组件
+                        </button>
+                    </div>
+                }
+
             </div>
 
             {/* 右侧展示区域 */}
