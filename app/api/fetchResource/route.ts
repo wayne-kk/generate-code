@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import { isString, isArray, isObject, isNumber } from 'lodash-es';
 import { insertBlock } from '@/lib/database';
 
 // 定义请求体的类型
@@ -43,115 +40,6 @@ const fetchPageData = async (blockUrl: string) => {
 }
 
 
-function writeTsxFile(block: any) {
-  if (!block) return
-  const blockId = block.id.replaceAll('-', '_');
-  const blockName = block.name.split('_')[0];
-  const prefix = blockName + '_' + blockId;
-
-  // 处理JSON 为对应的customComponent
-  const customComponentLibPath = path.join(process.cwd(), `customComponent/@${blockName.toLowerCase()}`);
-  // 如果 resourceLibrary 文件夹不存在，则创建它
-  if (!fs.existsSync(customComponentLibPath)) {
-    fs.mkdirSync(customComponentLibPath, { recursive: true });
-  }
-
-
-  const compPath = path.join(customComponentLibPath, `${prefix}.tsx`);
-  // 表头
-  fs.writeFileSync(compPath, `
-import React from "react";
-import AnimateInView from "../@base/AnimateInView";
-import EditableButton from "../@base/EditableButton";
-import EditableIcon from "../@base/EditableIcon";
-import EditableImg from "../@base/EditableImg";
-import EditableText from "../@base/EditableText";
-import Overflow from "../@base/Overflow";
-import Marquee from "../@base/Marquee";
-import { getComConfigByType, getCompTypeOptions } from "../config";
-import { motion } from "framer-motion";
-import {
-  UICompBuilder,
-  withDefault,
-  withExposingConfigs,
-  StringControl,
-  jsonArrayControl,
-  ArrayStringControl,
-  ArrayNumberControl,
-  jsonObjectControl,
-  Section,
-  Dropdown,
-  globalEventEmitter
-} from "lowcoder-sdk";\n`, 'utf8');
-  // withDefault 处理
-  fs.appendFileSync(compPath, `export const ${prefix}_childrenMap = {\n`, 'utf8');
-  // TODO: 添加类型 type
-  fs.appendFileSync(compPath, `type: withDefault(StringControl, ${JSON.stringify(prefix)}),\n`, 'utf8');
-
-  Object.keys(block.props).forEach((key) => {
-    const prop = block.props[key];
-    if (isString(prop)) {
-      fs.appendFileSync(compPath, `${key}:withDefault(StringControl, ${JSON.stringify(prop)}),\n`, 'utf8');
-    } else if (isArray(prop)) {
-      if (isNumber(prop[0])) {
-        fs.appendFileSync(compPath, `${key}:withDefault(ArrayNumberControl, JSON.stringify(${JSON.stringify(prop)})),\n`, 'utf8');
-      } else if (isString(prop[0])) {
-        fs.appendFileSync(compPath, `${key}:withDefault(ArrayStringControl, JSON.stringify(${JSON.stringify(prop)})),\n`, 'utf8');
-      } else if (isObject(prop[0])) {
-        fs.appendFileSync(compPath, `${key}:jsonArrayControl(${JSON.stringify(prop)}),\n`, 'utf8');
-      }
-    } else if (isObject(prop)) {
-      fs.appendFileSync(compPath, `${key}:jsonObjectControl(${JSON.stringify(prop)}),\n`, 'utf8');
-    }
-  })
-  fs.appendFileSync(compPath, `}\n`, 'utf8');
-
-  // 写入处理
-  fs.appendFileSync(compPath, 'export ' + block.code.replace(block.name, prefix), 'utf8');
-
-
-  fs.appendFileSync(compPath, `
-  export function ${prefix}_PropertyViewFn(children: any) {
-    return (
-        <Section name="Basic">
-            <Dropdown
-              lineHeight={300}
-              value={children.type.getView()}
-              options={getCompTypeOptions('${blockName}')}
-              label={'type'}
-              onChange={async (value) => {
-                // 处理
-                  children.type.dispatchChangeValueAction(value)
-                  globalEventEmitter.emit("updateCompFactory", getComConfigByType('${blockName}')[value].exposingConfigs);
-              }}
-            />
-           ${Object.keys(block.props).map((key) => {
-    return `{children.${key}?.propertyView({ label: '${key}' })}\n`
-  }).join('')}
-        </Section>
-    );
-} `, 'utf8');
-  fs.appendFileSync(compPath, `
-export const ${prefix}_Builder = new UICompBuilder(${prefix}_childrenMap, (props: any) => {
-  // 从映射表中获取对应的组件
-  const Component = getComConfigByType('${blockName}')[props.type].comp;
-  console.log('props', props)
-  // 日志输出，方便调试
-  if (Component) {
-    return <Component {...props} />;
-  } else {
-    // 如果没有匹配的组件，可以返回一个默认的占位组件或空值
-    return <div>Component not found for type: {props.type}</div>;
-  }
-}).setPropertyViewFn(${prefix}_PropertyViewFn)
-  .build();
-
-
-export const ${prefix}_ExposingConfigs = withExposingConfigs(${prefix}_Builder, [])`, 'utf8');
-}
-
-
-
 async function fetchWegicInfo(assistantThreadUrl: string, cookie: string) {
   const wegicResponse = await fetch(assistantThreadUrl, {
     "headers": {
@@ -185,24 +73,6 @@ function savePageDataToDB(pageData: any) {
   })
 }
 
-
-function savePageDataToTsx(pageData: any) {
-  // 保存数据到本地 JSON 文件
-  const resourceLibraryPath = path.join(process.cwd(), 'resourceLibrary'); // 保存到 resourceLibrary 文件夹
-
-  // 如果 resourceLibrary 文件夹不存在，则创建它
-  if (!fs.existsSync(resourceLibraryPath)) {
-    fs.mkdirSync(resourceLibraryPath, { recursive: true });
-  }
-
-  const { footer, navigation, blocksMap, children } = pageData
-
-  writeTsxFile(footer)
-  writeTsxFile(navigation)
-  children.forEach((childId: any) => {
-    writeTsxFile(blocksMap[childId])
-  })
-}
 
 async function fetchSitePage(url: string, cookie: string) {
   const sitePageResponse = await fetch(url, {

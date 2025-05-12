@@ -2,7 +2,6 @@
 
 import { NextResponse } from 'next/server';
 import { insertAiBlock } from '@/lib/database'; // 导入你的方法
-import { nanoid } from 'nanoid';
 
 const CORS_HEADERS = {
     'Access-Control-Allow-Origin': '*',

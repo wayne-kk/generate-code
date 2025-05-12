@@ -16,7 +16,6 @@ import Overflow from '@/components/@base/Overflow';
 import { nanoid } from 'nanoid';
 import toast from 'react-hot-toast';
 import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/select';
-
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -32,6 +31,7 @@ const BlocksPage = () => {
     const [oldCode, setOldCode] = useState<string | null>(null);
     const [props, setProps] = useState<any>({});
     const [activeTab, setActiveTab] = useState<'new' | 'old'>('new');
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // 控制左侧栏显示/隐藏
 
     const updateBlockData = async (blockData: any) => {
         try {
@@ -129,9 +129,18 @@ const BlocksPage = () => {
     const uniqueTypes = [...new Set(blocks.map(block => block.type).filter(Boolean))];
     const filteredBlocks = selectedType ? blocks.filter(block => block.type === selectedType) : [];
 
+    const handleToggleSidebar = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed);
+    };
+
     return (
-        <div className="flex h-screen overflow-hidden">
-            <div className="w-1/5 h-full overflow-y-auto p-4 border-r border-gray-300 fixed left-0 top-16 bg-white z-10">
+        <div className="flex h-screen">
+            <button onClick={handleToggleSidebar} className={`z-[100] fixed top-16 left-${isSidebarCollapsed ? '0' : '[250px]'} bg-gray-200 p-2 rounded-l-md`}>
+                <span className="text-xl">{isSidebarCollapsed ? '▶' : '◀'}</span>
+            </button>
+            {<div
+                className={`${isSidebarCollapsed ? 'w-0' : 'w-1/10 p-4'} h-full overflow-hidden border-r border-gray-300 fixed left-0 top-16 bg-white z-10 transition-all`}
+            >
                 <h2 className="text-lg font-bold mb-4">选择组件</h2>
 
                 {error && <div className="text-red-500 mb-2">{error}</div>}
@@ -178,9 +187,6 @@ const BlocksPage = () => {
                     </Select>
                 </div>
 
-
-
-
                 {selectedType && (
                     <div className="mb-4 z-10">
                         <label className="block text-sm font-medium mb-2">组件名称</label>
@@ -208,8 +214,7 @@ const BlocksPage = () => {
                     </div>
                 )}
 
-
-                <div className="mb-4">
+                <div className={`${isSidebarCollapsed ? 'fixed top-4 z-10' : ''} mb-4 transition-all`}>
                     <Tabs defaultValue={activeTab} className="w-full" onValueChange={(val) => setActiveTab(val as 'new' | 'old')}>
                         <TabsList className="grid w-full h-full grid-cols-2 rounded-lg border bg-gray-100 shadow-sm">
                             <TabsTrigger
@@ -232,7 +237,7 @@ const BlocksPage = () => {
                     </Tabs>
                 </div>
 
-                <Button className="w-full mb-2 bg-blue-600 hover:bg-sky-500 text-white" onClick={() => {
+                {(source === 'blocks' && selectedBlockId) && <Button className="w-full mb-2 bg-blue-600 hover:bg-sky-500 text-white" onClick={() => {
                     updateBlockData({
                         ...blocksMap[selectedBlockId!],
                         id: nanoid(),
@@ -242,18 +247,19 @@ const BlocksPage = () => {
                     });
                 }}>
                     更新组件
-                </Button>
+                </Button>}
 
-                {source === 'aigcode-blocks' && selectedBlockId && (
-                    <Button variant="destructive" className="w-full" onClick={() => deleteBlockData(selectedBlockId)}>
+                {(source === 'aigcode-blocks' && sourceId) && (
+                    <Button variant="default" className="w-full mb-2 bg-red-600 hover:bg-red-500 text-white" onClick={() => deleteBlockData(sourceId)}>
                         删除组件
                     </Button>
                 )}
-            </div>
+            </div>}
 
-            <div id="preview-viewport" className="ml-[20%] w-[80%] h-full overflow-y-auto p-4 font-fa font-custom-body">
+            <div id="preview-viewport" className={`ml-${isSidebarCollapsed ? '0' : '[15%]'} w-full overflow-y-auto p-4 font-fa font-custom-body transition-all`}>
                 {code && oldCode ? (
-                    <>
+                    <div className='flex-1 flex gap-4'>
+                        <div className='w-[50%]'>
                         <CodeLoader
                             code={activeTab === 'new' ? code : oldCode}
                             customComponents={{
@@ -271,8 +277,9 @@ const BlocksPage = () => {
                             }}
                             props={{}}
                         />
-                        <div className="flex gap-4">
-                            <div className="flex-1 min-w-0">
+                        </div>
+                        <div className="flex-1 flex gap-4">
+                            <div className="flex-1  min-w-[50%]">
                                 <MonacoEditor
                                     key={selectedBlockId}
                                     value={code}
@@ -280,7 +287,7 @@ const BlocksPage = () => {
                                 />
                             </div>
                         </div>
-                    </>
+                    </div>
                 ) : (
                     <div className="text-gray-500">请选择一个组件进行预览</div>
                 )}

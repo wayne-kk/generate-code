@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/office_web_components
 /.pnp
 .pnp.*
 .yarn/*
