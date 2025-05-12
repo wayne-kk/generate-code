@@ -1,6 +1,6 @@
 'use client';
 
-import CombinationApp from '@/component/CombinationApp';
+import CombinationApp from '@/components/CombinationApp';
 import chroma from 'chroma-js';
 import { useParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';

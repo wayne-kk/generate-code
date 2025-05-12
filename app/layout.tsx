@@ -1,6 +1,6 @@
 'use client'
 import "./globals.css";
-import Navbar from './component/@business/Navbar'
+import Navbar from './components/@business/Navbar'
 import { Toaster } from 'react-hot-toast';
 import { usePathname } from "next/navigation"
 import { useFonts } from "./hooks/useFont";

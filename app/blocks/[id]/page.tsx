@@ -1,7 +1,7 @@
 // app/blocks/[id]/page.tsx
 'use client';  // 明确标记为客户端组件
 
-import CombinationApp from '@/component/CombinationApp';
+import CombinationApp from '@/components/CombinationApp';
 import { useParams } from 'next/navigation';  // 使用 next/navigation 中的 useParams
 import { useState, useEffect } from 'react';
 

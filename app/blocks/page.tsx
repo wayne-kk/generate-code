@@ -1,20 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import MonacoEditor from '@/component/@codeEditor/CodeEditor';
-import CodeLoader from '@/component/@codeLoader/CodeLoader';
-import AnimateInView from '@/component/@base/AnimateInView';
-import EditableButton from '@/component/@base/EditableButton';
-import EditableIcon from '@/component/@base/EditableIcon';
-import EditableImg from '@/component/@base/EditableImg';
-import EditableText from '@/component/@base/EditableText';
+import MonacoEditor from '@/components/@codeEditor/CodeEditor';
+import CodeLoader from '@/components/@codeLoader/CodeLoader';
+import AnimateInView from '@/components/@base/AnimateInView';
+import EditableButton from '@/components/@base/EditableButton';
+import EditableIcon from '@/components/@base/EditableIcon';
+import EditableImg from '@/components/@base/EditableImg';
+import EditableText from '@/components/@base/EditableText';
 import { AnimatePresence, motion } from 'framer-motion';
-import { isObject, set, throttle } from 'lodash-es';
+import { isObject, throttle } from 'lodash-es';
 import { Carousel } from 'react-responsive-carousel';
-import Marquee from '@/component/@base/Marquee';
-import Overflow from '@/component/@base/Overflow';
+import Marquee from '@/components/@base/Marquee';
+import Overflow from '@/components/@base/Overflow';
 import { nanoid } from 'nanoid';
 import toast from 'react-hot-toast';
+import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/select';
+
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const BlocksPage = () => {
     const [source, setSource] = useState<'blocks' | 'aigcode-blocks'>('blocks');
@@ -28,7 +32,6 @@ const BlocksPage = () => {
     const [oldCode, setOldCode] = useState<string | null>(null);
     const [props, setProps] = useState<any>({});
     const [activeTab, setActiveTab] = useState<'new' | 'old'>('new');
-    const [compareCode, setCompareCode] = useState<string | null>(null);
 
     const updateBlockData = async (blockData: any) => {
         try {
@@ -117,7 +120,7 @@ const BlocksPage = () => {
             const res = await fetch(`/api/blocks?blockId=${sourceId}`);
             const json = await res.json();
             if (res.ok) {
-                setCompareCode(json.data.code);
+                setOldCode(json.data.code);
             }
         };
         fetchCompare();
@@ -128,129 +131,128 @@ const BlocksPage = () => {
 
     return (
         <div className="flex h-screen overflow-hidden">
-            {/* 左侧固定侧边栏 */}
             <div className="w-1/5 h-full overflow-y-auto p-4 border-r border-gray-300 fixed left-0 top-16 bg-white z-10">
                 <h2 className="text-lg font-bold mb-4">选择组件</h2>
 
                 {error && <div className="text-red-500 mb-2">{error}</div>}
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">组件库</label>
-                    <select
-                        className="w-full p-2 border rounded"
-                        value={source}
-                        onChange={(e) => {
-                            const selectedSource = e.target.value as 'blocks' | 'aigcode-blocks';
-                            setSource(selectedSource);
-                            setSelectedType(null);
-                            setSelectedBlockId(null);
-                            setBlocks([]);
-                            setBlocksMap({});
-                        }}
-                    >
-                        <option value="blocks">blocks</option>
-                        <option value="aigcode-blocks">aigcode-blocks</option>
-                    </select>
+                    <label className="block text-sm font-medium mb-2">组件库</label>
+                    <Tabs defaultValue={source} className="w-full" onValueChange={(val) => setSource(val as 'blocks' | 'aigcode-blocks')}>
+                        <TabsList className="grid w-full h-full grid-cols-2 rounded-lg border bg-gray-100 shadow-sm">
+                            <TabsTrigger
+                                value="blocks"
+                                className={`w-full text-center py-2 rounded-lg transition-all ${source === 'blocks'
+                                    ? 'bg-blue-600 text-white border-b-4 border-blue-700'
+                                    : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                                    }`}
+                            >
+                                blocks
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value="aigcode-blocks"
+                                className={`w-full text-center py-2 rounded-lg transition-all ${source === 'aigcode-blocks'
+                                    ? 'bg-blue-600 text-white border-b-4 border-blue-700'
+                                    : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                                    }`}
+                            >
+                                aigcode-blocks
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 </div>
 
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">组件类型</label>
-                    <select
-                        className="w-full p-2 border rounded"
-                        value={selectedType || ''}
-                        onChange={(e) => {
-                            setSelectedType(e.target.value);
-                            setSelectedBlockId(null);
-                        }}
-                    >
-                        <option value="">请选择组件类型</option>
-                        {uniqueTypes.map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
+                    <Select value={selectedType || ''} onValueChange={(val) => setSelectedType(val)}>
+                        <SelectTrigger className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <SelectValue placeholder="选择组件类型" className="text-gray-600" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white shadow-lg rounded-lg mt-1 max-h-[500px]">
+                            {uniqueTypes.map((type) => (
+                                <SelectItem key={type} value={type} className="text-gray-800 hover:bg-blue-50 hover:text-blue-600 px-4 py-2 rounded-md">
+                                    {type}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
+
+
+
                 {selectedType && (
-                    <div>
-                        <label className="block text-sm font-medium mb-1">组件名称</label>
-                        <select
-                            className="w-full p-2 border rounded"
+                    <div className="mb-4 z-10">
+                        <label className="block text-sm font-medium mb-2">组件名称</label>
+                        <Select
                             value={selectedBlockId || ''}
-                            onChange={(e) => {
-                                const id = e.target.value;
-                                setSelectedBlockId(id);
-                                setSourceId(blocksMap[id]?.source_id ?? null);
-                                setProps(blocksMap[id]?.props ?? {});
-                                setCode(blocksMap[id]?.code ?? null);
-                                setOldCode(blocksMap[id]?.code ?? null);
+                            onValueChange={(val) => {
+                                setSelectedBlockId(val);
+                                setSourceId(blocksMap[val]?.source_id ?? null);
+                                setProps(blocksMap[val]?.props ?? {});
+                                setCode(blocksMap[val]?.code ?? null);
+                                setOldCode(blocksMap[val]?.code ?? null);
                             }}
                         >
-                            <option value="">请选择组件</option>
-                            {filteredBlocks.map((block) => (
-                                <option key={block.id} value={block.id}>
-                                    {block.name || block.id}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-full py-3 px-4 border rounded-lg bg-white text-gray-800 shadow-sm focus:ring-2 focus:ring-blue-500 transition-all">
+                                <SelectValue placeholder="选择组件" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white shadow-lg rounded-lg mt-1 max-h-[500px]">
+                                {filteredBlocks.map((block) => (
+                                    <SelectItem key={block.id} value={block.id} className="hover:bg-blue-50 text-sm py-2 px-4 transition-all">
+                                        {block.name || block.id}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                 )}
 
-                {source === 'blocks' && selectedBlockId && (
-                    <div className="mt-8 mb-4">
-                        <button
-                            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 transition"
-                            onClick={() => {
-                                updateBlockData({
-                                    ...blocksMap[selectedBlockId],
-                                    id: nanoid(),
-                                    code,
-                                    props,
-                                    source_id: selectedBlockId,
-                                });
-                            }}
-                        >
-                            更新组件
-                        </button>
-                        <div className="flex gap-2 mt-4">
-                            <button
-                                onClick={() => setActiveTab('new')}
-                                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium border transition-colors duration-200
-                                    ${activeTab === 'new'
-                                        ? 'bg-blue-500 text-white border-blue-500'
-                                        : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-300'}
-                                            `}>
+
+                <div className="mb-4">
+                    <Tabs defaultValue={activeTab} className="w-full" onValueChange={(val) => setActiveTab(val as 'new' | 'old')}>
+                        <TabsList className="grid w-full h-full grid-cols-2 rounded-lg border bg-gray-100 shadow-sm">
+                            <TabsTrigger
+                                value="new"
+                                className={`w-full text-center py-1 rounded-lg transition-all ${activeTab === 'new'
+                                    ? 'bg-blue-600 text-white border-b-4 border-blue-700'
+                                    : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'}`}
+                            >
                                 新设计
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('old')}
-                                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium border transition-colors duration-200
-                                        ${activeTab === 'old'
-                                        ? 'bg-blue-500 text-white border-blue-500'
-                                        : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-300'}
-                                        `}>
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value="old"
+                                className={`w-full text-center py-1 rounded-lg transition-all ${activeTab === 'old'
+                                    ? 'bg-blue-600 text-white border-b-4 border-blue-700'
+                                    : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'}`}
+                            >
                                 经典设计
-                            </button>
-                        </div>
-                    </div>
-                )}
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                </div>
+
+                <Button className="w-full mb-2 bg-blue-600 hover:bg-sky-500 text-white" onClick={() => {
+                    updateBlockData({
+                        ...blocksMap[selectedBlockId!],
+                        id: nanoid(),
+                        code,
+                        props,
+                        source_id: selectedBlockId,
+                    });
+                }}>
+                    更新组件
+                </Button>
 
                 {source === 'aigcode-blocks' && selectedBlockId && (
-                    <div className="mt-8">
-                        <button
-                            className="w-full bg-[#ef4444] text-white px-4 py-2 rounded hover:bg-[#fca5a5] transition"
-                            onClick={() => {
-                                deleteBlockData(selectedBlockId);
-                            }}
-                        >
-                            删除组件
-                        </button>
-                    </div>
+                    <Button variant="destructive" className="w-full" onClick={() => deleteBlockData(selectedBlockId)}>
+                        删除组件
+                    </Button>
                 )}
             </div>
 
-            {/* 右侧滚动主内容区域 */}
             <div id="preview-viewport" className="ml-[20%] w-[80%] h-full overflow-y-auto p-4 font-fa font-custom-body">
-                {(code && oldCode) ? (
+                {code && oldCode ? (
                     <>
                         <CodeLoader
                             code={activeTab === 'new' ? code : oldCode}
@@ -269,25 +271,6 @@ const BlocksPage = () => {
                             }}
                             props={{}}
                         />
-                        {(compareCode && source === 'aigcode-blocks') && (
-                            <CodeLoader
-                                code={compareCode}
-                                customComponents={{
-                                    AnimateInView,
-                                    EditableText,
-                                    EditableButton,
-                                    Overflow,
-                                    EditableIcon,
-                                    Carousel,
-                                    EditableImg,
-                                    Marquee,
-                                    motion,
-                                    throttle,
-                                    AnimatePresence,
-                                }}
-                                props={{}}
-                            />
-                        )}
                         <div className="flex gap-4">
                             <div className="flex-1 min-w-0">
                                 <MonacoEditor

@@ -55,8 +55,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ color, onColorChange }) => {
                 root.style.setProperty(variableName, color);
             });
         }
-
-        console.log('colorScale', initColorScale);
     };
 
     const handleLightMixChange = (index: number, value: number) => {

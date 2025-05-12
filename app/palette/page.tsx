@@ -1,6 +1,6 @@
 'use client';  // 明确标记为客户端组件
 
-import ColorPicker from '@/component/@color/ColorPicker';
+import ColorPicker from '@/components/@color/ColorPicker';
 import { useState } from 'react';
 
 const Page = () => {

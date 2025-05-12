@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
             messages,
             temperature,
         });
-        console.log('chatCompletion', chatCompletion)
         // 设置 CORS 响应头并返回结果
         const response = NextResponse.json(chatCompletion);
 
