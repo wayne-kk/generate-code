@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
       os: false,
       crypto: false,
     };
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'monaco-editor': isServer
+        ? 'monaco-editor/esm/vs/editor/editor.api'
+        : 'monaco-editor'
+    };
+
     return config;
   },
   eslint: {

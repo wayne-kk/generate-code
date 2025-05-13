@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import MonacoEditor from '@/components/@codeEditor/CodeEditor';
 import CodeLoader from '@/components/@codeLoader/CodeLoader';
+import CodeTsxLoader from '@/components/@codeLoader/CodeTsxLoader';
 import AnimateInView from '@/components/@base/AnimateInView';
 import EditableButton from '@/components/@base/EditableButton';
 import EditableIcon from '@/components/@base/EditableIcon';
@@ -132,7 +133,6 @@ const BlocksPage = () => {
     const handleToggleSidebar = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
-
     return (
         <div className="flex h-screen">
             <button onClick={handleToggleSidebar} className={`z-[100] fixed top-16 left-${isSidebarCollapsed ? '0' : '[250px]'} bg-gray-200 p-2 rounded-l-md`}>
@@ -260,7 +260,7 @@ const BlocksPage = () => {
                 {code && oldCode ? (
                     <div className='flex-1 flex gap-4'>
                         <div className='w-[50%]'>
-                        <CodeLoader
+                            <CodeTsxLoader
                             code={activeTab === 'new' ? code : oldCode}
                             customComponents={{
                                 AnimateInView,

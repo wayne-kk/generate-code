@@ -1,33 +1,45 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import * as Babel from '@babel/standalone';
 
-const CodeLoader = ({ code, customComponents = {}, props = {} }) => {
+// ✅ 注释掉所有 import 语句（支持多行）
+const sanitizeCode = (code) => {
+    return code.replace(/^\s*import\s.+from\s+['"][^'"]+['"];?\s*$/gm, match => `// ${match}`);
+};
+
+const CodeTsxLoader = ({ code, customComponents = {}, props = {} }) => {
     const [Component, setComponent] = useState(null);
+
     useEffect(() => {
         try {
-            let wrappedCode = code.includes("export default")
-                ? code.replace("export default", "module.exports =")
-                : `module.exports = ${code}`;
+            // ✅ 第一步：注释掉 import
+            const sanitizedCode = sanitizeCode(code);
 
+            // ✅ 第二步：包装 export default
+            const wrappedCode = sanitizedCode.includes('export default')
+                ? sanitizedCode.replace(/export\s+default/, 'module.exports =')
+                : `module.exports = ${sanitizedCode}`;
+
+            // ✅ 第三步：Babel 转译（用清洗后的代码！）
             const transformedCode = Babel.transform(wrappedCode, {
-                presets: ['react'],
-                plugins: ['transform-modules-commonjs']
-            }).code;
+            presets: ['react', 'typescript'],
+            plugins: ['transform-modules-commonjs'],
+            filename: 'component.tsx',
+        }).code;
 
-            // ✅ 显式解构 `components` 里的所有自定义组件
-            const componentKeys = Object.keys(customComponents).join(", ");
+            // ✅ 第四步：运行时注入组件并执行
+            const componentKeys = Object.keys(customComponents).join(', ');
             const dynamicModule = new Function('React', 'components', `
-                const { ${componentKeys} } = components; // ✅ 这里解构组件
-                const exports = {};
-                const module = { exports };
-                ${transformedCode}
-                return module.exports;
-            `)(React,  customComponents);
+        const { ${componentKeys} } = components;
+        const exports = {};
+        const module = { exports };
+        ${transformedCode}
+        return module.exports;
+      `)(React, customComponents);
 
             if (!dynamicModule || typeof dynamicModule !== 'function') {
-                throw new Error("Parsed component is not a function.");
-            }
+            throw new Error('Parsed component is not a function.');
+        }
 
             setComponent(() => dynamicModule);
         } catch (error) {
@@ -36,7 +48,7 @@ const CodeLoader = ({ code, customComponents = {}, props = {} }) => {
     }, [code]);
 
     if (!Component) return <div>Loading...</div>;
-    return <Component key={JSON.stringify(props)}  {...props} />;
+    return <Component key={JSON.stringify(props)} {...props} />;
 };
 
-export default CodeLoader;
+export default CodeTsxLoader;
