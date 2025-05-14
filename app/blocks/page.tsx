@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import MonacoEditor from '@/components/@codeEditor/CodeEditor';
 import CodeLoader from '@/components/@codeLoader/CodeLoader';
 import CodeTsxLoader from '@/components/@codeLoader/CodeTsxLoader';
@@ -33,6 +33,9 @@ const BlocksPage = () => {
     const [props, setProps] = useState<any>({});
     const [activeTab, setActiveTab] = useState<'new' | 'old'>('new');
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // 控制左侧栏显示/隐藏
+    const [splitPosition, setSplitPosition] = useState(50); // 左右面板分割比例，初始为50%
+    const splitPaneRef = useRef<HTMLDivElement>(null);
+    const isDraggingRef = useRef(false);
 
     const updateBlockData = async (blockData: any) => {
         try {
@@ -127,14 +130,56 @@ const BlocksPage = () => {
         fetchCompare();
     }, [sourceId]);
 
+    // 处理拖动调整大小的逻辑
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isDraggingRef.current || !splitPaneRef.current) return;
+
+            const containerRect = splitPaneRef.current.getBoundingClientRect();
+            const containerWidth = containerRect.width;
+            const mouseX = e.clientX - containerRect.left;
+
+            // 计算鼠标位置相对于容器的百分比
+            let newPosition = (mouseX / containerWidth) * 100;
+
+            // 限制分割比例在10%到90%之间
+            newPosition = Math.max(10, Math.min(90, newPosition));
+
+            setSplitPosition(newPosition);
+        };
+
+        const handleMouseUp = () => {
+            isDraggingRef.current = false;
+            document.body.style.cursor = 'default';
+            document.body.style.userSelect = 'auto';
+        };
+
+        // 始终添加事件监听器，并在回调中检查状态
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, []);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault(); // 防止文本选择
+        isDraggingRef.current = true;
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+    };
+
     const uniqueTypes = [...new Set(blocks.map(block => block.type).filter(Boolean))];
     const filteredBlocks = selectedType ? blocks.filter(block => block.type === selectedType) : [];
 
     const handleToggleSidebar = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
+
     return (
-        <div className="flex h-screen">
+        <div className="flex">
             <button onClick={handleToggleSidebar} className={`z-[100] fixed top-16 left-${isSidebarCollapsed ? '0' : '[250px]'} bg-gray-200 p-2 rounded-l-md`}>
                 <span className="text-xl">{isSidebarCollapsed ? '▶' : '◀'}</span>
             </button>
@@ -246,40 +291,63 @@ const BlocksPage = () => {
                         source_id: selectedBlockId,
                     });
                 }}>
-                    更新组件
+                    创建为AIGCODE组件
                 </Button>}
 
-                {(source === 'aigcode-blocks' && sourceId) && (
-                    <Button variant="default" className="w-full mb-2 bg-red-600 hover:bg-red-500 text-white" onClick={() => deleteBlockData(sourceId)}>
-                        删除组件
-                    </Button>
+                {(source === 'aigcode-blocks' && selectedBlockId) && (
+                    <>
+                        <Button variant="default" className="w-full mb-2 bg-sky-600 hover:bg-sky-500 text-white" onClick={() => {
+                            updateBlockData({
+                                ...blocksMap[selectedBlockId!],
+                                code,
+                                props
+                            });
+                        }}>
+                            更新组件
+                        </Button>
+                        <Button variant="default" className="w-full mb-2 bg-red-600 hover:bg-red-500 text-white" onClick={() => deleteBlockData(selectedBlockId)}>
+                            删除组件
+                        </Button>
+                    </>
                 )}
             </div>}
 
             <div id="preview-viewport" className={`ml-${isSidebarCollapsed ? '0' : '[15%]'} w-full overflow-y-auto p-4 font-fa font-custom-body transition-all`}>
                 {code && oldCode ? (
-                    <div className='flex-1 flex gap-4'>
-                        <div className='w-[50%]'>
+                    <div className='flex-1 flex gap-0 relative' ref={splitPaneRef}>
+                        <div className='overflow-auto' style={{ width: `${splitPosition}%`, minWidth: '10%' }}>
                             <CodeTsxLoader
-                            code={activeTab === 'new' ? code : oldCode}
-                            customComponents={{
-                                AnimateInView,
-                                EditableText,
-                                EditableButton,
-                                Overflow,
-                                EditableIcon,
-                                Carousel,
-                                EditableImg,
-                                Marquee,
-                                motion,
-                                throttle,
-                                AnimatePresence,
-                            }}
-                            props={{}}
-                        />
+                                code={activeTab === 'new' ? code : oldCode}
+                                customComponents={{
+                                    AnimateInView,
+                                    EditableText,
+                                    EditableButton,
+                                    Overflow,
+                                    EditableIcon,
+                                    Carousel,
+                                    EditableImg,
+                                    Marquee,
+                                    motion,
+                                    throttle,
+                                    AnimatePresence,
+                                }}
+                                props={{}}
+                            />
                         </div>
-                        <div className="flex-1 flex gap-4">
-                            <div className="flex-1  min-w-[50%]">
+
+                        {/* 拖动调整栏 */}
+                        <div
+                            className="flex-none w-2 bg-gray-300 hover:bg-blue-500 cursor-col-resize relative group z-10"
+                            onMouseDown={handleMouseDown}
+                            style={{ touchAction: 'none' }}
+                        >
+                            <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-4 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <div className="h-8 w-[3px] bg-blue-600 rounded"></div>
+                            </div>
+                        </div>
+
+                        <div className="overflow-auto" style={{ width: `${100 - splitPosition}%`, minWidth: '10%' }}>
+                            <div className="h-full">
                                 <MonacoEditor
                                     key={selectedBlockId}
                                     value={code}

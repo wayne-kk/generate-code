@@ -28,8 +28,8 @@ const generateCSS = () => {
   });
 
   // 添加字体变量
-  css += `--custom-heading-font:  Lato, "ui-sans-serif", "system-ui", "-apple-system", "blinkmacsystemfont", "Segoe UI", "roboto", "Helvetica Neue", arial, "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
-  css += `--custom-body-font: Audiowide, "ui-sans-serif", "system-ui", "-apple-system", "blinkmacsystemfont", "Segoe UI", "roboto", "Helvetica Neue", arial, "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
+  css += `--custom-heading-font:  "Lato", "ui-sans-serif", "system-ui", "-apple-system", "blinkmacsystemfont", "Segoe UI", "roboto", "Helvetica Neue", arial, "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
+  css += `--custom-body-font: "Audiowide", "ui-sans-serif", "system-ui", "-apple-system", "blinkmacsystemfont", "Segoe UI", "roboto", "Helvetica Neue", arial, "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";\n`;
 
   css += '}\n';
 
@@ -38,24 +38,24 @@ const generateCSS = () => {
   colorSeries.forEach(color => {
     colorScales.forEach(scale => {
       // 背景色
-      css += `.bg-${color}-${scale} { background-color: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .bg-${color}-${scale} { background-color: var(--ai-theme-color-${scale}) }\n`;
       // 文本色
-      css += `.text-${color}-${scale} { color: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .text-${color}-${scale} { color: var(--ai-theme-color-${scale}) }\n`;
       // 边框色
-      css += `.border-${color}-${scale} { border-color: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .border-${color}-${scale} { border-color: var(--ai-theme-color-${scale}) }\n`;
       // hover 背景色
-      css += `.hover\\:bg-${color}-${scale}:hover { background-color: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .hover\\:bg-${color}-${scale}:hover { background-color: var(--ai-theme-color-${scale}) }\n`;
       // hover 文字色
-      css += `.hover\\:text-${color}-${scale}:hover { color: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .hover\\:text-${color}-${scale}:hover { color: var(--ai-theme-color-${scale}) }\n`;
     });
   });
   const colorSeries2 = [...colorSeries, 'gray']
   colorSeries2.forEach(color => {
     colorScales.forEach(scale => {
       // 渐变起点
-      css += `.from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-${scale}) }\n`;
       // 渐变终点
-      css += `.to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-${scale}) !important; }\n`;
+      css += `#preview-viewport .to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-${scale}) }\n`;
     });
   });
 
