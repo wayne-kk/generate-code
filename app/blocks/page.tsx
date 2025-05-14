@@ -178,6 +178,8 @@ const BlocksPage = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
+    console.log('code', code);
+
     return (
         <div className="flex">
             <button onClick={handleToggleSidebar} className={`z-[100] fixed top-16 left-${isSidebarCollapsed ? '0' : '[250px]'} bg-gray-200 p-2 rounded-l-md`}>
@@ -287,7 +289,6 @@ const BlocksPage = () => {
                         ...blocksMap[selectedBlockId!],
                         id: nanoid(),
                         code,
-                        props,
                         source_id: selectedBlockId,
                     });
                 }}>
@@ -300,8 +301,8 @@ const BlocksPage = () => {
                             updateBlockData({
                                 ...blocksMap[selectedBlockId!],
                                 code,
-                                props
                             });
+                            blocksMap[selectedBlockId!].code = code;
                         }}>
                             更新组件
                         </Button>
