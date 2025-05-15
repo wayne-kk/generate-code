@@ -15,9 +15,9 @@ const EditableText: React.FC<EditableTextProps & React.HTMLAttributes<HTMLDivEle
     const linkText = text.split('&')[1];
     // 从文本中提取 `text=` 后的内容
     const match = text.match(/text=([^&]*)/);
-    const result = decodeURIComponent(match ? match[1] : text);
+    const safetText = text.replace(/%(?![0-9A-Fa-f]{2})/g, '%25');
+    const result = decodeURIComponent(match ? match[1] : safetText);
 
-    const pageDefaultData = { ...JSON.parse(localStorage.getItem('pageDefaultData') ?? '{}') }
     return isEditing ? (
         <input
             type="text"
@@ -31,14 +31,6 @@ const EditableText: React.FC<EditableTextProps & React.HTMLAttributes<HTMLDivEle
             <span key={propKey} onClick={(e) => {
                 const linkText = e.currentTarget.dataset.link;
                 if (!linkText) return
-                // const pageInfo = pageDefaultData.pageInfo
-                // for (const info of pageInfo.data.list) {
-                //     if (linkText.includes(info.path)) {
-                //         pageDefaultData.blocksMap = info.blocksData.blocksMap
-                //         pageDefaultData.children = info.blocksData.children
-                //         localStorage.setItem('pageDefaultData', JSON.stringify(pageDefaultData))
-                //     }
-                // }
             }} className={className} data-link={linkText} {...rest} >
                 {result}
             </span>

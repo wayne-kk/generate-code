@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 import MonacoEditor from '@/components/@codeEditor/CodeEditor';
-import CodeLoader from '@/components/@codeLoader/CodeLoader';
 import CodeTsxLoader from '@/components/@codeLoader/CodeTsxLoader';
+import { gsap } from 'gsap'
+import { toast } from 'sonner'
 import AnimateInView from '@/components/@base/AnimateInView';
 import EditableButton from '@/components/@base/EditableButton';
 import EditableIcon from '@/components/@base/EditableIcon';
@@ -15,13 +16,26 @@ import { Carousel } from 'react-responsive-carousel';
 import Marquee from '@/components/@base/Marquee';
 import Overflow from '@/components/@base/Overflow';
 import { nanoid } from 'nanoid';
-import toast from 'react-hot-toast';
 import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import {
+    useFormField,
+    Form,
+    FormItem,
+    FormLabel,
+    FormControl,
+    FormDescription,
+    FormMessage,
+    FormField
+} from "@/components/ui/form"
+import { Label } from '@/components/ui/label';
 
 const BlocksPage = () => {
-    const [source, setSource] = useState<'blocks' | 'aigcode-blocks'>('blocks');
+    const [source, setSource] = useState<'blocks' | 'aigcode-blocks' | 'backend-blocks'>('aigcode-blocks');
     const [blocks, setBlocks] = useState<any[]>([]);
     const [blocksMap, setBlocksMap] = useState<Record<string, any>>({});
     const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -30,6 +44,7 @@ const BlocksPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [code, setCode] = useState<string | null>(null);
     const [oldCode, setOldCode] = useState<string | null>(null);
+    const [oldName, setOldName] = useState<string | null>(null);
     const [props, setProps] = useState<any>({});
     const [activeTab, setActiveTab] = useState<'new' | 'old'>('new');
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // 控制左侧栏显示/隐藏
@@ -48,7 +63,7 @@ const BlocksPage = () => {
             const result = await res.json();
             if (res.ok) {
                 toast.success('组件更新成功');
-                return { success: true, data: result.data };
+                return { success: true, data: result.data, finalName: result.finalName };
             } else {
                 toast.error(result.error || '组件更新失败');
                 return { success: false, error: result.error };
@@ -125,6 +140,7 @@ const BlocksPage = () => {
             const json = await res.json();
             if (res.ok) {
                 setOldCode(json.data.code);
+                setOldName(json.data.name)
             }
         };
         fetchCompare();
@@ -178,8 +194,6 @@ const BlocksPage = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
-    console.log('code', code);
-
     return (
         <div className="flex">
             <button onClick={handleToggleSidebar} className={`z-[100] fixed top-16 left-${isSidebarCollapsed ? '0' : '[250px]'} bg-gray-200 p-2 rounded-l-md`}>
@@ -196,7 +210,7 @@ const BlocksPage = () => {
                     <label className="block text-sm font-medium mb-2">组件库</label>
                     <Tabs defaultValue={source} className="w-full" onValueChange={(val) => setSource(val as 'blocks' | 'aigcode-blocks')}>
                         <TabsList className="grid w-full h-full grid-cols-2 rounded-lg border bg-gray-100 shadow-sm">
-                            <TabsTrigger
+                            {/* <TabsTrigger
                                 value="blocks"
                                 className={`w-full text-center py-2 rounded-lg transition-all ${source === 'blocks'
                                     ? 'bg-blue-600 text-white border-b-4 border-blue-700'
@@ -204,7 +218,7 @@ const BlocksPage = () => {
                                     }`}
                             >
                                 blocks
-                            </TabsTrigger>
+                            </TabsTrigger> */}
                             <TabsTrigger
                                 value="aigcode-blocks"
                                 className={`w-full text-center py-2 rounded-lg transition-all ${source === 'aigcode-blocks'
@@ -214,12 +228,21 @@ const BlocksPage = () => {
                             >
                                 aigcode-blocks
                             </TabsTrigger>
+                            <TabsTrigger
+                                value="backend-blocks"
+                                className={`w-full text-center py-2 rounded-lg transition-all ${source === 'backend-blocks'
+                                    ? 'bg-blue-600 text-white border-b-4 border-blue-700'
+                                    : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                                    }`}
+                            >
+                                backend-blocks
+                            </TabsTrigger>
                         </TabsList>
                     </Tabs>
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">组件类型</label>
+                    <label className="block text-sm font-medium mb-1">组件类型 </label>
                     <Select value={selectedType || ''} onValueChange={(val) => setSelectedType(val)}>
                         <SelectTrigger className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <SelectValue placeholder="选择组件类型" className="text-gray-600" />
@@ -236,7 +259,7 @@ const BlocksPage = () => {
 
                 {selectedType && (
                     <div className="mb-4 z-10">
-                        <label className="block text-sm font-medium mb-2">组件名称</label>
+                        <label className="block text-sm font-medium mb-2">组件名称 {oldName}</label>
                         <Select
                             value={selectedBlockId || ''}
                             onValueChange={(val) => {
@@ -297,7 +320,32 @@ const BlocksPage = () => {
 
                 {(source === 'aigcode-blocks' && selectedBlockId) && (
                     <>
-                        <Button variant="default" className="w-full mb-2 bg-sky-600 hover:bg-sky-500 text-white" onClick={() => {
+                        <Button variant="default" className="w-full mb-2 bg-sky-600 hover:bg-sky-500 text-white px-0" onClick={async () => {
+                            const id = nanoid();
+                            const { finalName } = await updateBlockData({
+                                ...blocksMap[selectedBlockId!],
+                                id: id,
+                                code,
+                            });
+                            blocksMap[id!] = {
+                                ...blocksMap[selectedBlockId!],
+                                id: id,
+                                name: finalName,
+                                code,
+                            }
+                            blocks.push({
+                                ...blocksMap[selectedBlockId!],
+                                id: id,
+                                name: finalName,
+                                code,
+                            })
+                            setCode(code);
+                            setSelectedBlockId(id);
+                            setSourceId(blocksMap[id]?.source_id ?? null);
+                        }}>
+                            复制为一个新组件
+                        </Button>
+                        <Button variant="default" className="w-full mb-2 bg-sky-600 hover:bg-sky-500 text-white px-0" onClick={() => {
                             updateBlockData({
                                 ...blocksMap[selectedBlockId!],
                                 code,
@@ -306,7 +354,7 @@ const BlocksPage = () => {
                         }}>
                             更新组件
                         </Button>
-                        <Button variant="default" className="w-full mb-2 bg-red-600 hover:bg-red-500 text-white" onClick={() => deleteBlockData(selectedBlockId)}>
+                        <Button variant="default" className="w-full mb-2 bg-red-600 hover:bg-red-500 text-white px-0" onClick={() => deleteBlockData(selectedBlockId)}>
                             删除组件
                         </Button>
                     </>
@@ -331,6 +379,22 @@ const BlocksPage = () => {
                                     motion,
                                     throttle,
                                     AnimatePresence,
+                                    Button,
+                                    Card,
+                                    CardContent,
+                                    Input,
+                                    Textarea,
+                                    useFormField,
+                                    Form,
+                                    FormItem,
+                                    FormLabel,
+                                    FormControl,
+                                    FormDescription,
+                                    FormMessage,
+                                    FormField,
+                                    Label,
+                                    toast,
+                                    gsap
                                 }}
                                 props={{}}
                             />

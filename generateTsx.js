@@ -65,15 +65,15 @@ ${typeInterfaces}
 async function generateFiles() {
   // 请求接口获取函数字符串
   const functionStrings = []
-  const propsList = []
+  const nameList = []
   const fetchBlocks = async () => {
     try {
-      const res = await fetch(`https://wayne.beer/api/blocks`);
+      const res = await fetch(`https://wayne.beer/api/aigcode-blocks`);
       const data = await res.json();
       if (res.ok) {
         for (const block of data.data) {
           functionStrings.push(block.code)
-          propsList.push(JSON.parse(block.props))
+          nameList.push(block.name)
         }
       }
     } catch (err) {
@@ -83,25 +83,13 @@ async function generateFiles() {
   await fetchBlocks();
   functionStrings.forEach((funcStr, index) => {
     // 生成类型接口
-    const typeInterface = generateInterface(funcStr, propsList[index]);
 
     // 生成TSX文件内容
-    const blockName = funcStr.match(/function (\w+)/)[1];
+    const blockName = nameList[index];
     const fileName = `${blockName}.tsx`;
-    const dirName = fileName.split('_')[0];
-    const importText = Object.keys(fixedImports).map(key => {
-      if (funcStr.includes(key)) {
-        return fixedImports[key];
-      }
-    }).filter(Boolean)  // 过滤掉 null 或 undefined
-      .join('\n');
-    const fileContent = `
-    ${importText}
-    ${typeInterface} 
-    const ${dirName}: React.FC<I${dirName}Props> = ${funcStr.replace(`${blockName}`, '')};
-    export default ${dirName};
-`;
+    const dirName = blockName.split('_')[0];
 
+    const fileContent = funcStr;
     // 将内容写入文件
     // 获取文件路径
     const dirPath = path.join(__dirname, 'office_web_components', dirName);
