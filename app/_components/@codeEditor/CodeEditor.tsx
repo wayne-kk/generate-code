@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import useMonacoInit from '@/lib/use-monaco-init';
+import useMonacoInit from '@/_lib/use-monaco-init';
 
 // Dynamically import the Monaco editor to prevent SSR issues
 const MonacoEditorComponent = dynamic(

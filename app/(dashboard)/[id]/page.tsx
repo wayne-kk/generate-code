@@ -1,6 +1,6 @@
 'use client';
 
-import CombinationApp from '@/components/CombinationApp';
+import CombinationApp from '@/_components/CombinationApp';
 import chroma from 'chroma-js';
 import { useParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
@@ -8,7 +8,7 @@ import { ChromePicker } from 'react-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFont } from '@fortawesome/free-solid-svg-icons';
 import './container.css';
-import { getSystemFont, fontOptions } from '@/hooks/useFont';
+import { getSystemFont, fontOptions } from '@/_hooks/useFont';
 
 const Page = () => {
     const [pageData, setPageData] = useState<any>(null);

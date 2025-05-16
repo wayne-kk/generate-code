@@ -1,4 +1,4 @@
-import { insertBlock } from '@/lib/database';
+import { insertBlock } from '@/_lib/database';
 
 // 定义请求体的类型
 interface RequestBody {

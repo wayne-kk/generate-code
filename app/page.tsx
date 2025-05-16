@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import ConfirmDialog from './components/@business/ConfirmDialog';
+import ConfirmDialog from './_components/@business/ConfirmDialog';
 import { MdMoreHoriz } from 'react-icons/md';
 
 type PageData = {

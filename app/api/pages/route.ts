@@ -1,4 +1,4 @@
-import supabase from "@/lib/supabase";
+import supabase from "@/_lib/supabase";
 
 export async function GET(req: Request) {
     const headers = new Headers();

@@ -1,10 +1,10 @@
 'use client'
 import "./globals.css";
-import Navbar from './components/@business/Navbar'
+import Navbar from './_components/@business/Navbar'
 import { usePathname } from "next/navigation"
-import { useFonts } from "./hooks/useFont";
+import { useFonts } from "./_hooks/useFont";
 import "./custom-styles.css"; // Temporarily commented out due to issues
-import { Toaster } from "./components/ui/sonner";
+import { Toaster } from "./_components/ui/sonner";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { fontVariables } = useFonts()

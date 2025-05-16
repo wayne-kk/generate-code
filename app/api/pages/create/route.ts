@@ -1,4 +1,4 @@
-import supabase from "@/lib/supabase";
+import supabase from "@/_lib/supabase";
 import { nanoid } from "nanoid";
 
 const defaultExtra = {

@@ -1,27 +1,27 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import MonacoEditor from '@/components/@codeEditor/CodeEditor';
-import CodeTsxLoader from '@/components/@codeLoader/CodeTsxLoader';
+import MonacoEditor from '@/_components/@codeEditor/CodeEditor';
+import CodeTsxLoader from '@/_components/@codeLoader/CodeTsxLoader';
 import { gsap } from 'gsap'
 import { toast } from 'sonner'
-import AnimateInView from '@/components/@base/AnimateInView';
-import EditableButton from '@/components/@base/EditableButton';
-import EditableIcon from '@/components/@base/EditableIcon';
-import EditableImg from '@/components/@base/EditableImg';
-import EditableText from '@/components/@base/EditableText';
+import AnimateInView from '@/_components/@base/AnimateInView';
+import EditableButton from '@/_components/@base/EditableButton';
+import EditableIcon from '@/_components/@base/EditableIcon';
+import EditableImg from '@/_components/@base/EditableImg';
+import EditableText from '@/_components/@base/EditableText';
 import { AnimatePresence, motion } from 'framer-motion';
 import { isObject, throttle } from 'lodash-es';
 import { Carousel } from 'react-responsive-carousel';
-import Marquee from '@/components/@base/Marquee';
-import Overflow from '@/components/@base/Overflow';
+import Marquee from '@/_components/@base/Marquee';
+import Overflow from '@/_components/@base/Overflow';
 import { nanoid } from 'nanoid';
-import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/_components/ui/select';
+import { Button } from '@/_components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/_components/ui/tabs';
+import { Card, CardContent } from "@/_components/ui/card"
+import { Input } from "@/_components/ui/input"
+import { Textarea } from "@/_components/ui/textarea"
 import {
     useFormField,
     Form,
@@ -31,8 +31,8 @@ import {
     FormDescription,
     FormMessage,
     FormField
-} from "@/components/ui/form"
-import { Label } from '@/components/ui/label';
+} from "@/_components/ui/form"
+import { Label } from '@/_components/ui/label';
 
 const BlocksPage = () => {
     const [source, setSource] = useState<'blocks' | 'aigcode-blocks' | 'backend-blocks'>('aigcode-blocks');
@@ -192,8 +192,8 @@ const BlocksPage = () => {
     const sortedBlocks = sortHierarchicalStrings(filteredBlocks);
     function sortHierarchicalStrings(array: any, delimiter: '_' = '_') {
         return array.sort((a: any, b: any) => {
-            const splitA = a.name.split(delimiter).map((part, index) => index === 0 ? part : Number(part));
-            const splitB = b.name.split(delimiter).map((part, index) => index === 0 ? part : Number(part));
+            const splitA = a.name.split(delimiter).map((part: any, index: any) => index === 0 ? part : Number(part));
+            const splitB = b.name.split(delimiter).map((part: any, index: any) => index === 0 ? part : Number(part));
 
             for (let i = 1; i < Math.max(splitA.length, splitB.length); i++) {
                 if (splitA[i] === undefined) return -1; // a has fewer levels
@@ -291,7 +291,7 @@ const BlocksPage = () => {
                                 <SelectValue placeholder="选择组件" />
                             </SelectTrigger>
                             <SelectContent className="bg-white shadow-lg rounded-lg mt-1 max-h-[500px]">
-                                {sortedBlocks.map((block, index) => (
+                                {sortedBlocks.map((block: any, index: any) => (
                                     <SelectItem key={block.id} value={block.id} className="hover:bg-blue-50 text-sm py-2 px-4 transition-all">
                                         {block.name || block.id}
                                     </SelectItem>

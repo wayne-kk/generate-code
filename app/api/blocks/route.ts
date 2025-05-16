@@ -1,7 +1,7 @@
 // app/api/blocks/route.ts
 
 import { NextResponse } from 'next/server';
-import { getRandomBlockByKeyword, getBlockById, getAllBlocks } from '@/lib/database';
+import { getRandomBlockByKeyword, getBlockById, getAllBlocks } from '@/_lib/database';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
