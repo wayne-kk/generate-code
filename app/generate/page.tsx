@@ -12,11 +12,9 @@ const DescriptionSender = () => {
 
     const handleSubmit = async () => {
         if (!description) return;
-
         setLoading(true);
-
         try {
-            const res = await fetch("/api/generate-web", {
+            const res = await fetch("/api/project/generate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -28,7 +26,6 @@ const DescriptionSender = () => {
 
             const data = await res.json();
             const { pageId } = JSON.parse(data.answer);
-            console.log("data", data, pageId);
 
             setResponse(data.answer); // 假设返回的响应字段是 answer
             // 页面生成成功，跳转到生成的页面

@@ -87,7 +87,7 @@ const Page = () => {
 
         const fetchPageData = async () => {
             try {
-                const res = await fetch(`/api/get-page?id=${id}`);
+                const res = await fetch(`/api/pages/${id}`);
                 const data = await res.json();
 
                 if (res.ok) {

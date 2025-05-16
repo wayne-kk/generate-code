@@ -7,6 +7,30 @@ const unsplash = createApi({
     accessKey: UNSPLASH_ACCESS_KEY,
 });
 
+export async function GET(request: Request) {
+    try {
+        // 从请求查询参数中获取搜索关键字
+        const url = new URL(request.url);
+        const query = url.searchParams.get('query') || "[\"nature\"]"; // 默认查询关键词为 'nature'
+        const count = Number(url.searchParams.get('count')) || 1; // 默认获取1张图片
+        console.log('query', query, 'count', count, JSON.parse(query));
+        const key = JSON.parse(query).join(','); // 将数组转换为字符串
+        // 调用 fetchImages 函数获取图片数组
+        const images = await fetchImages(key, count);
+
+        if (!images || images.length === 0) {
+            return NextResponse.json({ error: 'No images found.' }, { status: 404 });
+        }
+
+        // 返回图片数组和其详细信息
+        return NextResponse.json({ images });
+    } catch (error) {
+        console.error('Unexpected error:', error);
+        return NextResponse.json({ error: 'Unable to fetch images.' }, { status: 500 });
+    }
+}
+
+
 // 封装函数用于获取随机图片
 async function fetchImages(query: string, count: number): Promise<any[] | null> {
     try {
@@ -39,25 +63,3 @@ async function fetchImages(query: string, count: number): Promise<any[] | null> 
     return null;
 }
 
-export async function GET(request: Request) {
-    try {
-        // 从请求查询参数中获取搜索关键字
-        const url = new URL(request.url);
-        const query = url.searchParams.get('query') || "[\"nature\"]"; // 默认查询关键词为 'nature'
-        const count = Number(url.searchParams.get('count')) || 1; // 默认获取1张图片
-        console.log('query', query, 'count', count, JSON.parse(query));
-        const key = JSON.parse(query).join(','); // 将数组转换为字符串
-        // 调用 fetchImages 函数获取图片数组
-        const images = await fetchImages(key, count);
-
-        if (!images || images.length === 0) {
-            return NextResponse.json({ error: 'No images found.' }, { status: 404 });
-        }
-
-        // 返回图片数组和其详细信息
-        return NextResponse.json({ images });
-    } catch (error) {
-        console.error('Unexpected error:', error);
-        return NextResponse.json({ error: 'Unable to fetch images.' }, { status: 500 });
-    }
-}

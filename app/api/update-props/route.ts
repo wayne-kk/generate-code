@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
+// 主处理函数，接收请求并更新 props 中的图片 URL
+export async function POST(request: Request) {
+    try {
+        const { props, query } = await request.json(); // 获取请求体中的 props 和 query（默认为 'nature'）
+        // 递归更新 props 中的图片 URL
+        const updatedProps = await updatePropsWithImageUrls(props, query);
+
+        return NextResponse.json(updatedProps); // 返回更新后的 props
+    } catch (error) {
+        console.error('Error updating props:', error);
+        return NextResponse.json({ error: 'Failed to update props' }, { status: 500 });
+    }
+}
 
 // 辅助函数：检查给定的字符串是否为图片 URL
 function isImageUrl(value: string): boolean {
@@ -17,7 +30,7 @@ function isImageUrl(value: string): boolean {
 async function fetchNewImages(query: string, count: number = 1): Promise<string[] | null> {
     try {
         // 从环境变量中获取 BASE_URL
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-images`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/image/unsplash`, {
             params: { query, count }, // 传递查询参数和图片数量
         });
 
@@ -95,17 +108,3 @@ async function updatePropsWithImageUrls(props: any, query: string): Promise<any>
 }
 
 
-// 主处理函数，接收请求并更新 props 中的图片 URL
-export async function POST(request: Request) {
-    try {
-        const { props, query } = await request.json(); // 获取请求体中的 props 和 query（默认为 'nature'）
-        // 递归更新 props 中的图片 URL
-        console.log('query', query);
-        const updatedProps = await updatePropsWithImageUrls(props, query);
-
-        return NextResponse.json(updatedProps); // 返回更新后的 props
-    } catch (error) {
-        console.error('Error updating props:', error);
-        return NextResponse.json({ error: 'Failed to update props' }, { status: 500 });
-    }
-}

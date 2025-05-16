@@ -33,7 +33,7 @@ export default function Home() {
   const fetchPages = async (pageToFetch: number) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/getAllPages?page=${pageToFetch}&pageSize=${pageSize}`);
+      const res = await fetch(`/api/pages?page=${pageToFetch}&pageSize=${pageSize}`);
       const json = await res.json();
       if (res.ok) {
         setPages((prev) => [...prev, ...json.data]);

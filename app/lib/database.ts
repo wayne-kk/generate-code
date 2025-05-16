@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import supabase from './supabase';
 
 /**
@@ -52,29 +51,6 @@ export async function getBlockById(blockId: string) {
   return data;
 }
 
-/**
- * 通过 blockId 查询 blocks 表，获取具体的 block 数据
- * @param blockId 
- * @returns 
- */
-export async function getAiBlockById(blockId: string) {
-  // 查询 blocks 表，通过 blockId 获取具体的 block 数据
-  const { data, error } = await supabase
-    .from('ai_blocks')  // 查询 blocks 表
-    .select('*')
-    .eq('id', blockId)  // 通过 id 字段进行精确匹配
-    .single();  // 只返回一个匹配项
-
-  if (error) {
-    console.error('Error querying block by ID:', error.message);
-    return null;
-  }
-
-  // 如果没有找到对应的 block，返回 null
-  if (!data) return null;
-
-  return data;
-}
 
 
 export async function insertBlock(block: any) {
@@ -118,33 +94,6 @@ export async function insertBlock(block: any) {
   } else {
     console.log('Block saved:', data);
   }
-}
-
-export async function insertAiBlock(block: any) {
-  if (!block || !block.id || !block.name || !block.code) return;
-
-  // 对 block 数据做适当转换
-  const blockName = block.name;
-  const blockType = blockName.split('_')[0];
-
-  const blockId = nanoid()
-  // 使用 Supabase 插入数据
-  const { data, error } = await supabase
-    .from('ai_blocks')  // 替换为你的表名
-    .upsert({
-      id: blockId,
-      source_id: block.id,
-      name: blockName,
-      code: block.code,
-      type: blockType,
-      props: block.props,
-    }, { onConflict: 'id' })  // 使用 upsert 方法插入或更新数据
-  if (error) {
-    console.error('Error inserting block:', error);
-  } else {
-    console.log('Block saved:', data);
-  }
-  return blockId
 }
 
 

@@ -45,12 +45,6 @@ export async function POST(req: Request) {
             .from('page_data')
             .upsert([pagedata], { onConflict: 'id' });
 
-        // const imageUrl = await generateCover(process.env.NEXT_PUBLIC_BASE_URL + '/' + pagedata.id)
-
-        // await supabase
-        //     .from('page_data')
-        //     .upsert([{ id: pagedata.id, cover_url: imageUrl }], { onConflict: 'id' });
-
         if (error) {
             return new Response(JSON.stringify({ error: error.message }), {
                 status: 500,

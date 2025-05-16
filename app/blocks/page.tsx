@@ -189,6 +189,23 @@ const BlocksPage = () => {
 
     const uniqueTypes = [...new Set(blocks.map(block => block.type).filter(Boolean))];
     const filteredBlocks = selectedType ? blocks.filter(block => block.type === selectedType) : [];
+    const sortedBlocks = sortHierarchicalStrings(filteredBlocks);
+    function sortHierarchicalStrings(array: any, delimiter: '_' = '_') {
+        return array.sort((a: any, b: any) => {
+            const splitA = a.name.split(delimiter).map((part, index) => index === 0 ? part : Number(part));
+            const splitB = b.name.split(delimiter).map((part, index) => index === 0 ? part : Number(part));
+
+            for (let i = 1; i < Math.max(splitA.length, splitB.length); i++) {
+                if (splitA[i] === undefined) return -1; // a has fewer levels
+                if (splitB[i] === undefined) return 1;  // b has fewer levels
+
+                if (splitA[i] !== splitB[i]) {
+                    return Number(splitA[i]) - Number(splitB[i]); // Compare the numerical values
+                }
+            }
+            return 0; // They are equal
+        });
+    }
 
     const handleToggleSidebar = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -274,7 +291,7 @@ const BlocksPage = () => {
                                 <SelectValue placeholder="选择组件" />
                             </SelectTrigger>
                             <SelectContent className="bg-white shadow-lg rounded-lg mt-1 max-h-[500px]">
-                                {filteredBlocks.map((block) => (
+                                {sortedBlocks.map((block, index) => (
                                     <SelectItem key={block.id} value={block.id} className="hover:bg-blue-50 text-sm py-2 px-4 transition-all">
                                         {block.name || block.id}
                                     </SelectItem>

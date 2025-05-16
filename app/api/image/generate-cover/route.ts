@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateCover } from '../../../utils/generateCover';
+import { generateCover } from '../../../../utils/generateCover';
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);

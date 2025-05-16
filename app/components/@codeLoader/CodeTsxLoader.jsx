@@ -28,7 +28,6 @@ const CodeTsxLoader = ({ code, customComponents = {}, props = {} }) => {
 
             // ✅ Step 4: 移除 Babel 多余的 `export {};`
             const cleanedCode = transformed.code.replace(/export\s*\{\s*\};?$/, '');
-            console.log('⚙️ Cleaned Code:\n', cleanedCode);
 
             // ✅ Step 5: 注入环境 & 执行
             const componentKeys = Object.keys(customComponents).join(', ');

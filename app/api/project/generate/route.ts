@@ -1,4 +1,3 @@
-// app/api/generate-web/route.ts
 
 import { NextResponse } from "next/server";
 
