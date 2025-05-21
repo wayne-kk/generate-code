@@ -1,44 +1,25 @@
-'use client'
-import { motion, useAnimation } from "framer-motion";
-import React, { ReactNode, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
+import React, { ReactNode } from "react";
 
+// 定义动画类型
 type AnimationType = "rise" | "fade";
 
 interface AnimateInViewProps {
-    type?: AnimationType;
-    children?: ReactNode;
-    className?: string;
+    type?: AnimationType; // 动画类型（"rise" 或 "fade"）
+    children?: ReactNode; // 子元素
 }
 
-const AnimateInView: React.FC<AnimateInViewProps> = ({ type = 'rise', children, className }) => {
-    const controls = useAnimation();
-    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
-
-    useEffect(() => {
-        if (inView) {
-            controls.start("visible");
-        }
-    }, [inView, controls]);
-
+const AnimateInView: React.FC<AnimateInViewProps> = ({ type = 'rise', children }) => {
     const variants = {
-        rise: {
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-        },
-        fade: {
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { duration: 0.6 } },
-        },
+        rise: { opacity: 0, y: 20, transition: { duration: 0.6 } },
+        fade: { opacity: 0, transition: { duration: 0.6 } },
     };
 
     return (
         <motion.div
-            ref={ref}
-            className={className}
-            initial="hidden"
-            animate={controls}
-            variants={variants[type]}
+            initial={variants[type]} // 初始动画
+            whileInView={{ opacity: 1, y: 0 }} // 当进入视图时的动画
+            viewport={{ once: true }} // 确保动画只触发一次
         >
             {children}
         </motion.div>

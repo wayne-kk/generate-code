@@ -17,23 +17,6 @@ const Marquee: React.FC<MarqueeProps> = ({
   autoFill = false,
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
-  const [contentWidth, setContentWidth] = useState(0);
-
-  // 获取内容的宽度
-  useEffect(() => {
-    const updateContentWidth = () => {
-      if (marqueeRef.current) {
-        setContentWidth(marqueeRef.current.scrollWidth);
-      }
-    };
-
-    updateContentWidth();
-
-    window.addEventListener('resize', updateContentWidth);
-    return () => {
-      window.removeEventListener('resize', updateContentWidth);
-    };
-  }, [children]);
 
   return (
     <div className={`overflow-hidden ${className}`}>

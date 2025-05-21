@@ -13,7 +13,6 @@ const CodeTsxLoader = ({ code, customComponents = {}, props = {} }) => {
         try {
             // ✅ Step 1: 注释 import
             const sanitizedCode = sanitizeCode(code);
-            console.log('🧼 Sanitized Code:\n', sanitizedCode);
 
             // ✅ Step 2: 替换 export default
             const wrappedCode = sanitizedCode.includes('export default')

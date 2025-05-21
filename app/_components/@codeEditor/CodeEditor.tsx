@@ -11,7 +11,7 @@ const MonacoEditorComponent = dynamic(
 );
 
 interface EditorProps {
-    value?: string;
+    value?: string | null;
     language?: string;
     onChange?: (value: string | undefined) => void;
 }
@@ -187,7 +187,7 @@ export default function MonacoEditor({ value, language, onChange }: EditorProps)
             <MonacoEditorComponent
                 height="750px"
                 language={detectedLanguage}
-                value={value}
+                value={value!}
                 theme="vs-dark"
                 onChange={handleEditorChange}
                 onMount={handleEditorDidMount}

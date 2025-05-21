@@ -1,15 +1,5 @@
 import React, { CSSProperties } from 'react';
 import "./base.css"
-// interface imageProps {
-//     id: string;
-//     alt_description: string;
-//     imageUrl: string;
-//     user: {
-//         name?: string;
-//         username?: string;
-//         profileUrl?: string;
-//     };
-// }
 
 interface EditableImgProps {
     src?: string;
