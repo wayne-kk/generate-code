@@ -38,24 +38,24 @@ const generateCSS = () => {
   colorSeries.forEach(color => {
     colorScales.forEach(scale => {
       // 背景色
-      css += `#preview-viewport .bg-${color}-${scale} { background-color: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .bg-${color}-${scale} { background-color: var(--ai-theme-color-${scale}) !important}  \n`;
       // 文本色
-      css += `#preview-viewport .text-${color}-${scale} { color: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .text-${color}-${scale} { color: var(--ai-theme-color-${scale}) !important}  \n`;
       // 边框色
-      css += `#preview-viewport .border-${color}-${scale} { border-color: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .border-${color}-${scale} { border-color: var(--ai-theme-color-${scale}) !important}  \n`;
       // hover 背景色
-      css += `#preview-viewport .hover\\:bg-${color}-${scale}:hover { background-color: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .hover\\:bg-${color}-${scale}:hover { background-color: var(--ai-theme-color-${scale}) !important}  \n`;
       // hover 文字色
-      css += `#preview-viewport .hover\\:text-${color}-${scale}:hover { color: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .hover\\:text-${color}-${scale}:hover { color: var(--ai-theme-color-${scale}) !important}  \n`;
     });
   });
   const colorSeries2 = [...colorSeries, 'gray']
   colorSeries2.forEach(color => {
     colorScales.forEach(scale => {
       // 渐变起点
-      css += `#preview-viewport .from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .from-${color}-${scale} { --tw-gradient-from: var(--ai-theme-color-${scale}) !important}  \n`;
       // 渐变终点
-      css += `#preview-viewport .to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-${scale}) }\n`;
+      css += `#preview-viewport .to-${color}-${scale} { --tw-gradient-to: var(--ai-theme-color-${scale}) !important}  \n`;
     });
   });
 

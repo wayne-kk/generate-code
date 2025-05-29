@@ -1,10 +1,10 @@
-'use client';
-import React, { useRef, useEffect, useState } from 'react';
+"use client";
+import React, { useRef } from "react";
 
 interface MarqueeProps {
   children: React.ReactNode;
   speed?: number; // 滚动速度，单位为秒
-  direction?: 'left' | 'right';
+  direction?: "left" | "right";
   className?: string;
   autoFill?: boolean; // 是否自动填充
 }
@@ -12,29 +12,26 @@ interface MarqueeProps {
 const Marquee: React.FC<MarqueeProps> = ({
   children,
   speed = 10,
-  direction = 'left',
-  className = '',
-  autoFill = false,
+  direction = "left",
+  className = "",
+  autoFill = true,
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={`overflow-hidden ${className}`}>
+    <div className={`overflow-hidden`}>
       <div
         ref={marqueeRef}
-        className="flex"
+        className={`flex `}
         style={{
-          animation: `${direction === 'left' ? 'scrollLeft' : 'scrollRight'} ${speed
-            }s linear infinite`,
+          animation: `${direction === "left" ? "scrollLeft" : "scrollRight"} ${speed}s linear infinite`,
         }}
       >
         {/* 渲染原始内容 */}
-        <div className="flex flex-shrink-0">{children}</div>
+        <div className={`flex flex-shrink-0  ${className}`}>{children}</div>
 
         {/* 如果需要填充的副本，使其实现首尾相连效果 */}
-        {autoFill && (
-          <div className="flex flex-shrink-0">{children}</div>
-        )}
+        {autoFill && <div className={`flex flex-shrink-0  ${className}`}>{children}</div>}
       </div>
 
       <style jsx>{`

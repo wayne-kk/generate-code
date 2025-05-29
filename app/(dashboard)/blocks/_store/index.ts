@@ -85,8 +85,11 @@ class BlocksManage extends BaseEventEmitter<BlockManageEvents> {
         return this._selectedType;
     }
 
-    setCode(code: string | null) {
+    setCode(code: string | null, isEmit = false) {
         this.code = code;
+        if (isEmit) {
+            this.emit('blocksChange', true);
+        }
     }
 
     setOldCode(code: string | null) {

@@ -16,32 +16,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script src="https://cdn.tailwindcss.com"></script>
         {/* 配置 darkMode: 'class' */}
-        {/* <script id="tailwind-config" >
-          {`
-            tailwind.config = {
-              darkMode: 'class',
-              // 其他配置...
-            }
-          `}
-        </script> */}
         <script dangerouslySetInnerHTML={{
           __html: `
             tailwind.config = {
               darkMode: 'class',
+              important: '#preview-container',
+              corePlugins: {
+                preflight: false, // 完全禁用 preflight
+              },
               // 其他配置...
             }
           `
         }} />
       </head>
-      <body className="antialiased text-black bg-white">
+      <body className="antialiased">
         <ThemeProvider>
           {showNavbar && <Navbar />}
           {/* 这里是你应用的主要内容 */}
           <div className="mt-16">{children}</div>
           <Toaster position="bottom-center"></Toaster>
         </ThemeProvider>
-      </body> 
+      </body>
     </html>
-  )   
+  )
 }
 

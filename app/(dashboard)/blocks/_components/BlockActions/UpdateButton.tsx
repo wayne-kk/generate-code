@@ -19,7 +19,7 @@ const UpdateButton = ({ }: UpdateButtonProps) => {
     return (
         <Button
             variant="default"
-            className="w-full mb-2 bg-sky-600 hover:bg-sky-500 text-white px-0"
+            className="w-full mb-2"
             onClick={handleUpdate}
         >
             更新组件

@@ -183,9 +183,9 @@ export default function MonacoEditor({ value, language, onChange }: EditorProps)
     }, []);
 
     return (
-        <div className="border rounded-md overflow-hidden w-full min-w-0">
+        <div className="border rounded-md overflow-hidden h-full min-w-0">
             <MonacoEditorComponent
-                height="750px"
+                height={"90%"}
                 language={detectedLanguage}
                 value={value!}
                 theme="vs-dark"

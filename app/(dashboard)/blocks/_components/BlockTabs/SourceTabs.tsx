@@ -10,21 +10,17 @@ const SourceTabs = ({ source, setSource }: SourceTabsProps) => {
         <div className="mb-4">
             <label className="block text-sm font-medium mb-2">组件库</label>
             <Tabs defaultValue={source} className="w-full" onValueChange={(val) => setSource(val as 'blocks' | 'aigcode-blocks' | 'backend-blocks')}>
-                <TabsList className="grid w-full h-full grid-cols-2 rounded-lg border bg-gray-100 shadow-sm">
+                <TabsList className=" w-full h-ful">
                     <TabsTrigger
                         value="aigcode-blocks"
-                        className={`w-full text-center py-2 rounded-lg transition-all ${source === 'aigcode-blocks'
-                            ? 'bg-blue-600 text-white border-b-4 border-blue-700'
-                            : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                        className={`w-full text-center py-2 rounded-lg transition-all
                             }`}
                     >
                         aigcode-blocks
                     </TabsTrigger>
                     <TabsTrigger
                         value="backend-blocks"
-                        className={`w-full text-center py-2 rounded-lg transition-all ${source === 'backend-blocks'
-                            ? 'bg-blue-600 text-white border-b-4 border-blue-700'
-                            : 'bg-transparent text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                        className={`w-full text-center py-2 rounded-lg transition-all 
                             }`}
                     >
                         backend-blocks

@@ -26,7 +26,8 @@ import {
 import { Label } from '@/_components/@ui/label';
 import { toast } from 'sonner';
 import { gsap } from 'gsap';
-
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/_components/@ui/select';
+import { useForm } from 'react-hook-form';
 interface CodePreviewProps {
     code: string | null;
 }
@@ -62,9 +63,14 @@ const CodePreview = ({ code }: CodePreviewProps) => {
                 FormDescription,
                 FormMessage,
                 FormField,
+                Select,
+                SelectItem,
+                SelectTrigger,
+                SelectContent,
                 Label,
                 toast,
-                gsap
+                gsap,
+                useForm
             }}
             props={{}}
         />

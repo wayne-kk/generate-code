@@ -40,7 +40,7 @@ const CreateButton = ({
     return (
         <Button
             variant="default"
-            className={`w-full mb-2 ${isCopy ? 'bg-sky-600 hover:bg-sky-500' : 'bg-blue-600 hover:bg-sky-500'} text-white px-0`}
+            className={`w-full mb-2`}
             onClick={handleCreate}
         >
             {isCopy ? '复制为一个新组件' : '创建为AIGCODE组件'}

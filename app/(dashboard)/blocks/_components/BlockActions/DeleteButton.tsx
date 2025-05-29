@@ -10,8 +10,8 @@ const DeleteButton = ({ }: DeleteButtonProps) => {
 
     return (
         <Button
-            variant="default"
-            className="w-full mb-2 bg-red-600 hover:bg-red-500 text-white px-0"
+            variant="destructive"
+            className="w-full mb-2"
             onClick={async () => {
                 const selectedBlockId = blocksManage.getSelectedBlockId()
                 await deleteBlockData(selectedBlockId!)

@@ -28,12 +28,12 @@ const TypeSelector = ({ }: TypeSelectorProps) => {
             <Select value={selectedType || ''} onValueChange={(val) => {
                 blocksManage.selectedType = val
             }}>
-                <SelectTrigger className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <SelectValue placeholder="选择组件类型" className="text-gray-600" />
+                <SelectTrigger className="w-full border border-gray-300 rounded-lg px-3 py-2 ">
+                    <SelectValue placeholder="选择组件类型" />
                 </SelectTrigger>
-                <SelectContent className="bg-white shadow-lg rounded-lg mt-1 max-h-[500px]">
+                <SelectContent className="shadow-lg rounded-lg mt-1 max-h-[500px]">
                     {uniqueTypes.map((type) => (
-                        <SelectItem key={type} value={type} className="text-gray-800 hover:bg-blue-50 hover:text-blue-600 px-4 py-2 rounded-md">
+                        <SelectItem key={type} value={type} className="">
                             {type}
                         </SelectItem>
                     ))}

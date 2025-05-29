@@ -49,12 +49,12 @@ const BlockList = ({
                     setSelectedBlockId(val)
                 }}
             >
-                <SelectTrigger className="w-full py-3 px-4 border rounded-lg bg-white text-gray-800 shadow-sm focus:ring-2 focus:ring-blue-500 transition-all">
+                <SelectTrigger className="w-full py-3 px-4 border rounded-lg  shadow-sm focus:ring-2 focus:ring-blue-500 transition-all">
                     <SelectValue placeholder="选择组件">
                         {sortedBlocks.find(block => block.id === selectedBlockId)?.name}
                     </SelectValue>
                 </SelectTrigger>
-                <SelectContent className="bg-white shadow-lg rounded-lg mt-1 max-h-[500px]">
+                <SelectContent className=" shadow-lg rounded-lg mt-1 max-h-[500px]">
                     {sortedBlocks.map((block: Block) => (
                         <SelectItem key={block.id} value={block.id} className="hover:bg-blue-50 text-sm py-2 px-4 transition-all">
                             {block.name || block.id}

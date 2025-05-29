@@ -4,6 +4,19 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ThemeToggleSwitch from '@/_components/@theme/ThemeToggleSwitch';
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "@/_components/@ui/menubar";
+import { Button } from "@/_components/@ui/button";
+import { Avatar, AvatarFallback } from "@/_components/@ui/avatar";
+import { Sheet, SheetContent, SheetTrigger } from "@/_components/@ui/sheet";
+import { Menu } from "lucide-react";
+
 interface User {
   id: string;
   name: string;
@@ -12,7 +25,7 @@ interface User {
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -53,208 +66,180 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-10 bg-white shadow-md">
+    <nav className="fixed top-0 left-0 right-0 z-10 bg-background/95 backdrop-blur-sm shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
+        <div className="flex justify-between h-16 items-center">
+          <div className="flex items-center">
+            <Link href="/" className="text-xl font-bold text-primary">
+              Generate Code
+            </Link>
 
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-blue-600">
-                Generate Code
-              </Link>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link 
-                href="/" 
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              >
-                Home
-              </Link>
-              <Link 
-                href="/generate" 
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              >
-                Generate
-              </Link>
-              <Link 
-                href="/blocks" 
-                className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              >
-                Blocks
-              </Link>
+            {/* Desktop Navigation */}
+            <div className="hidden sm:ml-6 sm:flex">
+              <Menubar className="border-none bg-transparent">
+                <MenubarMenu>
+                  <MenubarTrigger className="cursor-pointer data-[state=open]:bg-transparent focus:bg-transparent">
+                    <Link href="/" className="text-muted-foreground hover:text-foreground">
+                      Home
+                    </Link>
+                  </MenubarTrigger>
+                </MenubarMenu>
+                <MenubarMenu>
+                  <MenubarTrigger className="cursor-pointer data-[state=open]:bg-transparent focus:bg-transparent">
+                    <Link href="/generate" className="text-muted-foreground hover:text-foreground">
+                      Generate
+                    </Link>
+                  </MenubarTrigger>
+                </MenubarMenu>
+                <MenubarMenu>
+                  <MenubarTrigger className="cursor-pointer data-[state=open]:bg-transparent focus:bg-transparent">
+                    <Link href="/blocks" className="text-muted-foreground hover:text-foreground">
+                      Blocks
+                    </Link>
+                  </MenubarTrigger>
+                </MenubarMenu>
+              </Menubar>
             </div>
           </div>
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
+
+          {/* Desktop User Menu */}
+          <div className="hidden sm:flex sm:items-center gap-2">
+            <ThemeToggleSwitch />
+
             {user ? (
-              <div className="ml-3 relative">
-                <div>
-                  <button
-                    type="button"
-                    className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    id="user-menu-button"
-                    aria-expanded={isMenuOpen}
-                    aria-haspopup="true"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  >
-                    <span className="sr-only">Open user menu</span>
-                    <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                      {user.name.charAt(0).toUpperCase()}
+              <Menubar className="border-none bg-transparent">
+                <MenubarMenu>
+                  <MenubarTrigger className="cursor-pointer p-0 focus:bg-transparent">
+                    <Avatar className="h-8 w-8 bg-primary text-primary-foreground">
+                      <AvatarFallback>
+                        {user.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </MenubarTrigger>
+                  <MenubarContent align="end" className="w-56">
+                    <div className="px-2 py-1.5">
+                      <p className="text-sm font-medium">{user.name}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
                     </div>
-                  </button>
-                </div>
-                
-                {isMenuOpen && (
-                  <div
-                    className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu-button"
-                    tabIndex={-1}
-                  >
-                    <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                      <p className="font-medium">{user.name}</p>
-                      <p className="text-gray-500">{user.email}</p>
-                    </div>
-                    <Link
-                      href="/profile"
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem"
-                      tabIndex={-1}
-                    >
-                      Profile
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem"
-                      tabIndex={-1}
-                    >
+                    <MenubarSeparator />
+                    <MenubarItem asChild>
+                      <Link href="/profile" className="cursor-pointer">
+                        Profile
+                      </Link>
+                    </MenubarItem>
+                    <MenubarItem onClick={handleLogout} className="cursor-pointer">
                       Sign out
-                    </button>
-                  </div>
-                )}
-              </div>
+                    </MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
             ) : (
-              <div className="flex space-x-4">
-                  <ThemeToggleSwitch />
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" asChild>
+                    <Link href="/login">Login</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/register">Register</Link>
+                  </Button>
               </div>
             )}
           </div>
-          
-          {/* Mobile menu button */}
-          <div className="flex items-center sm:hidden">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-              aria-controls="mobile-menu"
-              aria-expanded={isMenuOpen}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <span className="sr-only">Open main menu</span>
-              {/* Icon when menu is closed */}
-              <svg
-                className={`${isMenuOpen ? 'hidden' : 'block'} h-6 w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              {/* Icon when menu is open */}
-              <svg
-                className={`${isMenuOpen ? 'block' : 'hidden'} h-6 w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Mobile menu, show/hide based on menu state */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`} id="mobile-menu">
-        <div className="pt-2 pb-3 space-y-1">
-          <Link
-            href="/"
-            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-          >
-            Home
-          </Link>
-          <Link
-            href="/generate"
-            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-          >
-            Generate
-          </Link>
-          <Link
-            href="/blocks"
-            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-          >
-            Blocks
-          </Link>
-        </div>
-        <div className="pt-4 pb-3 border-t border-gray-200">
-          {user ? (
-            <>
-              <div className="flex items-center px-4">
-                <div className="flex-shrink-0">
-                  <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                    {user.name.charAt(0).toUpperCase()}
+          {/* Mobile Menu Button */}
+          <div className="flex items-center sm:hidden">
+            <ThemeToggleSwitch />
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="ml-2">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="sm:max-w-sm">
+                <div className="flex flex-col h-full">
+                  <div className="py-4 space-y-2">
+                    <Link
+                      href="/" 
+                      className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent"
+                      onClick={() => setIsSheetOpen(false)}
+                    >
+                      Home
+                    </Link>
+                    <Link
+                      href="/generate" 
+                      className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent"
+                      onClick={() => setIsSheetOpen(false)}
+                    >
+                      Generate
+                    </Link>
+                    <Link
+                      href="/blocks" 
+                      className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent"
+                      onClick={() => setIsSheetOpen(false)}
+                    >
+                      Blocks
+                    </Link>
+                  </div>
+
+                  <div className="mt-auto border-t pt-4">
+                    {user ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center px-3">
+                          <Avatar className="h-10 w-10 bg-primary text-primary-foreground">
+                            <AvatarFallback>
+                              {user.name.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="ml-3">
+                            <p className="text-sm font-medium">{user.name}</p>
+                            <p className="text-xs text-muted-foreground">{user.email}</p>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <Link
+                            href="/profile"
+                            className="block px-3 py-2 rounded-md text-sm font-medium hover:bg-accent"
+                            onClick={() => setIsSheetOpen(false)}
+                          >
+                            Profile
+                          </Link>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start px-3 py-2 h-auto font-medium text-sm"
+                            onClick={() => {
+                              handleLogout();
+                              setIsSheetOpen(false);
+                            }}
+                          >
+                            Sign out
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                        <div className="space-y-2 px-3">
+                          <Button variant="outline" className="w-full" asChild>
+                            <Link
+                              href="/login"
+                              onClick={() => setIsSheetOpen(false)}
+                            >
+                              Login
+                            </Link>
+                          </Button>
+                          <Button className="w-full" asChild>
+                            <Link
+                              href="/register"
+                              onClick={() => setIsSheetOpen(false)}
+                            >
+                              Register
+                            </Link>
+                          </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800">{user.name}</div>
-                  <div className="text-sm font-medium text-gray-500">{user.email}</div>
-                </div>
-              </div>
-              <div className="mt-3 space-y-1">
-                <Link
-                  href="/profile"
-                  className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                >
-                  Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                >
-                  Sign out
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="mt-3 space-y-1">
-              <Link
-                href="/login"
-                className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-              >
-                Register
-              </Link>
-            </div>
-          )}
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>
