@@ -1,19 +1,31 @@
-import path from "path";
+// 修改后的 scrapeAndConvert.ts (只修改了进度更新部分)
 import { chromium } from "playwright";
 import { analyzeElement } from "./analyzeElement";
 import { ConversationManager } from "./conversation-manager";
 import { extractElementWithContext } from "./extractElementWithContext";
-import { screenshotByXPath, screenshotByXPathToBuffer } from "./screenshotByXPath";
+import { screenshotByXPathToBuffer } from "./screenshotByXPath";
 import { truncateContent } from "./utils";
-import fs from "fs";
 import prettier from 'prettier';
 import { waitForPageFullyLoaded, waitForElementFullyLoaded } from "./pageLoadingHelper";
 import { SupabaseStorageManager } from "@/_lib/supabaseStorage";
 
 // 主要的抓取和转换逻辑
-export async function scrapeAndConvert(url: string, selector: string, componentName?: string) {
+export async function scrapeAndConvert(
+    url: string,
+    selector: string,
+    componentName?: string,
+    updateProgress?: (progress: number, message?: string) => Promise<void>
+) {
     console.log(`🔍 正在抓取 ${url}...`);
     console.log(`🎯 目标选择器: ${selector}`);
+
+    // 进度更新辅助函数
+    const safeUpdateProgress = async (progress: number, message?: string) => {
+        if (updateProgress) {
+            await updateProgress(progress, message);
+        }
+    };
+
     // 创建Supabase存储管理器
     const storageManager = new SupabaseStorageManager();
     let browser;
@@ -24,6 +36,8 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
     };
 
     try {
+        await safeUpdateProgress(15, '正在启动浏览器...');
+
         // 启动浏览器
         browser = await chromium.launch({
             headless: true,
@@ -44,23 +58,26 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
 
         const page = await context.newPage();
 
+        await safeUpdateProgress(20, '正在加载页面...');
         console.log('🚀 开始加载页面...');
         await page.goto(url, {
             waitUntil: 'domcontentloaded',
             timeout: 60000
         });
 
-        // ===== 新增：完整页面加载等待 =====
+        await safeUpdateProgress(25, '正在等待页面完全加载...');
+        // ===== 完整页面加载等待 =====
         await waitForPageFullyLoaded(page, {
-            maxWaitTime: 90000,        // 最大等待90秒
-            scrollDelay: 1500,         // 滚动间隔1.5秒
-            stabilityDelay: 2000,      // 稳定性检查延迟2秒
-            maxScrollAttempts: 8       // 最大滚动8次
+            maxWaitTime: 90000,
+            scrollDelay: 1500,
+            stabilityDelay: 2000,
+            maxScrollAttempts: 8
         });
 
-        // ===== 新增：目标元素专门加载等待 =====
+        // ===== 目标元素专门加载等待 =====
         await waitForElementFullyLoaded(page, selector);
 
+        await safeUpdateProgress(35, '正在分析页面结构...');
         console.log('📄 页面加载完成，开始分析页面结构...');
 
         // 提取目标元素
@@ -69,18 +86,20 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
             throw new Error('无法提取目标元素');
         }
 
+        await safeUpdateProgress(40, '正在生成截图...');
         // 生成截图Buffer
         const screenshotBuffer = await screenshotByXPathToBuffer(page, selector);
 
+        await safeUpdateProgress(45, '正在上传截图...');
         // 上传截图到Supabase
         console.log('📤 上传截图到Supabase...');
         const screenshotUrl = await storageManager.uploadImage(screenshotBuffer);
         console.log(`✅ 截图上传成功: ${screenshotUrl}`);
 
-
         // 简化的CSS分析
         const analysis = await analyzeElement(page, selector);
         console.log(`🥖分析结果:`, analysis);
+
         // 生成组件名称
         const elementId = extractedElement.id ? extractedElement.id.replace(/[^a-zA-Z0-9]/g, '') : '';
         const elementClass = extractedElement.className ?
@@ -89,14 +108,11 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
         const componentBaseName = componentName || elementId || elementClass || extractedElement.tagName || 'Component';
         const finalComponentName = componentBaseName.charAt(0).toUpperCase() + componentBaseName.slice(1) + 'Component';
 
-        // 保存HTML文件
-        const htmlPath = path.join(process.cwd(), 'public', 'extractedElement.html');
-        fs.writeFileSync(htmlPath, extractedElement.html.trim(), 'utf8');
-
         // 创建对话管理器
         const conversation = new ConversationManager();
         const html = truncateContent(extractedElement.html, 13000)[0]
 
+        await safeUpdateProgress(50, '第一步：生成基础React结构...');
         // 第一步：基于HTML生成基础React结构
         console.log(`🚀 第一步：生成基础React结构...`);
         const step1Prompt = `
@@ -132,6 +148,7 @@ ${html}
         const step1Response = await conversation.sendMessage(step1Prompt);
         processSteps.step1 = step1Response;
 
+        await safeUpdateProgress(65, '第二步：基于截图生成Tailwind样式...');
         // 第二步：基于截图生成带有Tailwind CSS的 React 组件
         console.log(`🎨 第二步：基于截图生成完整的Tailwind CSS样式...`);
         const step2Prompt = `
@@ -186,7 +203,9 @@ ${html}
             ? step2CodeBlocks.join('\n\n')
             : step2Response;
 
-        console.log(`step2ComponentCode:`, step2ComponentCode);
+        // console.log(`step2ComponentCode:`, step2ComponentCode);
+
+        await safeUpdateProgress(80, '第三步：精细化修正优化...');
         // 第三步：基于第二步的React代码和截图进行精细化修正
         console.log(`🔧 第三步：对React代码进行精细化修正...`);
         const step3Prompt = `
@@ -233,10 +252,10 @@ ${step2ComponentCode}
 
 # 只返回修正后的完整React组件代码，不需要解释。
 `;
-
         const step3Response = await conversation.sendMessageWithImage(step3Prompt, screenshotUrl);
         processSteps.step3 = step3Response;
 
+        await safeUpdateProgress(90, '正在格式化代码...');
         // 提取最终代码（优先使用第三步的结果）
         const codeBlockRegex = /```(?:jsx|tsx|js|javascript|react|typescript)?\s*([\s\S]*?)```/g;
         const codeBlocks = [];
@@ -266,6 +285,8 @@ ${step2ComponentCode}
             formattedCode = componentCode;
         }
 
+        await safeUpdateProgress(95, '任务即将完成...');
+
         console.log('✅ 三步转换流程完成!');
         console.log('📝 流程总结:');
         console.log('   第一步: HTML → 基础React结构');
@@ -277,8 +298,8 @@ ${step2ComponentCode}
             componentName: finalComponentName,
             originalHtml: extractedElement.html,
             processSteps,
-            screenshotUrl, // 返回Supabase存储的URL
-            screenshotBuffer: screenshotBuffer.toString('base64') // 也可以返回base64格式备用
+            screenshotUrl,
+            screenshotBuffer: screenshotBuffer.toString('base64')
         };
 
     } finally {

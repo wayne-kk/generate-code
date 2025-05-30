@@ -102,7 +102,6 @@ export class SupabaseStorageManager {
                 console.error('删除图片失败:', error);
                 throw error;
             }
-
             console.log(`图片删除成功: ${filePath}`);
         } catch (error) {
             console.error('删除图片时出错:', error);
