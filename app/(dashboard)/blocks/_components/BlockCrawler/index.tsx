@@ -1,16 +1,27 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/_components/@ui/button';
 import { Input } from '@/_components/@ui/input';
 import { Label } from '@/_components/@ui/label';
 import { Textarea } from '@/_components/@ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/_components/@ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/_components/@ui/card';
-import { Loader2, Globe, Target, Tag, FileText, AlertTriangle, Save, Plus } from 'lucide-react';
+import { Loader2, Globe, Target, Tag, FileText, AlertTriangle, Save, Plus, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/_components/@ui/alert';
+import { Progress } from '@/_components/@ui/progress';
 import { blocksManage } from '../../_store';
 import { useBlockActions } from '../../_hooks/useBlockActions';
 import { Popover, PopoverContent, PopoverTrigger } from '@/_components/@ui/popover';
+
+interface TaskStatus {
+    status: 'pending' | 'processing' | 'completed' | 'failed';
+    progress?: number;
+    message?: string;
+    result?: any;
+    error?: string;
+    createdAt: number;
+    updatedAt: number;
+}
 
 const BlockCrawler = () => {
     const { updateBlockData } = useBlockActions();
@@ -31,6 +42,12 @@ const BlockCrawler = () => {
     const [newComponentType, setNewComponentType] = useState('');
     const [isAddingType, setIsAddingType] = useState(false);
 
+    // 长任务相关状态
+    const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
+    const [taskStatus, setTaskStatus] = useState<TaskStatus | null>(null);
+    const [isPolling, setIsPolling] = useState(false);
+    const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
     // 从API获取组件类型列表
     useEffect(() => {
         const fetchComponentTypes = async () => {
@@ -42,7 +59,6 @@ const BlockCrawler = () => {
                 }
                 const result = await response.json();
                 if (result.status === 'success' && Array.isArray(result.data)) {
-                    // 将获取的类型转换为下拉列表所需的格式
                     const formattedTypes = result.data.map((type: string) => ({
                         value: type,
                         label: type
@@ -51,7 +67,6 @@ const BlockCrawler = () => {
                 }
             } catch (err) {
                 console.error('Error fetching component types:', err);
-                // 设置默认类型，以防API失败
                 setComponentTypes([
                     { value: 'hero', label: '英雄区 (Hero)' },
                     { value: 'feature', label: '特性展示 (Feature)' },
@@ -65,12 +80,91 @@ const BlockCrawler = () => {
         fetchComponentTypes();
     }, []);
 
+    // 清理轮询
+    useEffect(() => {
+        return () => {
+            if (pollingIntervalRef.current) {
+                clearInterval(pollingIntervalRef.current);
+            }
+        };
+    }, []);
+
+    // 轮询任务状态
+    const startPolling = (taskId: string) => {
+        setIsPolling(true);
+        setCurrentTaskId(taskId);
+
+        const pollTaskStatus = async () => {
+            try {
+                const response = await fetch(`/api/task-status/${taskId}`);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    const status = result.data as TaskStatus;
+                    setTaskStatus(status);
+
+                    // 如果任务完成或失败，停止轮询
+                    if (status.status === 'completed' || status.status === 'failed') {
+                        stopPolling();
+                        handleTaskComplete(status);
+                    }
+                } else {
+                    // 任务不存在或已过期
+                    stopPolling();
+                    setError('任务不存在或已过期');
+                }
+            } catch (err) {
+                console.error('轮询任务状态失败:', err);
+                // 继续轮询，可能是临时网络问题
+            }
+        };
+
+        // 立即执行一次
+        pollTaskStatus();
+
+        // 每2秒轮询一次
+        pollingIntervalRef.current = setInterval(pollTaskStatus, 2000);
+    };
+
+    const stopPolling = () => {
+        setIsPolling(false);
+        if (pollingIntervalRef.current) {
+            clearInterval(pollingIntervalRef.current);
+            pollingIntervalRef.current = null;
+        }
+    };
+
+    // 处理任务完成
+    const handleTaskComplete = (status: TaskStatus) => {
+        setIsLoading(false);
+
+        if (status.status === 'completed') {
+            setSuccess('组件爬取成功！已添加到组件库中。');
+
+            // 更新代码到编辑器
+            if (status.result?.componentCode) {
+                blocksManage.setCode(status.result.componentCode, true);
+                setCrawlConfig(prev => ({
+                    ...prev,
+                    screenshotUrl: status.result.screenshotUrl || ''
+                }));
+            }
+        } else if (status.status === 'failed') {
+            setError(status.error || '爬取过程中发生错误');
+        }
+
+        // 清理任务状态
+        setTimeout(() => {
+            setCurrentTaskId(null);
+            setTaskStatus(null);
+        }, 3000);
+    };
+
     const handleInputChange = (field: any, value: any) => {
         setCrawlConfig(prev => ({
             ...prev,
             [field]: value
         }));
-        // 清除错误和成功消息
         if (error) setError('');
         if (success) setSuccess('');
     };
@@ -96,7 +190,6 @@ const BlockCrawler = () => {
             return false;
         }
 
-        // 验证URL格式
         try {
             new URL(crawlConfig.url);
         } catch {
@@ -113,15 +206,12 @@ const BlockCrawler = () => {
         }
 
         const lowerCaseType = newComponentType.trim().toLowerCase();
-
-        // 检查是否已存在
         const exists = componentTypes.some(type => type.value === lowerCaseType);
         if (exists) {
             setError('此组件类型已存在');
             return;
         }
 
-        // 添加新类型
         const newType = {
             value: lowerCaseType,
             label: newComponentType.trim()
@@ -139,35 +229,66 @@ const BlockCrawler = () => {
         setIsLoading(true);
         setError('');
         setSuccess('');
+        setTaskStatus(null);
 
         try {
-            // 这里调用爬取API
+            // 启动长任务
             const response = await fetch('/api/crawler', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(crawlConfig),
+                body: JSON.stringify({
+                    ...crawlConfig,
+                    async: true, // 标记为异步任务
+                }),
             });
 
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || '爬取失败');
+                throw new Error(result.error || result.message || '爬取失败');
             }
 
-            setSuccess('组件爬取成功！已添加到组件库中。');
+            // 如果返回了taskId，开始轮询
+            if (result.taskId) {
+                startPolling(result.taskId);
+            } else {
+                // 同步返回的结果（兼容性处理）
+                setIsLoading(false);
+                setSuccess('组件爬取成功！已添加到组件库中。');
 
-            if (result.componentCode) {
-                blocksManage.setCode(result.componentCode, true);
-                crawlConfig.screenshotUrl = result.screenshotUrl || '';
+                if (result.componentCode) {
+                    blocksManage.setCode(result.componentCode, true);
+                    setCrawlConfig(prev => ({
+                        ...prev,
+                        screenshotUrl: result.screenshotUrl || ''
+                    }));
+                }
             }
 
         } catch (err: any) {
-            setError(err.message || '爬取过程中发生错误');
-        } finally {
             setIsLoading(false);
+            setError(err.message || '爬取过程中发生错误');
         }
+    };
+
+    const handleCancelTask = async () => {
+        if (currentTaskId) {
+            try {
+                await fetch(`/api/task-status/${currentTaskId}`, {
+                    method: 'DELETE',
+                });
+            } catch (err) {
+                console.error('取消任务失败:', err);
+            }
+        }
+
+        stopPolling();
+        setIsLoading(false);
+        setCurrentTaskId(null);
+        setTaskStatus(null);
+        setError('任务已取消');
     };
 
     const handleSaveToLibrary = async () => {
@@ -179,16 +300,14 @@ const BlockCrawler = () => {
 
         setIsLoading(true);
         try {
-            // 调用入库方法
             await updateBlockData({
-                id: crypto.randomUUID(), // 生成唯一ID
+                id: crypto.randomUUID(),
                 name: crawlConfig.componentName,
                 code: currentCode,
                 type: crawlConfig.componentType,
-                props: {}, // 可以添加默认props
-                description: crawlConfig.description,
-                screenshotUrl: crawlConfig.screenshotUrl,
-                sourceUrl: crawlConfig.url,
+                props: {},
+                screenshot_url: crawlConfig.screenshotUrl,
+                source_url: crawlConfig.url,
             });
 
             setSuccess('组件已成功保存到组件库！');
@@ -199,9 +318,78 @@ const BlockCrawler = () => {
         }
     };
 
+    // 渲染任务状态
+    const renderTaskStatus = () => {
+        if (!taskStatus) return null;
+
+        const getStatusIcon = () => {
+            switch (taskStatus.status) {
+                case 'pending':
+                    return <Clock className="w-4 h-4 text-yellow-500" />;
+                case 'processing':
+                    return <Loader2 className="w-4 h-4 animate-spin text-blue-500" />;
+                case 'completed':
+                    return <CheckCircle className="w-4 h-4 text-green-500" />;
+                case 'failed':
+                    return <XCircle className="w-4 h-4 text-red-500" />;
+                default:
+                    return null;
+            }
+        };
+
+        return (
+            <Card className="py-1">
+                <CardContent className="pt-6">
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                {getStatusIcon()}
+                                <span className="font-medium">
+                                    {taskStatus.status === 'pending' && '等待处理'}
+                                    {taskStatus.status === 'processing' && '正在处理'}
+                                    {taskStatus.status === 'completed' && '处理完成'}
+                                    {taskStatus.status === 'failed' && '处理失败'}
+                                </span>
+                            </div>
+                            {isPolling && (
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleCancelTask}
+                                >
+                                    取消任务
+                                </Button>
+                            )}
+                        </div>
+
+                        {taskStatus.message && (
+                            <p className="text-sm text-gray-600">{taskStatus.message}</p>
+                        )}
+
+                        {typeof taskStatus.progress === 'number' && (
+                            <div className="space-y-2">
+                                <Progress value={taskStatus.progress} className="w-full" />
+                                <p className="text-xs text-gray-500 text-right">
+                                    {taskStatus.progress}%
+                                </p>
+                            </div>
+                        )}
+
+                        {taskStatus.error && (
+                            <Alert variant="destructive">
+                                <AlertTriangle className="h-4 w-4" />
+                                <AlertDescription>{taskStatus.error}</AlertDescription>
+                            </Alert>
+                        )}
+                    </div>
+                </CardContent>
+            </Card >
+        );
+    };
+
     return (
-        <div className="space-y-6">
-            <Card>
+        <div className="space-y-1">
+            <Card className='gap-4 py-4'>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Target className="w-5 h-5" />
@@ -225,6 +413,7 @@ const BlockCrawler = () => {
                             value={crawlConfig.url}
                             onChange={(e) => handleInputChange('url', e.target.value)}
                             className="w-full"
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -240,13 +429,14 @@ const BlockCrawler = () => {
                             value={crawlConfig.selector}
                             onChange={(e) => handleInputChange('selector', e.target.value)}
                             className="w-full"
+                            disabled={isLoading}
                         />
                         <p className="text-xs text-gray-500">
                             使用XPath选择器定位目标组件，如: /html/body/div/section, //div[@class='header']
                         </p>
                     </div>
 
-                    {/* 组件类型选择 - 带自定义添加功能 */}
+                    {/* 组件类型选择 */}
                     <div className="space-y-2">
                         <Label className="flex items-center gap-2">
                             <Tag className="w-4 h-4" />
@@ -256,7 +446,7 @@ const BlockCrawler = () => {
                             <Select
                                 value={crawlConfig.componentType}
                                 onValueChange={(value) => handleInputChange('componentType', value)}
-                                disabled={isTypesLoading}
+                                disabled={isTypesLoading || isLoading}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={isTypesLoading ? "加载中..." : "选择组件类型"} />
@@ -276,6 +466,7 @@ const BlockCrawler = () => {
                                         variant="outline"
                                         size="icon"
                                         title="添加自定义类型"
+                                        disabled={isLoading}
                                     >
                                         <Plus className="h-4 w-4" />
                                     </Button>
@@ -288,6 +479,11 @@ const BlockCrawler = () => {
                                                 placeholder="输入新类型名称"
                                                 value={newComponentType}
                                                 onChange={(e) => setNewComponentType(e.target.value)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleAddCustomType();
+                                                    }
+                                                }}
                                             />
                                             <Button onClick={handleAddCustomType}>添加</Button>
                                         </div>
@@ -309,11 +505,24 @@ const BlockCrawler = () => {
                             value={crawlConfig.componentName}
                             onChange={(e) => handleInputChange('componentName', e.target.value)}
                             className="w-full"
+                            disabled={isLoading}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="componentName" className="flex items-center gap-2">
+                            <FileText className="w-4 h-4" />
+                            组件图片地址
+                        </Label>
+                        <Input
+                            id="componentName"
+                            value={crawlConfig.screenshotUrl}
+                            className="w-full"
+                            disabled={isLoading}
                         />
                     </div>
 
                     {/* 组件描述 */}
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                         <Label htmlFor="description">
                             组件描述 (可选)
                         </Label>
@@ -323,8 +532,9 @@ const BlockCrawler = () => {
                             value={crawlConfig.description}
                             onChange={(e) => handleInputChange('description', e.target.value)}
                             className="w-full min-h-[80px]"
+                            disabled={isLoading}
                         />
-                    </div>
+                    </div> */}
 
                     {/* 错误提示 */}
                     {error && (
@@ -343,7 +553,8 @@ const BlockCrawler = () => {
                             </AlertDescription>
                         </Alert>
                     )}
-
+                    {/* 任务状态显示 */}
+                    {renderTaskStatus()}
                     {/* 操作按钮 */}
                     <div className="flex gap-3 pt-4">
                         <Button
@@ -354,7 +565,7 @@ const BlockCrawler = () => {
                             {isLoading ? (
                                 <>
                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                    爬取中...
+                                    {taskStatus?.status === 'processing' ? '爬取中...' : '启动中...'}
                                 </>
                             ) : (
                                 '开始爬取'
@@ -373,6 +584,8 @@ const BlockCrawler = () => {
                     </div>
                 </CardContent>
             </Card>
+
+
         </div>
     );
 };

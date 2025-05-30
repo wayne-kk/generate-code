@@ -75,7 +75,7 @@ const BlocksPage = () => {
             >
                 <div className="h-full flex flex-col">
                     <Tabs
-                        className="flex-1 flex flex-col my-4"
+                        className="flex-1 flex flex-col mt-4"
                         value={activeMainTab}
                         onValueChange={setActiveMainTab}
                     >

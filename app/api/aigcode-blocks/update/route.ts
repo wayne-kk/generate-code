@@ -4,9 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        let { id, name, code, type, props, source_id = null } = body;
-
-        console.log('接收到的 block 数据:', body);
+        let { id, name, code } = body;
 
         if (!id || !name || !code) {
             return NextResponse.json({ error: '缺少必要字段（id, name, code）' }, { status: 400 });
@@ -49,14 +47,7 @@ export async function POST(req: Request) {
         // 执行 UPSERT
         const { data, error } = await supabase
             .from('aigcode_blocks')
-            .upsert({
-                id,
-                name,
-                code,
-                type,
-                props,
-                source_id,
-            }, {
+            .upsert(body, {
                 onConflict: 'id',
             });
 
