@@ -55,8 +55,8 @@ export async function POST(request: NextRequest) {
         console.log('✅ 两步转换流程完成!');
 
         // 保存文件
-        const tsxPath = path.join(process.cwd(), 'public', 'generate.tsx');
-        fs.writeFileSync(tsxPath, result.componentCode, 'utf8');
+        // const tsxPath = path.join(process.cwd(), 'public', 'generate.tsx');
+        // fs.writeFileSync(tsxPath, result.componentCode, 'utf8');
 
         return NextResponse.json<WebToReactResponse>({
             success: true,

@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           __html: `
             tailwind.config = {
               darkMode: 'class',
-              important: '#preview-container',
+              important: '#preview-viewport',
               corePlugins: {
                 preflight: false, // 完全禁用 preflight
               },

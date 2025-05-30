@@ -10,9 +10,7 @@ const openaiClient = axios.create({
         'Content-Type': 'application/json'
     }
 });
-
-const normalDes = `
-你是一个专业的 React 和 Tailwind CSS 专家，精通将 HTML 和 CSS 转换为高质量的 React 组件。
+const prompt = `
 你可以使用我们自定义的组件 EditableButton、EditableIcon、EditableImg、EditableText、Carousel 和 Marquee 来构建 React 组件。以下是这些组件的详细说明和示例：|
 特别注意：
 - 当 iconLibrary 为 FontAwesome 时，iconName 应使用完整的类名字符串，例如 'fa-solid fa-house'。
@@ -66,8 +64,10 @@ const normalDes = `
 - Button、Card、Input、Textarea、Form、Select等。
 特别注意:
 - 优先使用自定义组件 EditableButton、EditableIcon、EditableImg、EditableText、Carousel 和 Marquee 来构建 React 组件。
-- 自定义组件不满足时使用 shadcn/ui 组件库来构建 React 组件。
-- 确保生成的代码符合 React 和 Tailwind CSS 的最佳实践。
+- 自定义组件不满足时使用 shadcn/ui 组件库来构建 React 组件。`
+const normalDes = `
+你是一个专业的 React 和 Tailwind CSS 专家，精通将 HTML 和 CSS 转换为高质量的 React 组件。
+- 【必须确保】生成的代码符合 React 和 Tailwind CSS 的最佳实践。
 `
 
 // 分步调用OpenAI的状态管理
@@ -163,7 +163,7 @@ export class ConversationManager {
      * 获取AI响应
      * @private
      */
-    private async getAIResponse(model = 'gpt-4o'): Promise<string> {
+    private async getAIResponse(model = 'gpt-4.1'): Promise<string> {
         try {
             const response = await openaiClient.post('/chat/completions', {
                 model: model || "claude-3-7-sonnet-20250219", // "claude-3-7-sonnet-20250219", // 使用支持图像的模型

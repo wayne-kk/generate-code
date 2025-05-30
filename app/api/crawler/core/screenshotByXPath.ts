@@ -27,3 +27,27 @@ export async function screenshotByXPath(page: any, xpath: any, outputPath: any) 
     }
 }
 
+// 截图函数返回Buffer
+export async function screenshotByXPathToBuffer(page: any, selector: string): Promise<Buffer> {
+    try {
+        // 等待元素存在
+        await page.waitForSelector(selector, { timeout: 10000 });
+
+        // 获取元素
+        const element = await page.$(selector);
+        if (!element) {
+            throw new Error(`未找到选择器对应的元素: ${selector}`);
+        }
+
+        // 截图到Buffer
+        const screenshotBuffer = await element.screenshot({
+            type: 'png',
+            quality: 90
+        });
+
+        return screenshotBuffer;
+    } catch (error) {
+        console.error('截图失败:', error);
+        throw error;
+    }
+}

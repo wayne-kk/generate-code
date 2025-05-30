@@ -116,7 +116,6 @@ const BlocksPage = () => {
                 </div>
             </div>
 
-            <div id="preview-container">
                 <div
                     id="preview-viewport"
                     className={`${previewPosition} h-full overflow-hidden p-4 font-fa font-custom-body transition-all`}
@@ -128,11 +127,10 @@ const BlocksPage = () => {
                         setSplitPosition={setSplitPosition}
                     />
                 ) : (
-                            <div className="text-gray-500">
-                                {activeMainTab === '选择组件' ? '请选择一个组件进行预览' : '请配置爬取参数并开始爬取'}
-                            </div>
+                        <div className="text-gray-500">
+                            {activeMainTab === '选择组件' ? '请选择一个组件进行预览' : '请配置爬取参数并开始爬取'}
+                        </div>
                 )}
-            </div>
             </div>
         </div>
     );

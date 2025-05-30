@@ -17,9 +17,10 @@ const BlockCrawler = () => {
     const [crawlConfig, setCrawlConfig] = useState({
         url: 'https://keenthemes.com/metronic/',
         selector: '/html/body/div[1]/div/div[3]/div[2]/div[1]/div/div/div[5]',
-        componentType: 'hero',
-        componentName: 'Hero',
-        description: ''
+        componentType: 'Pricing',
+        componentName: 'Pricing',
+        description: '',
+        screenshotUrl: ''
     });
 
     const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +44,8 @@ const BlockCrawler = () => {
                 if (result.status === 'success' && Array.isArray(result.data)) {
                     // 将获取的类型转换为下拉列表所需的格式
                     const formattedTypes = result.data.map((type: string) => ({
-                        value: type.toLowerCase(),
-                        label: `${type.charAt(0).toUpperCase() + type.slice(1)}`
+                        value: type,
+                        label: type
                     }));
                     setComponentTypes(formattedTypes);
                 }
@@ -159,6 +160,7 @@ const BlockCrawler = () => {
 
             if (result.componentCode) {
                 blocksManage.setCode(result.componentCode, true);
+                crawlConfig.screenshotUrl = result.screenshotUrl || '';
             }
 
         } catch (err: any) {
@@ -184,7 +186,9 @@ const BlockCrawler = () => {
                 code: currentCode,
                 type: crawlConfig.componentType,
                 props: {}, // 可以添加默认props
-                description: crawlConfig.description
+                description: crawlConfig.description,
+                screenshotUrl: crawlConfig.screenshotUrl,
+                sourceUrl: crawlConfig.url,
             });
 
             setSuccess('组件已成功保存到组件库！');

@@ -3,16 +3,19 @@ import { chromium } from "playwright";
 import { analyzeElement } from "./analyzeElement";
 import { ConversationManager } from "./conversation-manager";
 import { extractElementWithContext } from "./extractElementWithContext";
-import { screenshotByXPath } from "./screenshotByXPath";
+import { screenshotByXPath, screenshotByXPathToBuffer } from "./screenshotByXPath";
 import { truncateContent } from "./utils";
 import fs from "fs";
 import prettier from 'prettier';
+import { waitForPageFullyLoaded, waitForElementFullyLoaded } from "./pageLoadingHelper";
+import { SupabaseStorageManager } from "@/_lib/supabaseStorage";
 
 // 主要的抓取和转换逻辑
 export async function scrapeAndConvert(url: string, selector: string, componentName?: string) {
     console.log(`🔍 正在抓取 ${url}...`);
     console.log(`🎯 目标选择器: ${selector}`);
-
+    // 创建Supabase存储管理器
+    const storageManager = new SupabaseStorageManager();
     let browser;
     const processSteps = {
         step1: '',
@@ -47,6 +50,17 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
             timeout: 60000
         });
 
+        // ===== 新增：完整页面加载等待 =====
+        await waitForPageFullyLoaded(page, {
+            maxWaitTime: 90000,        // 最大等待90秒
+            scrollDelay: 1500,         // 滚动间隔1.5秒
+            stabilityDelay: 2000,      // 稳定性检查延迟2秒
+            maxScrollAttempts: 8       // 最大滚动8次
+        });
+
+        // ===== 新增：目标元素专门加载等待 =====
+        await waitForElementFullyLoaded(page, selector);
+
         console.log('📄 页面加载完成，开始分析页面结构...');
 
         // 提取目标元素
@@ -58,6 +72,15 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
         // 生成截图
         const imgPath = path.join(process.cwd(), 'public', 'img.png');
         await screenshotByXPath(page, selector, imgPath);
+
+        // 生成截图Buffer
+        const screenshotBuffer = await screenshotByXPathToBuffer(page, selector);
+
+        // 上传截图到Supabase
+        console.log('📤 上传截图到Supabase...');
+        const screenshotUrl = await storageManager.uploadImage(screenshotBuffer);
+        console.log(`✅ 截图上传成功: ${screenshotUrl}`);
+
 
         // 简化的CSS分析
         const analysis = await analyzeElement(page, selector);
@@ -104,6 +127,8 @@ ${html}
 5. 【函数组件】使用TypeScript函数组件格式
 6. 【函数参数默认值】所有props的默认值必须在函数参数中定义，格式如：\`function Component({ title = 'Default', count = 0 }: Props) {}\`
 7. 【禁止.defaultProps】严禁使用Component.defaultProps的形式
+8. 【必须通过 React.useState React.useEffect等形式】，import React from 'react'，禁止直接使用 useState useEffect等hooks
+9. 【默认值】默认值一定不为空，默认值来源为HTML中的内容
 
 请生成基础的React组件代码。
 `;
@@ -150,7 +175,7 @@ ${html}
 # 不需要任何解释 只返回完整的最终React组件代码。
 `;
 
-        const step2Response = await conversation.sendMessageWithImage(step2Prompt, '/img.png', 'claude-3-7-sonnet-20250219');
+        const step2Response = await conversation.sendMessageWithImage(step2Prompt, screenshotUrl);
         processSteps.step2 = step2Response;
 
         // 提取第二步的代码用于第三步
@@ -199,10 +224,11 @@ ${step2ComponentCode}
 代码格式要求：
 - ✅ 正确格式：\`const MyComponent: React.FC<Props> = ({ title = 'Default Title', count = 0 }) => {// 组件逻辑};export default MyComponent;\`
 - ❌ 禁止格式：\`MyComponent.defaultProps = { title: 'Default Title', count: 0 }\`
-- 所有props都必须在函数参数的解构赋值中提供默认值
+- 所有props都必须在函数参数的解构赋值中提供默认值，默认值一定存在并且有效
 - 如果原代码中存在.defaultProps，必须将其转换为函数参数默认值并删除.defaultProps
 
 特别注意：
+- 返回一个完整的React Function组件代码，不要出现子组件
 - 仔细观察截图中的每个细节，包括微妙的颜色变化、渐变效果
 - 确保文本的对齐方式、行间距完全匹配
 - 注意元素的层级关系和z-index
@@ -212,7 +238,7 @@ ${step2ComponentCode}
 # 只返回修正后的完整React组件代码，不需要解释。
 `;
 
-        const step3Response = await conversation.sendMessageWithImage(step3Prompt, '/img.png', 'claude-3-7-sonnet-20250219');
+        const step3Response = await conversation.sendMessageWithImage(step3Prompt, screenshotUrl);
         processSteps.step3 = step3Response;
 
         // 提取最终代码（优先使用第三步的结果）
@@ -254,7 +280,9 @@ ${step2ComponentCode}
             componentCode: formattedCode,
             componentName: finalComponentName,
             originalHtml: extractedElement.html,
-            processSteps
+            processSteps,
+            screenshotUrl, // 返回Supabase存储的URL
+            screenshotBuffer: screenshotBuffer.toString('base64') // 也可以返回base64格式备用
         };
 
     } finally {
