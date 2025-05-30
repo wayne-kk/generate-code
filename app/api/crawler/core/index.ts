@@ -69,10 +69,6 @@ export async function scrapeAndConvert(url: string, selector: string, componentN
             throw new Error('无法提取目标元素');
         }
 
-        // 生成截图
-        const imgPath = path.join(process.cwd(), 'public', 'img.png');
-        await screenshotByXPath(page, selector, imgPath);
-
         // 生成截图Buffer
         const screenshotBuffer = await screenshotByXPathToBuffer(page, selector);
 

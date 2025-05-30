@@ -104,60 +104,58 @@ export class ConversationManager {
     }
 
     /**
-     * 发送包含图片的消息
-     * @param textContent 文本内容
-     * @param imagePath 图片路径，可以是 public 目录下的相对路径或绝对路径
-     */
+ * 发送包含网络图片的消息
+ * @param textContent 文本内容
+ * @param imagePath 图片路径，可以是网络地址、public 相对路径，或绝对路径
+ */
     async sendMessageWithImage(textContent: string, imagePath: string, model?: string): Promise<string> {
         try {
-            // 处理图片路径
+        let imageUrl: string;
+
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            // 是网络图片地址，直接使用
+            imageUrl = imagePath;
+        } else {
+        // 是本地图片路径，转换为 base64 data URL
             let fullImagePath: string;
 
-            // 如果路径以 '/' 开头，视为 public 目录下的相对路径
             if (imagePath.startsWith('/')) {
                 fullImagePath = path.join(this.publicDir, imagePath.substring(1));
             } else {
-                // 否则视为绝对路径
                 fullImagePath = imagePath;
             }
 
-            // 读取图片文件
             const imageBuffer = fs.readFileSync(fullImagePath);
-
-            // 转换为 base64
-            const base64Image = imageBuffer.toString('base64');
-
-            // 根据文件扩展名确定 MIME 类型
             const ext = path.extname(fullImagePath).toLowerCase();
-            let mimeType = 'image/jpeg'; // 默认
 
+            let mimeType = 'image/jpeg';
             if (ext === '.png') mimeType = 'image/png';
             else if (ext === '.gif') mimeType = 'image/gif';
             else if (ext === '.webp') mimeType = 'image/webp';
 
-            const imageUrl = `data:${mimeType};base64,${base64Image}`;
-
-            // 构建包含图片的消息内容
-            const content = [
-                { type: "text", text: textContent },
-                {
-                    type: "image_url",
-                    image_url: { url: imageUrl }
-                }
-            ];
-
-            this.messages.push({
-                role: "user",
-                content: content
-            });
-
-            return this.getAIResponse(model);
-        } catch (error) {
-            console.error('图片处理失败:', error);
-            const errorMessage = (error instanceof Error) ? error.message : String(error);
-            throw new Error(`图片处理失败: ${errorMessage}`);
+            imageUrl = `data:${mimeType};base64,${imageBuffer.toString('base64')}`;
         }
+
+        const content = [
+            { type: "text", text: textContent },
+            {
+                type: "image_url",
+                image_url: { url: imageUrl }
+            }
+        ];
+
+        this.messages.push({
+            role: "user",
+            content: content
+        });
+
+        return this.getAIResponse(model);
+    } catch (error) {
+        console.error('图片处理失败:', error);
+        const errorMessage = (error instanceof Error) ? error.message : String(error);
+        throw new Error(`图片处理失败: ${errorMessage}`);
     }
+}
 
     /**
      * 获取AI响应

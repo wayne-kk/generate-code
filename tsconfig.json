@@ -22,6 +22,16 @@
       "@/*": ["./app/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "template/generated/person-spotlight.js", "template/generated/contact_06.js", "app/utils/test.jsx", "generateOverrideCSS.js", "app/(dashboard)/blocks/_components/ShadowDomWrapper.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/utils/test.jsx",
+    "generateOverrideCSS.js",
+  ],
+  "exclude": [
+    "node_modules",
+    "office_web_components"
+  ]
 }

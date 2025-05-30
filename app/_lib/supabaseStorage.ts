@@ -2,7 +2,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 // 使用服务端密钥创建客户端，用于服务端操作
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!);
 
 export class SupabaseStorageManager {
     private bucketName: string;
