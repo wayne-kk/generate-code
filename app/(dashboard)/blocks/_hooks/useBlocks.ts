@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Block, BlocksMap } from '@/_types/block';
+import { Block } from '@/_types/block';
 import { blocksManage } from '../_store';
+import { Source } from '../_components/BlockTabs/SourceTabs';
 
 export function useBlocks() {
-    const [source, setSource] = useState<'blocks' | 'aigcode-blocks' | 'backend-blocks'>('aigcode-blocks');
+    const [source, setSource] = useState<Source>('aigcode_blocks');
     const [blocks, setBlocks] = useState<Block[]>([]);
     const [selectedType, setSelectedType] = useState<string | null>(null);
     const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);

@@ -68,7 +68,7 @@ async function generateFiles() {
   const nameList = []
   const fetchBlocks = async () => {
     try {
-      const res = await fetch(`https://wayne.beer/api/aigcode-blocks`);
+      const res = await fetch(`https://wayne.beer/api/aigcode_blocks`);
       const data = await res.json();
       if (res.ok) {
         for (const block of data.data) {

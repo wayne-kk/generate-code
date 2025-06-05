@@ -1,29 +1,34 @@
 import { Tabs, TabsList, TabsTrigger } from '@/_components/@ui/tabs';
 
+export type Source = 'aigcode_blocks' | 'backend_blocks' | 'spare_blocks'
 interface SourceTabsProps {
-    source: 'blocks' | 'aigcode-blocks' | 'backend-blocks';
-    setSource: (source: 'blocks' | 'aigcode-blocks' | 'backend-blocks') => void;
+    source: Source;
+    setSource: (source: Source) => void;
 }
 
 const SourceTabs = ({ source, setSource }: SourceTabsProps) => {
     return (
         <div className="mb-4">
             <label className="block text-sm font-medium mb-2">组件库</label>
-            <Tabs defaultValue={source} className="w-full" onValueChange={(val) => setSource(val as 'blocks' | 'aigcode-blocks' | 'backend-blocks')}>
+            <Tabs defaultValue={source} className="w-full" onValueChange={(val) => setSource(val as Source)}>
                 <TabsList className=" w-full h-ful">
                     <TabsTrigger
-                        value="aigcode-blocks"
-                        className={`w-full text-center py-2 rounded-lg transition-all
-                            }`}
+                        value="aigcode_blocks"
+                        className={`w-full text-center py-2 rounded-lg transition-all}`}
                     >
-                        aigcode-blocks
+                        blocks
                     </TabsTrigger>
                     <TabsTrigger
-                        value="backend-blocks"
-                        className={`w-full text-center py-2 rounded-lg transition-all 
-                            }`}
+                        value="spare_blocks"
+                        className={`w-full text-center py-2 rounded-lg transition-all}`}
                     >
-                        backend-blocks
+                        spareBlocks
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value="backend_blocks"
+                        className={`w-full text-center py-2 rounded-lg transition-all}`}
+                    >
+                        backendBlocks
                     </TabsTrigger>
                 </TabsList>
             </Tabs>

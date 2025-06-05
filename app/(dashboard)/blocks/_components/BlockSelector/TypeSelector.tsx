@@ -2,7 +2,6 @@ import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@
 import { blocksManage } from '../../_store';
 import { useEffect, useState } from 'react';
 import BlockSelector from '.';
-import { set } from 'lodash-es';
 
 interface TypeSelectorProps {
 }

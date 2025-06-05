@@ -1,16 +1,18 @@
 import { Button } from '@/_components/@ui/button';
 import { blocksManage } from '../../_store';
 import { useBlockActions } from '../../_hooks/useBlockActions';
+import { Source } from '../BlockTabs/SourceTabs';
 
 interface UpdateButtonProps {
+    source: Source
 }
 
-const UpdateButton = ({ }: UpdateButtonProps) => {
+const UpdateButton = ({ source }: UpdateButtonProps) => {
     const { updateBlockData } = useBlockActions();
     const handleUpdate = async () => {
         const selectBlock = blocksManage.getSelectedBlock()
         const code = blocksManage.code
-        await updateBlockData({
+        await updateBlockData(source, {
             ...selectBlock,
             code,
         });

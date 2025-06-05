@@ -16,13 +16,12 @@ const BlocksPage = () => {
     const [activeMainTab, setActiveMainTab] = useState('选择组件');
     const {
         source,
+        setSource,
         blocks,
         selectedBlockId,
         setSelectedBlockId,
         code,
         setCode,
-        activeTab,
-        setActiveTab,
     } = useBlocks();
 
     const handleToggleSidebar = () => {
@@ -58,7 +57,6 @@ const BlocksPage = () => {
 
     const className = `z-[100] fixed top-16 ${sidebarPosition}`;
     const sidebarClass = isSidebarCollapsed ? 'w-0' : 'w-[350px] px-2';
-    console.log('blocks', blocks);
     return (
         <div
             className="fixed inset-0 top-16 overflow-hidden">
@@ -89,19 +87,12 @@ const BlocksPage = () => {
                         </TabsList>
 
                         <TabsContent value="选择组件" className="flex-1 mt-4 overflow-y-auto">
-                            {/* <BlockTabs.SourceTabs
+                            <BlockTabs.SourceTabs
                                 source={source}
                                 setSource={setSource}
-                            /> */}
+                            />
                             {(blocks && blocks.length > 0) && (
-                                <>
-                                    <BlockSelector.TypeSelector />
-                                    <BlockTabs.DesignTabs
-                                        activeTab={activeTab}
-                                        setActiveTab={setActiveTab}
-                                        isSidebarCollapsed={isSidebarCollapsed}
-                                    />
-                                </>
+                                <BlockSelector.TypeSelector />
                             )}
                             <BlockActions
                                 source={source}

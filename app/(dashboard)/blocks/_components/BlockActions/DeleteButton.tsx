@@ -1,11 +1,13 @@
 import { Button } from '@/_components/@ui/button';
 import { blocksManage } from '../../_store';
 import { useBlockActions } from '../../_hooks/useBlockActions';
+import { Source } from '../BlockTabs/SourceTabs';
 
 interface DeleteButtonProps {
-}
+    source: Source
+}   
 
-const DeleteButton = ({ }: DeleteButtonProps) => {
+const DeleteButton = ({ source }: DeleteButtonProps) => {
     const { deleteBlockData } = useBlockActions();
 
     return (
@@ -14,7 +16,7 @@ const DeleteButton = ({ }: DeleteButtonProps) => {
             className="w-full mb-2"
             onClick={async () => {
                 const selectedBlockId = blocksManage.getSelectedBlockId()
-                await deleteBlockData(selectedBlockId!)
+                await deleteBlockData(source, selectedBlockId!)
                 blocksManage.setSelectedBlockId(null)
             }}
         >

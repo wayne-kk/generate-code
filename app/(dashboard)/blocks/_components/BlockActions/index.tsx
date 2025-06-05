@@ -1,10 +1,10 @@
-import { useBlockActions } from '../../_hooks/useBlockActions';
+import { Source } from '../BlockTabs/SourceTabs';
 import CreateButton from './CreateButton';
 import DeleteButton from './DeleteButton';
 import UpdateButton from './UpdateButton';
 
 interface BlockActionsProps {
-    source: 'blocks' | 'aigcode-blocks' | 'backend-blocks';
+    source: Source;
     selectedBlockId: string | null;
 }
 
@@ -13,25 +13,27 @@ const BlockActions = ({
     selectedBlockId,
 }: BlockActionsProps) => {
 
-
-
     if (!selectedBlockId) return null;
-
     return (
         <>
-            {source === 'blocks' && (
-                <CreateButton />
-            )}
-
-            {source === 'aigcode-blocks' && (
+            {source === 'aigcode_blocks' && (
                 <>
                     <CreateButton
+                        source={source}  
                         isCopy={true}
                     />
-                    <UpdateButton />
-                    <DeleteButton />
+                    <UpdateButton source={source} />
+                    <DeleteButton source={source} />
                 </>
             )}
+            {
+                source === 'backend_blocks' && (
+                    <>
+                        <UpdateButton source={source} />
+                        <DeleteButton source={source} />
+                    </>
+                )
+            }
         </>
     );
 };

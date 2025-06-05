@@ -2,13 +2,16 @@ import { nanoid } from 'nanoid';
 import { Button } from '@/_components/@ui/button';
 import { blocksManage } from '../../_store';
 import { useBlockActions } from '../../_hooks/useBlockActions';
+import { Source } from '../BlockTabs/SourceTabs';
 
 interface CreateButtonProps {
     isCopy?: boolean;
+    source: Source
 }
 
 const CreateButton = ({
-    isCopy = false
+    isCopy = false,
+    source,
 }: CreateButtonProps) => {
 
     const { updateBlockData } = useBlockActions();
@@ -18,7 +21,7 @@ const CreateButton = ({
         const code = blocksManage.code
         if (isCopy) {
             const id = nanoid();
-            const { success } = await updateBlockData({
+            const { success } = await updateBlockData(source, {
                 ...selectBlock,
                 id: id,
                 code,
@@ -28,7 +31,7 @@ const CreateButton = ({
                 blocksManage.setSelectedBlockId(id);
             }
         } else {
-            updateBlockData({
+            updateBlockData(source, {
                 ...selectBlock,
                 id: nanoid(),
                 code,

@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/_components/@ui/button';
 import { Input } from '@/_components/@ui/input';
 import { Label } from '@/_components/@ui/label';
-import { Textarea } from '@/_components/@ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/_components/@ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/_components/@ui/card';
 import { Loader2, Globe, Target, Tag, FileText, AlertTriangle, Save, Plus, Clock, CheckCircle, XCircle } from 'lucide-react';
@@ -53,7 +52,7 @@ const BlockCrawler = () => {
         const fetchComponentTypes = async () => {
             setIsTypesLoading(true);
             try {
-                const response = await fetch('/api/aigcode-blocks/type');
+                const response = await fetch('/api/aigcode_blocks/type');
                 if (!response.ok) {
                     throw new Error('Failed to fetch component types');
                 }
@@ -300,7 +299,7 @@ const BlockCrawler = () => {
 
         setIsLoading(true);
         try {
-            await updateBlockData({
+            await updateBlockData('backend_blocks', {
                 id: crypto.randomUUID(),
                 name: crawlConfig.componentName,
                 code: currentCode,

@@ -2,9 +2,9 @@ import { toast } from 'sonner';
 import { blocksManage } from '../_store';
 
 export function useBlockActions() {
-    const updateBlockData = async (blockData: any) => {
+    const updateBlockData = async (table: string, blockData: any) => {
         try {
-            const res = await fetch(`/api/aigcode-blocks/update`, {
+            const res = await fetch(`/api/${table}/update`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(blockData),
@@ -13,7 +13,7 @@ export function useBlockActions() {
             const result = await res.json();
             if (res.ok) {
                 toast.success('组件更新成功');
-                blocksManage.addBlock({ ...blockData, name: result.finalName })
+                blocksManage.addBlock({ ...blockData, name: result.finalName });
                 return { success: true, data: result.data, finalName: result.finalName };
             } else {
                 toast.error(result.error || '组件更新失败');
@@ -25,9 +25,9 @@ export function useBlockActions() {
         }
     };
 
-    const deleteBlockData = async (id: string) => {
+    const deleteBlockData = async (table: string, id: string) => {
         try {
-            const res = await fetch(`/api/aigcode-blocks/delete`, {
+            const res = await fetch(`/api/${table}/delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id }),
@@ -36,7 +36,7 @@ export function useBlockActions() {
             const result = await res.json();
             if (res.ok) {
                 toast.success('组件删除成功');
-                blocksManage.removeBlock(id)
+                blocksManage.removeBlock(id);
                 return { success: true, data: result.data };
             } else {
                 toast.error(result.error || '组件删除失败');

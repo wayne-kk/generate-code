@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import CodeLoader from './@codeLoader/CodeLoader'
-import AnimateInView from './@base/AnimateInView'
+import AnimateInView from '@base/AnimateInView'
 import EditableText from './@base/EditableText'
 import EditableButton from './@base/EditableButton'
 import EditableImg from './@base/EditableImg'
