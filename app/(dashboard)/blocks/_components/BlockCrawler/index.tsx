@@ -580,6 +580,25 @@ const BlockCrawler = () => {
                             <Save className="w-4 h-4 mr-2" />
                             入库保存
                         </Button>
+                        {/* <Button
+                            onClick={async () => {
+                                // 用 map 得到所有 Promise
+                                const promises = blocksManage.blocks.map(async (block) => {
+                                    block.code = block.code.replace(/from\s+['"]\.\.\/ui\//g, "from '@ui/");
+                                    return updateBlockData('aigcode_blocks', block);
+                                });
+
+                                // 等待全部异步任务完成
+                                await Promise.all(promises);
+
+                                // 可在此做后续操作
+                                console.log('所有 block 已更新');
+                            }}
+                            variant="secondary"
+                            className="flex-1"
+                        >
+                            更新全部组件
+                        </Button> */}
                     </div>
                 </CardContent>
             </Card>

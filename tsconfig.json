@@ -22,9 +22,6 @@
       "@/*": [
         "./app/*"
       ],
-      "@base/*": [
-        "./app/_components/@base/*"
-      ],
       "@ui/*": [
         "./app/_components/@ui/*"
       ]
