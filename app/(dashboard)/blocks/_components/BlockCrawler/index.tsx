@@ -122,7 +122,7 @@ const BlockCrawler = () => {
         pollTaskStatus();
 
         // 每2秒轮询一次
-        pollingIntervalRef.current = setInterval(pollTaskStatus, 2000);
+        pollingIntervalRef.current = setInterval(pollTaskStatus, 3000);
     };
 
     const stopPolling = () => {
@@ -139,10 +139,12 @@ const BlockCrawler = () => {
 
         if (status.status === 'completed') {
             setSuccess('组件爬取成功！已添加到组件库中。');
-
             // 更新代码到编辑器
             if (status.result?.componentCode) {
+                console.log('status.result.componentCode', status.result.componentCode)
+
                 blocksManage.setCode(status.result.componentCode, true);
+
                 setCrawlConfig(prev => ({
                     ...prev,
                     screenshotUrl: status.result.screenshotUrl || ''

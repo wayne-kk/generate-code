@@ -1,18 +1,20 @@
 import CodeTsxLoader from '@/_components/@codeLoader/CodeTsxLoader';
-import AnimateInView from '@/_components/@ui/AnimateInView';
-import EditableButton from '@/_components/@ui/EditableButton';
-import EditableIcon from '@/_components/@ui/EditableIcon';
-import EditableImg from '@/_components/@ui/EditableImg';
-import EditableText from '@/_components/@ui/EditableText';
+import AnimateInView from '@ui/AnimateInView';
+import EditableButton from '@ui/EditableButton';
+import EditableIcon from '@ui/EditableIcon';
+import EditableImg from '@ui/EditableImg';
+import EditableText from '@ui/EditableText';
 import { AnimatePresence, motion } from 'framer-motion';
 import { throttle } from 'lodash-es';
 import { Carousel } from 'react-responsive-carousel';
-import Marquee from '@/_components/@ui/Marquee';
-import Overflow from '@/_components/@ui/Overflow';
-import { Button } from '@/_components/@ui/button';
-import { Card, CardContent } from "@/_components/@ui/card";
-import { Input } from "@/_components/@ui/input";
-import { Textarea } from "@/_components/@ui/textarea";
+import Marquee from '@ui/Marquee';
+import Overflow from '@ui/Overflow';
+import { Button } from '@ui/button';
+import { Card, CardContent, CardAction, CardFooter, CardHeader, CardTitle, CardDescription } from "@ui/card";
+import { Input } from "@ui/input";
+import { Textarea } from "@ui/textarea";
+import { ToggleGroup, ToggleGroupItem } from '@ui/toggle-group';
+
 import {
     useFormField,
     Form,
@@ -22,12 +24,18 @@ import {
     FormDescription,
     FormMessage,
     FormField
-} from "@/_components/@ui/form";
-import { Label } from '@/_components/@ui/label';
+} from "@ui/form";
+import { Label } from '@ui/label';
 import { toast } from 'sonner';
 import { gsap } from 'gsap';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/_components/@ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
 import { useForm } from 'react-hook-form';
+
+
+import {
+    LineChart, Line, PieChart, Pie, BarChart, Bar, AreaChart, Area,
+    XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
+} from 'recharts';
 interface CodePreviewProps {
     code: string | null;
 }
@@ -53,6 +61,13 @@ const CodePreview = ({ code }: CodePreviewProps) => {
                 Button,
                 Card,
                 CardContent,
+                CardAction,
+                CardFooter,
+                CardHeader,
+                CardTitle,
+                CardDescription,
+                ToggleGroup,
+                ToggleGroupItem,
                 Input,
                 Textarea,
                 useFormField,
@@ -67,10 +82,25 @@ const CodePreview = ({ code }: CodePreviewProps) => {
                 SelectItem,
                 SelectTrigger,
                 SelectContent,
+                SelectValue,
                 Label,
                 toast,
                 gsap,
-                useForm
+                useForm,
+                LineChart,
+                Line,
+                PieChart,
+                Pie,
+                BarChart,
+                Bar,
+                XAxis,
+                YAxis,
+                Tooltip,
+                Legend,
+                Area,
+                AreaChart,
+                ResponsiveContainer,
+
             }}
             props={{}}
         />
