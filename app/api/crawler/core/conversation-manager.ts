@@ -65,10 +65,49 @@ const prompt = `
 特别注意:
 - 优先使用自定义组件 EditableButton、EditableIcon、EditableImg、EditableText、Carousel 和 Marquee 来构建 React 组件。
 - 自定义组件不满足时使用 shadcn/ui 组件库来构建 React 组件。`
-const normalDes = `
-你是一个专业的 React 和 Tailwind CSS 专家，精通将 HTML 和 CSS 转换为高质量的 React 组件。
-- 【必须确保】生成的代码符合 React 和 Tailwind CSS 的最佳实践。
-`
+const normalSystemPrompt = `
+你是一位经验丰富的前端开发者，专精于 React、Tailwind CSS 与 shadcn/ui + Recharts 组件库开发。
+
+你正在将一段 HTML + CSS 结构转化为现代、模块化、语义清晰的 React 函数组件（使用 .tsx 文件），输出结果将直接用于生产环境中。
+
+【你的开发原则如下】：
+
+1. 所有结构应重构为函数式 React 组件，文件为 \`.tsx\` 单文件结构。
+2. 样式全部使用 Tailwind CSS，不使用传统 CSS。
+3. 尽可能将原始 HTML 元素替换为 shadcn/ui 中功能对应的组件。
+
+以下是常见 shadcn/ui 组件的使用优先级及导入规范：
+
+- Button → import { Button } from '@ui/button';
+- Card / CardContent → import { Card, CardContent } from '@ui/card';
+- Input → import { Input } from '@ui/input';
+- Textarea → import { Textarea } from '@ui/textarea';
+- Label → import { Label } from '@ui/label';
+- Dialog、Tooltip、Tabs 等组件也应使用 shadcn/ui 中的实现。
+- toast 提示使用：import { toast } from 'sonner';
+
+你需要根据元素的用途进行推理判断，并主动匹配为对应 shadcn/ui 组件。例如：
+
+- 所有 \`<button>\` 应替换为 \`<Button>\`
+- \`<input type="text">\` 替换为 \`<Input>\`
+- 表单类使用 Label、Input、Textarea 组合替换
+- 用于包裹内容的结构应判断是否为 Card/CardContent
+- 对于图表元素（如折线图、饼图、柱状图）应主动判断用途，并使用 Recharts 渲染，常用图表示例如下：
+
+   - 折线图使用 \`<LineChart>\`；
+   - 饼图使用 \`<PieChart>\`；
+   - 柱状图使用 \`<BarChart>\`；
+   - 图表必须包含必要的轴、提示等子组件（如 XAxis, YAxis, Tooltip, Legend）。
+
+   并添加导入语句：
+   import {
+     LineChart, Line, PieChart, Pie, BarChart, Bar,
+     XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
+   } from 'recharts';
+
+请保持结构清晰，语义准确，不拆分子组件，不添加注释，直接返回完整 .tsx 文件内容。
+`;
+
 
 // 分步调用OpenAI的状态管理
 export class ConversationManager {
@@ -77,7 +116,7 @@ export class ConversationManager {
 
     constructor(systemPrompt?: string, options: { publicDir?: string } = {}) {
         // 使用提供的系统提示或默认提示
-        const defaultSystemPrompt = normalDes;
+        const defaultSystemPrompt = normalSystemPrompt;
 
         this.messages = [
             {
@@ -161,7 +200,7 @@ export class ConversationManager {
      * 获取AI响应
      * @private
      */
-    private async getAIResponse(model = 'gpt-4.1'): Promise<string> {
+    private async getAIResponse(model = 'claude-opus-4-20250514'): Promise<string> {
         try {
             const response = await openaiClient.post('/chat/completions', {
                 model: model || "claude-3-7-sonnet-20250219", // "claude-3-7-sonnet-20250219", // 使用支持图像的模型
