@@ -14,6 +14,17 @@ import { Card, CardContent, CardAction, CardFooter, CardHeader, CardTitle, CardD
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from '@ui/toggle-group';
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableFooter,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableCaption
+} from '@ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ui/tabs';
 
 import {
     useFormField,
@@ -34,7 +45,8 @@ import { useForm } from 'react-hook-form';
 
 import {
     LineChart, Line, PieChart, Pie, BarChart, Bar, AreaChart, Area,
-    XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
+    XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid,
+    Cell
 } from 'recharts';
 interface CodePreviewProps {
     code: string | null;
@@ -98,9 +110,19 @@ const CodePreview = ({ code }: CodePreviewProps) => {
                 Tooltip,
                 Legend,
                 Area,
+                CartesianGrid,
                 AreaChart,
                 ResponsiveContainer,
-
+                Cell,
+                Tabs, TabsContent, TabsList, TabsTrigger,
+                Table,
+                TableHeader,
+                TableBody,
+                TableFooter,
+                TableHead,
+                TableRow,
+                TableCell,
+                TableCaption
             }}
             props={{}}
         />

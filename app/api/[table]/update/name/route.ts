@@ -1,7 +1,7 @@
 // /api/[table]/update/name/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/_lib/supabase";
-import { checkRequiredFields, getTableConfig } from "../../_crudHelper";
+import { getTableConfig } from "../../_crudHelper";
 
 export async function POST(
     req: NextRequest,
@@ -14,10 +14,12 @@ export async function POST(
 
         // 检查 name 字段
         if (!body.name) {
+            console.log("缺少必要字段（name）");
             return NextResponse.json({ error: "缺少必要字段（name）" }, { status: 400 });
         }
         // 检查其他必填字段
         if (!body.code) {
+            console.log("缺少必要字段（code）");
             return NextResponse.json({ error: `缺少必要字段（code）` }, { status: 400 });
         }
 

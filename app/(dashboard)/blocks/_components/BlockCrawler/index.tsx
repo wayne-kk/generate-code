@@ -25,8 +25,8 @@ interface TaskStatus {
 const BlockCrawler = () => {
     const { updateBlockData } = useBlockActions();
     const [crawlConfig, setCrawlConfig] = useState({
-        url: 'https://keenthemes.com/metronic/',
-        selector: '/html/body/div[1]/div/div[3]/div[2]/div[1]/div/div/div[5]',
+        url: 'https://shadcnuikit.com/dashboard/website-analytics',
+        selector: '/html/body/div/main/div/div/div/div[3]',
         componentType: 'Pricing',
         componentName: 'Pricing',
         description: '',
@@ -143,12 +143,12 @@ const BlockCrawler = () => {
             if (status.result?.componentCode) {
                 console.log('status.result.componentCode', status.result.componentCode)
 
-                blocksManage.setCode(status.result.componentCode, true);
+                // blocksManage.setCode(status.result.componentCode, true);
 
-                setCrawlConfig(prev => ({
-                    ...prev,
-                    screenshotUrl: status.result.screenshotUrl || ''
-                }));
+                // setCrawlConfig(prev => ({
+                //     ...prev,
+                //     screenshotUrl: status.result.screenshotUrl || ''
+                // }));
             }
         } else if (status.status === 'failed') {
             setError(status.error || '爬取过程中发生错误');
