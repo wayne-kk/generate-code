@@ -4,7 +4,6 @@ import EditableButton from '@ui/EditableButton';
 import EditableImg from '@ui/EditableImg';
 import EditableText from '@ui/EditableText';
 import EditableIcon from '@ui/EditableIcon';
-import { motion } from 'framer-motion';
 
 export interface IIHeroPropsPrimarybutton {
   textAttrLabel: string

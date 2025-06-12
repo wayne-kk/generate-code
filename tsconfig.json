@@ -40,6 +40,7 @@
   ],
   "exclude": [
     "node_modules",
-    "office_web_components"
+    "office_web_components",
+    "stories/**/*"
   ]
 }

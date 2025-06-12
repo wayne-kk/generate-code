@@ -7,6 +7,7 @@ interface MarqueeProps {
   direction?: "left" | "right";
   className?: string;
   autoFill?: boolean; // 是否自动填充
+  play?: boolean; // 是否播放动画
 }
 
 const Marquee: React.FC<MarqueeProps> = ({
@@ -15,6 +16,7 @@ const Marquee: React.FC<MarqueeProps> = ({
   direction = "left",
   className = "",
   autoFill = true,
+  play = true,
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
 
@@ -25,6 +27,7 @@ const Marquee: React.FC<MarqueeProps> = ({
         className={`flex `}
         style={{
           animation: `${direction === "left" ? "scrollLeft" : "scrollRight"} ${speed}s linear infinite`,
+          animationPlayState: play ? "running" : "paused",
         }}
       >
         {/* 渲染原始内容 */}

@@ -2,6 +2,7 @@ import React from 'react';
 import AnimateInView from '@ui/AnimateInView';
 import EditableText from '@ui/EditableText';
 import EditableImg from '@ui/EditableImg';
+import { Input } from '@ui/input';
 
 export interface IGalleryImagesItem {
   url: string;
@@ -64,14 +65,11 @@ const Gallery: React.FC<IGalleryProps> = ({
                     <EditableText propKey="searchbox_description">{searchDescription}</EditableText>
                   </p>
                 </div>
-                <input
+                <Input
                   className="rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 dark:text-slate-500 bg-white dark:bg-slate-900 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-5 py-3 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-                  size="large"
                   value={search}
                   placeholder={searchPlaceholder}
                   onChange={e => setSearch(e.target.value)}
-                  onPressEnter={e => setSearch((e.target as HTMLInputElement).value)}
-                  allowClear
                 />
               </div>
             </div>
