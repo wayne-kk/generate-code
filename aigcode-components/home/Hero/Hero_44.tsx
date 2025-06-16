@@ -2,7 +2,7 @@
 
 // this is a client component
 import { useEffect } from "react";
-import Link from "next/link";
+import { Link } from 'react-router-dom'
 import { Button } from "@ui/button";
 import { Shapes, ArrowRight, Plus } from "lucide-react";
 import { renderCanvas } from "@ui/renderCanvas";
@@ -74,12 +74,12 @@ import { renderCanvas } from "@ui/renderCanvas";
             to empower others.
           </p>
           <div className="flex justify-center gap-2">
-            <Link href={"/dashboard"}>
+            <Link to="/dashboard">
               <Button variant="default" size="lg">
                 Start Project
               </Button>
             </Link>
-            <Link href={"https://cal.com/aliimam/designali"} target="_blank">
+            <Link to="https://cal.com/aliimam/designali" target="_blank">
               <Button variant="outline" size="lg">
                 Book a call
               </Button>

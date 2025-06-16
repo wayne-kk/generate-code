@@ -1,5 +1,5 @@
 import React from "react";
-import Link  from 'next/link';
+import { Link } from 'react-router-dom'
 
 // 定义 props 类型，扩展所有 button 元素的内置属性
 interface EditableButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -34,9 +34,9 @@ export default function EditableButton({
         </button>
     );
 
-   // 使用 Next.js 的 Link 组件
+   // 使用 react-router-dom 的 Link 组件
    return href ? (
-    <Link href={href} legacyBehavior>
+    <Link to={href}>
         {buttonElement}
     </Link>
 ) : buttonElement;

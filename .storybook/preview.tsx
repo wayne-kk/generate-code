@@ -1,4 +1,7 @@
 import type { Preview } from '@storybook/nextjs-vite'
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 // .storybook/preview.js
 import '../app/globals.css'; // 导入包含 Tailwind 指令的主 CSS 文件
 
@@ -11,6 +14,23 @@ export const parameters = {
     },
   },
 };
+
+export const decorators = [
+  // BrowserRouter 装饰器，为所有 stories 提供路由上下文
+  (Story: any) => (
+    <BrowserRouter>
+    <Story />
+    </BrowserRouter>
+  ),
+  withThemeByDataAttribute({
+    themes: {
+      light: 'light',
+      dark: 'dark',
+    },
+    defaultTheme: 'light',
+    attributeName: 'data-theme',
+  }),
+];
 
 const preview: Preview = {
   parameters: {
@@ -29,19 +49,5 @@ const preview: Preview = {
     }
   },
 };
-
-import { withThemeByDataAttribute } from '@storybook/addon-themes';
-
-export const decorators = [
-  withThemeByDataAttribute({
-    themes: {
-      light: 'light',
-      dark: 'dark',
-    },
-    defaultTheme: 'light',
-    attributeName: 'data-theme',
-  }),
-];
-
 
 export default preview;
