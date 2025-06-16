@@ -1,4 +1,4 @@
-import supabase from '@/_lib/supabase';
+import supabase from '@/lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';

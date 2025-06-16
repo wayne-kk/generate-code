@@ -12,10 +12,10 @@ import {
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger,
-} from "@/_components/@ui/menubar";
-import { Button } from "@/_components/@ui/button";
-import { Avatar, AvatarFallback } from "@/_components/@ui/avatar";
-import { Sheet, SheetContent, SheetTrigger } from "@/_components/@ui/sheet";
+} from "@ui/menubar";
+import { Button } from "@ui/button";
+import { Avatar, AvatarFallback } from "@ui/avatar";
+import { Sheet, SheetContent, SheetTrigger } from "@ui/sheet";
 import { Menu } from "lucide-react";
 
 interface User {

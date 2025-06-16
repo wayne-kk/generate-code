@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@ui/utils"
 import { Avatar, AvatarImage } from "@ui/avatar"
 
 export interface TestimonialAuthor {

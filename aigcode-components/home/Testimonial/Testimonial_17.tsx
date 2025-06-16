@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar"
 import { Button } from "@ui/button"
 import { Card, CardContent } from "@ui/card"
 import { Separator } from "@ui/separator"
-import { cn } from "@/lib/utils"
+import { cn } from "@ui/utils"
 import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react'
 import { motion, useAnimation, useInView } from "framer-motion"
 import { useEffect, useRef, useState } from "react"

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@ui/button"
 import { Badge } from "@ui/badge"
 import { ArrowRightIcon, CheckIcon, Zap, ArrowDownToDot } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "@ui/utils"
 
 interface Feature {
   name: string

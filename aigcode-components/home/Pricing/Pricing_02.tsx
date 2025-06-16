@@ -3,7 +3,7 @@
 import { buttonVariants } from "@ui/button";
 import { Label } from "@ui/label";
 import { Switch } from "@ui/switch";
-import { cn } from "@/lib/utils";
+import { cn } from "@ui/utils";
 import { motion } from "framer-motion";
 import { Check, Star } from "lucide-react";
 import { Link } from "react-router-dom";

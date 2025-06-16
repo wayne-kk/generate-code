@@ -1,6 +1,6 @@
 import { Button } from "@ui/button";
 import { Check, Pencil, Star, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@ui/utils";
 
 interface PricingTier {
     name: string;

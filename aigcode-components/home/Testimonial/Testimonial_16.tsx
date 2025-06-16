@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
+import { cn } from "@ui/utils"
 import { Button } from "@ui/button"
 import { Card } from "@ui/card"
 import { X } from "lucide-react"

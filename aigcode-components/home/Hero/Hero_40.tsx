@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ChevronRight, Menu, X } from 'lucide-react'
 import { Button } from '@ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@ui/utils'
 import { Variants, motion } from 'framer-motion'
 
 const transitionVariants = {
