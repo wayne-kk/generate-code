@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/_lib/supabase";
 import { getTableConfig } from "../../_crudHelper";
+import { nanoid } from "nanoid";
 
 export async function POST(
     req: NextRequest,
@@ -36,8 +37,20 @@ export async function POST(
         }
 
         if (!existing) {
-            // 未找到，直接返回 404
-            return NextResponse.json({ error: `未找到 name 为 ${body.name} 的数据` }, { status: 404 });
+            // 未找到，创建新记录
+            const { data, error } = await supabase
+                .from(table)
+                .insert({
+                    id: nanoid(),
+                    name: body.name,
+                    code: body.code,
+                    type: body.type,
+                })
+                .select();
+            if (error) {
+                return NextResponse.json({ error: error.message }, { status: 500 });
+            }
+            return NextResponse.json({ status: 'created', data }, { status: 201 });
         } else {
             // 找到了，更新
             const { data, error } = await supabase
